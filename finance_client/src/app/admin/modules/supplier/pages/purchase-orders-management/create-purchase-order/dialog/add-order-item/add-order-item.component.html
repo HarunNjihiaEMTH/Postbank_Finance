@@ -1,0 +1,115 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <img src="../../../../../assets/images/emtec.png" alt="avatar">
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+            Add Order Item</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="orderItemForm">
+      <div class="row">
+        <div *ngIf="!supplierForBothGoodsAndServices" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field  style="cursor: not-allowed" class="example-full-width" appearance="outline">
+            <mat-label>Order item type</mat-label>
+            <mat-select formControlName="orderItemType"  (selectionChange)="selectorderItemType($event)" style="pointer-events: none;">
+              <mat-option *ngFor="let orderItemType of orderItemTypes" [value]="orderItemType" disabled>{{ orderItemType }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div  *ngIf="supplierForBothGoodsAndServices" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Order item type</mat-label>
+            <mat-select formControlName="orderItemType"  (selectionChange)="selectorderItemType($event)">
+              <mat-option *ngFor="let orderItemType of orderItemTypes" [value]="orderItemType" >{{ orderItemType }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Tax accrued</mat-label>
+            <mat-select formControlName="tax">
+              <mat-option *ngFor="let tax of taxes" [value]="tax.taxValue" >{{ tax.taxName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Expenses description</mat-label>
+            <mat-select formControlName="expenseId">
+              <mat-option *ngFor="let expense of expenses" [value]="expense.id" >{{ expense.expenseDescription }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="orderItemTypeSelected">
+        <div *ngIf="orderItemIsProduct" class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item name</mat-label>
+              <input matInput formControlName="itemName" required>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item unit price</mat-label>
+              <input matInput formControlName="itemUnitPrice" type="number">
+            </mat-form-field>
+          </div>
+        </div>
+        <div *ngIf="orderItemIsProduct" class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item quantity</mat-label>
+              <input matInput type="number" formControlName="itemQuantity" required>
+            </mat-form-field>
+          </div>
+        </div>
+        <div *ngIf="orderItemIsService" class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Service name</mat-label>
+              <input matInput formControlName="serviceName">
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Service price</mat-label>
+              <input matInput formControlName="servicePrice" type="number">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+     
+      
+      <!-- <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Service price</mat-label>
+            <input matInput formControlName="servicePrice" type="number">
+          </mat-form-field>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row" align="end">
+            <button *ngIf="newOrderItem" mat-raised-button color="primary" [disabled]="!orderItemForm.valid"
+               (click)="onSave()">Save</button>
+               <button *ngIf="!newOrderItem" mat-raised-button color="primary" [disabled]="!orderItemForm.valid"
+               (click)="updateOderItem()">Update</button>
+            <button (click)="onCancel()" mat-raised-button color="warn"  tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

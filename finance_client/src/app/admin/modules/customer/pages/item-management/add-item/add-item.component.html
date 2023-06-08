@@ -1,0 +1,482 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Stock Management'" [items]="['User']" [active_item]="'Good/Service Configuration'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Good/Service Configuration</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="commodityConfigurationForm" class="m-4">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Operation type</mat-label>
+                    <mat-select (selectionChange)="
+                        onSelectIncludeVatInformationOption($event)
+                      " formControlName="operationType">
+                      <mat-option value="101">Add Goods</mat-option>
+                      <!-- <mat-option value="102">Modify Products</mat-option> -->
+                    </mat-select>
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('operationType')
+                          .hasError('required')
+                      ">
+                      Operation type is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Commodity category id</mat-label>
+                    <input readonly formControlName="commodityCategoryId" matInput />
+                    <button (click)="categoryLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('commodityCategoryId')
+                          .hasError('required')
+                      ">
+                      Commdoity category id type is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Commodity name</mat-label>
+                    <input formControlName="goodsName" matInput />
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('goodsName')
+                          .hasError('required')
+                      ">
+                      Goods name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Unit price</mat-label>
+                    <input formControlName="unitPrice" matInput />
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('unitPrice')
+                          .hasError('required')
+                      ">
+                      Unit price is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="!servicesSelected" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Stock prewarning</mat-label>
+                    <input formControlName="stockPrewarning" matInput />
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('stockPrewarning')
+                          .hasError('required')
+                      ">
+                      Stock prewarning is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <input formControlName="description" matInput />
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('description')
+                          .hasError('required')
+                      ">
+                      Description is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Have other units</mat-label>
+                    <mat-select (selectionChange)="onSelectOtherUnits($event)" formControlName="haveOtherUnit">
+                      <mat-option value="101">Yes</mat-option>
+                      <mat-option value="102">No</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('haveOtherUnit')
+                          .hasError('required')
+                      ">
+                      Have other unit is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Have execise tax</mat-label>
+                    <mat-select (selectionChange)="onSelectHaveExeciseTax($event)" formControlName="haveExciseTax">
+                      <mat-option value="101">Yes</mat-option>
+                      <mat-option value="102">No</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('haveExciseTax')
+                          .hasError('required')
+                      ">
+                      Have execise unit is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Have piece unit</mat-label>
+                    <mat-select (selectionChange)="onSelectHavePieceUnit($event)" formControlName="havePieceUnit">
+                      <mat-option value="101">Yes</mat-option>
+                      <mat-option value="102">No</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('havePieceUnit')
+                          .hasError('required')
+                      ">
+                      Have piece unit is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="haveExeciseTax" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Execise duty</mat-label>
+                    <input formControlName="exciseDutyCode" matInput />
+                  </mat-form-field>
+                </div>
+
+                <div *ngIf="havePieceUnit" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Piece unit price</mat-label>
+                    <input formControlName="pieceUnitPrice" matInput />
+                    <mat-error *ngIf="
+                        commodityConfigurationForm
+                          .get('pieceUnitPrice')
+                          .hasError('required')
+                      ">
+                      Piece unit price is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="commodityHasOtherUnits" class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <button style="margin-bottom: 10px" type="button" (click)="addOtherGoodUnit()" mat-raised-button
+                    color="primary">
+                    + Add Commodity Unit
+                  </button>
+                  <div *ngFor="let goodsOtherUnitForm of t.controls; let i = index" class="list-group list-group-flush">
+                    <div [formGroup]="goodsOtherUnitForm">
+                      <div>
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Other unit </mat-label>
+                                <input matInput formControlName="otherUnit" required readonly />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Other scaled </mat-label>
+                                <input matInput formControlName="otherScaled" required readonly />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Other price </mat-label>
+                                <input matInput formControlName="otherPrice" required readonly />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Package scaled</mat-label>
+                                <input matInput formControlName="otherScaled" required readonly />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-1 d-flex align-items-center justify-content-center">
+                              <mat-icon (click)="addOtherGoodUnit()" color="primary">add_circle</mat-icon>
+                              <mat-icon (click)="removeOtherGoodUnit(i)" color="warn">remove_circle</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Currency</mat-label>
+                    <input formControlName="currency" matInput />
+                    <button
+                      (click)="currencyLookup()"
+                      mat-icon-button
+                      matSuffix
+                      [attr.aria-label]="'Hide password'"
+                    >
+                      <mat-icon>search</mat-icon>
+                    </button>
+                    <mat-error
+                      *ngIf="
+                        commodityConfigurationForm
+                          .get('currency')
+                          .hasError('required')
+                      "
+                    >
+                      Currency is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Package measure unit</mat-label>
+                    <input formControlName="packageMeasurementUnit" matInput />
+                    <button
+                      (click)="packageMeasurementUnitLookup()"
+                      mat-icon-button
+                      matSuffix
+                      [attr.aria-label]="'Hide password'"
+                    >
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Low stock alert configuration</mat-label>
+                    <input
+                      formControlName="stock"
+                      matInput
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Commodity code</mat-label>
+                    <input
+                      formControlName="commodityCode"
+                      matInput
+                    />
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <!-- <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="outline"
+                  >
+                    <mat-label>Include vat information</mat-label>
+                    <mat-select (selectionChange)="onSelectIncludeVatInformationOption($event)" formControlName="includeVatInformation"> 
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeVatTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Tax rate</mat-label>
+                    <input formControlName="vatTaxRate" matInput />
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeVatTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="outline"
+                  >
+                    <mat-label>Commodity is a service?</mat-label>
+                    <mat-select formControlName="commodityIsAService">
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeVatTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Effective start date</mat-label>
+                    <input
+                      formControlName="vatEffectiveStartDate"
+                      matInput
+                      [matDatepicker]="picker"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="outline"
+                  >
+                    <mat-label>Include execise tax information</mat-label>
+                    <mat-select (selectionChange)="onSelectIncludeExeciseTaxInformation($event)" formControlName="includeExeciseTaxInformation">
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeExeciseTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Tax rate</mat-label>
+                    <input formControlName="execiseTaxRate" matInput />
+                    
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeExeciseTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="outline"
+                  >
+                    <mat-label>Commodity is a service?</mat-label>
+                    <mat-select formControlName="is">
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="includeExeciseTaxInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Effective start date</mat-label>
+                    <input
+                      formControlName="execiseTaxEffectiveStartDate"
+                      matInput
+                      [matDatepicker]="picker"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <!-- <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="outline"
+                  >
+                    <mat-label
+                      >Include piece of meausrement information</mat-label
+                    >
+                    <mat-select (selectionChange)="onSelectIncludePieceMeasurementUnitOption($event)" formControlName="includePieceOfMeasurementInformation">
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                  <div  *ngIf="includePieceMeasurementInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <mat-form-field
+                      class="example-full-width mb-3"
+                      appearance="outline"
+                    >
+                      <mat-label>Piece measure unit</mat-label>
+                      <input formControlName="pieceMeasurementUnit" matInput />
+                      <button
+                      (click)="pieceMeaseurementUnitLookup()"
+                      mat-icon-button
+                      matSuffix
+                      [attr.aria-label]="'Hide password'"
+                    >
+                      <mat-icon>search</mat-icon>
+                    </button>
+                    </mat-form-field>
+                  </div>
+                  <div   *ngIf="includePieceMeasurementInformation" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field
+                          class="example-full-width mb-3"
+                          appearance="outline"
+                        >
+                          <mat-label>Quantity</mat-label>
+                          <input formControlName="pieceQuantity" matInput />
+                        </mat-form-field>
+                    </div>
+                  <div  *ngIf="includePieceMeasurementInformation"  class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Units per quantity</mat-label>
+                    <input formControlName="unitsPerPieceQuantity" matInput />
+                  </mat-form-field>
+                  </div>
+              </div> 
+              <div  *ngIf="includePieceMeasurementInformation"  class="row">
+                <div  *ngIf="includePieceMeasurementInformation"  class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Price per piece</mat-label>
+                    <input formControlName="pricePerPieceQuantity" matInput />
+                  </mat-form-field>
+                </div>
+              </div> -->
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button (click)="addCommodity()" class="pull-right" mat-raised-button [color]="btnColor">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>{{ btnText }}
+                  </button>
+                  <!-- <button (click)="addCommodity()" class="btn-space" mat-raised-button color="primary"
+                    [disabled]="!commodityConfigurationForm.valid">
+                    Submit
+                  </button> -->
+                  <button type="button" mat-button (click)="onCancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

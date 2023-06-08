@@ -1,0 +1,324 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Seller Details'"
+        [items]="['Admin']"
+        [active_item]="'Maintain Seller Details'"
+      >
+      </app-breadcrumb>
+    </div>
+
+    <app-gen-widgets></app-gen-widgets>
+
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Seller Details</h2>
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="sellerDetailsForm">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Address</mat-label>
+                    <input formControlName="address" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('address').hasError('required')
+                      "
+                    >
+                      >Address is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Branch code</mat-label>
+                    <input formControlName="branchCode" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('branchCode').hasError('required')
+                      "
+                    >
+                      Branch code is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Branch id</mat-label>
+                    <input formControlName="branchId" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('branchId').hasError('required')
+                      "
+                    >
+                      >Invoice industry code required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Branch name</mat-label>
+                    <input formControlName="branchName" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('branchName').hasError('required')
+                      "
+                    >
+                      Branch name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Businesss name</mat-label>
+                    <input formControlName="businessName" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm
+                          .get('businessName')
+                          .hasError('required')
+                      "
+                    >
+                      Businesss name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Email address</mat-label>
+                    <input formControlName="emailAddress" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm
+                          .get('emailAddress')
+                          .hasError('required')
+                      "
+                    >
+                      >Email address is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Reference number</mat-label>
+                    <input formControlName="referenceNo" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('legalName').hasError('required')
+                      "
+                    >
+                      Reference number is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Line phone</mat-label>
+                    <input formControlName="linePhone" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm
+                          .get('businessName')
+                          .hasError('required')
+                      "
+                    >
+                      Line phone is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>tin</mat-label>
+                    <input formControlName="tin" matInput required />
+                    <mat-error
+                      *ngIf="sellerDetailsForm.get('tin').hasError('required')"
+                    >
+                      Tin is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Legal name</mat-label>
+                    <input formControlName="legalName" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm.get('legalName').hasError('required')
+                      "
+                    >
+                      Legal name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Mobile phone</mat-label>
+                    <input formControlName="mobilePhone" matInput required />
+                    <mat-error
+                      *ngIf="
+                        sellerDetailsForm
+                          .get('mobilePhone')
+                          .hasError('required')
+                      "
+                    >
+                      Mobile phone is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button
+                    *ngIf="!sellerDetailsExists"
+                    class="btn-space msr-2"
+                    [disabled]="!sellerDetailsForm.valid"
+                    mat-raised-button
+                    (click)="addSellerProfile()"
+                    color="primary"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    *ngIf="sellerDetailsExists"
+                    class="btn-space"
+                    [disabled]="!sellerDetailsForm.valid"
+                    mat-raised-button
+                    color="primary"
+                    (click)="updateSellerProfile()">
+                    update Details
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="body">
+            <div class="header">
+              <h2>Basic Details</h2>
+            </div>
+            <form class="m-4" [formGroup]="basicDetailsForm">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Device issued date</mat-label>
+                    <input formControlName="deviceissuedate" matInput required />
+                    <mat-error
+                      *ngIf="
+                      basicDetailsForm.get('deviceissuedate').hasError('required')
+                      "
+                    >
+                      Device issued date is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Device number </mat-label>
+                    <input formControlName="deviceno" matInput required />
+                    <mat-error
+                      *ngIf="
+                      basicDetailsForm.get('deviceno').hasError('required')
+                      "
+                    >
+                      Device number is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="fill"
+                  >
+                    <mat-label>Invoice industry code</mat-label>
+                    <input formControlName="invoiceindustrycode" matInput required />
+                    <mat-error
+                      *ngIf="
+                      basicDetailsForm.get('invoiceindustrycode').hasError('required')
+                      "
+                    >
+                      Invoice industry code required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button
+                    *ngIf="!basicDetailsExists"
+                    class="btn-space msr-2"
+                    [disabled]="basicDetailsExists.invalid"
+                    mat-raised-button
+                    (click)="addBasicDetails()"
+                    color="primary"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    *ngIf="basicDetailsExists"
+                    class="btn-space"
+                    [disabled]="basicDetailsExists.invalid"
+                    mat-raised-button
+                    color="primary"
+                    (click)="updateBasicDetails()"
+                  >
+                    Update Details
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

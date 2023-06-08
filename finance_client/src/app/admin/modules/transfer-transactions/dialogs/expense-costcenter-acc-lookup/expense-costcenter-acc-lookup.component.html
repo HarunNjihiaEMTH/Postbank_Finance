@@ -1,0 +1,139 @@
+<div class="addContainer">
+  <div class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Search for Expense Account</div>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="body">
+          <div class="table-responsiv">
+            <div class="table-header py-1">
+              <div class="container">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="mt-3">
+                      <input class="pull-left form-control" (keyup)="applyFilter($event)" placeholder="Filter..."
+                        #input />
+                      <!-- <input class="search form-control" (keyup)="applyFilter($event)" placeholder="Filter..." #input /> -->
+
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <form [formGroup]="fetchAccountsParametersForm">
+                      <div class="row">
+                        <div class="col-5">
+                          <mat-form-field class="example-full-width mt-2">
+                            <mat-label>Expense</mat-label>
+                            <input formControlName="expenseId" matInput required />
+                            <button (click)="expensesLookup()" mat-icon-button matSuffix
+                              [attr.aria-label]="'Hide password'">
+                              <mat-icon>search</mat-icon>
+                            </button>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-5">
+                          <mat-form-field class="example-full-width mt-2">
+                            <mat-label>CostCenter</mat-label>
+                            <input formControlName="costCenterId" matInput required />
+                            <button (click)="costCentersLookup()" mat-icon-button matSuffix
+                              [attr.aria-label]="'Hide password'">
+                              <mat-icon>search</mat-icon>
+                            </button>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-2">
+                          <div class="mt-3">
+                            <div matTooltip="SEARCH"><button *ngIf="this.fetchAccountsParametersForm.valid"
+                                (click)="getAccounts()" type="button" class="btn btn-secondary">
+                                <i class="fas fa-search"></i>
+                              </button></div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div *ngIf="isLoading">
+              <mat-progress-bar color="primary" mode="indeterminate">
+              </mat-progress-bar>
+            </div>
+
+            <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+              <ng-container matColumnDef="expenseAccount">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-30">ExpenseAccount
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-30">
+                  {{ branchCodes.expenseAccount }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="expenseName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-30">ExpenseName
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-30">
+                  {{ branchCodes.expenseName }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="costCenterName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-30">CostCenterName
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-30">
+                  {{ branchCodes.costCenterName }}
+                </mat-cell>
+              </ng-container>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onSelectRow(row)"
+                [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+              <mat-cell *matNoDataRow colspan="4">
+              </mat-cell>
+            </mat-table>
+            <div *ngIf="onFirstLoad">
+              <div class="row justify-content-center">
+                <div class="col-8" style="margin-top: 120px;margin-bottom: 180px;">
+                  Please enter expense and costcenter above!
+                </div>
+              </div>
+            </div>
+            <div *ngIf="noData">
+              <div class="row justify-content-center">
+                <div class="col-10" style="margin-top: 120px;margin-bottom: 180px;">
+                  No accounts found. Please use a different expense or costcenter!
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isLoading" class="tbl-spinner">
+              <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+
+            <mat-paginator #paginator [pageIndex]="0" [pageSize]="1" [pageSizeOptions]="[1]">
+            </mat-paginator>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="body">
+
+</div>

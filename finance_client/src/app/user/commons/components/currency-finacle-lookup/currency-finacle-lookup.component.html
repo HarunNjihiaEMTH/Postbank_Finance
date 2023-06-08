@@ -1,0 +1,124 @@
+
+<div class="addContainer">
+  <div class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Currency Lookup</div>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="body">
+          <div class="table-responsiv">
+            
+            <div class="table-header py-1">
+              <div class="container">
+                <div class="row">
+                  <div class="col-7 mt-2">
+                    <div class="mb-5 ml-2">
+                      <input class="pull-left form-control" (keyup)="applyFilter($event)" placeholder="Filter..."
+                        #input />
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+            </div>
+           
+            <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+              <ng-container matColumnDef="countryCode">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Country Code</mat-header-cell>
+                <mat-cell *matCellDef="let currencyCode">
+                  {{ currencyCode.countryCode }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="currencyCode">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Currency Code</mat-header-cell>
+                <mat-cell *matCellDef="let currencyCode">
+                  {{ currencyCode.currencyCode }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="currencyName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Currency Name</mat-header-cell>
+                <mat-cell *matCellDef="let currencyCode">
+                  {{ currencyCode.currencyName }}</mat-cell>
+              </ng-container>
+      
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onSelectRow(row)" [style.cursor]="'pointer'"
+                matRipple>
+              </mat-row>
+              <mat-cell *matNoDataRow colspan="4">
+                No data matching the filter "{{ input.value }}"</mat-cell>
+            </mat-table>
+            <div *ngIf="isLoading" class="tbl-spinner">
+              <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+           
+            <div *ngIf="noData">
+              <div class="row justify-content-center">
+                <div class="col-8" style="margin-top: 120px;margin-bottom: 180px;"> <strong> No Currencies found. Please Retry!</strong>
+                 
+                </div>
+              </div>
+            </div>
+            <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+              [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"></div>
+            <mat-menu #contextMenu="matMenu">
+              <ng-template matMenuContent let-item="item">
+                <button mat-menu-item>
+                  <mat-icon>add_box</mat-icon>
+                  <span>Add Record</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>create</mat-icon>
+                  <span>Edit Record</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete Record</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>refresh</mat-icon>
+                  <span>Refresh Record</span>
+                </button>
+                <button mat-menu-item disabled>
+                  <mat-icon>no_encryption</mat-icon>
+                  <span>Disable</span>
+                </button>
+                <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                  <mat-icon>list_alt</mat-icon>
+                  <span> Nested Menu</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+            <mat-menu #nestedmenu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>mail_outline</mat-icon>
+                <span>Item 1</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>call</mat-icon>
+                <span>Item 2</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>chat</mat-icon>
+                <span>Item 3</span>
+              </button>
+            </mat-menu>
+            <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="body">
+
+</div>

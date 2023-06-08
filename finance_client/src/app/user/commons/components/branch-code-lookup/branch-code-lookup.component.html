@@ -1,0 +1,209 @@
+<div class="addContainer">
+  <div class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Accounts Lookup</div>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="body">
+          <div class="table-responsiv">
+            <div class="table-header py-1">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <!-- <form [formGroup]="fetchAccountsParametersForm">
+                      <div class="row">
+                        <div class="col-3">
+                          <mat-form-field class="example-full-width mt-2">
+                            <mat-label>Acc Type</mat-label>
+                            <mat-select formControlName="acctType" (selectionChange)="getSelectedAccountType($event)">
+                              <mat-option *ngFor="let item of acctTypeArray" [value]="item.value">{{ item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field class="example-full-width mt-2">
+                            <mat-label>Branch codes</mat-label>
+                            <input formControlName="SOL_ID" matInput required />
+                            <mat-error
+                              *ngIf="fetchAccountsParametersForm.get('SOL_ID').hasError('required') && fetchAccountsParametersForm.get('SOL_ID').touched">
+                              Please enter branch code</mat-error>
+                            <button (click)="branchCodesLookup()" mat-icon-button matSuffix
+                              [attr.aria-label]="'Hide password'">
+                              <mat-icon>search</mat-icon>
+                            </button>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field class="example-full-width mt-2">
+                            <mat-label>Scheme code</mat-label>
+                            <input formControlName="schemecode" matInput required />
+                            <mat-error
+                              *ngIf="fetchAccountsParametersForm.get('schemecode').hasError('required') && fetchAccountsParametersForm.get('schemecode').touched">
+                              Please enter scheme code</mat-error>
+                            <button (click)="schemeTypesLookup()" mat-icon-button matSuffix
+                              [attr.aria-label]="'Hide password'">
+                              <mat-icon>search</mat-icon>
+                            </button>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-1 mt-3 px-1">
+             
+                          <div matTooltip="SEARCH">
+                            <button *ngIf="this.fetchAccountsParametersForm.valid" (click)="getAccounts()" type="button" class="btn btn-secondary">
+                              <i class="fas fa-search"></i>
+                            </button>
+       
+                          </div>
+                        </div>
+                      </div>
+                    </form> -->
+                  </div>
+                  <div class="col-12">
+                    <form [formGroup]="fetchAccountsByNameForm">
+                      <div class="row">
+
+                        <div class="col-11">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Enter Account Name</mat-label>
+                            <input formControlName="acctName" matInput required />
+                            <mat-error
+                              *ngIf="fetchAccountsByNameForm.get('acctName').hasError('required') && fetchAccountsByNameForm.get('acctName').touched">
+                              Please enter account name</mat-error>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-1 mt-3 px-1">
+
+                          <div matTooltip="SEARCH">
+                            <button (click)="getAccountsByName()" type="button" class="btn btn-secondary">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- <div class="col-7">
+                    <div class="mb-5 ml-2">
+                      <input class="pull-left form-control" (keyup)="applyFilter($event)" placeholder="Filter..."
+                        #input />
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+
+            </div>
+
+            
+            <div class="table-header py-1 my-2" *ngIf="showFilter">
+              <div class="container">
+                <div class="row">
+                  
+                  <div class="col-11">
+                    <div class="my-2">
+                      <input class="pull-left form-control" (keyup)="applyFilter($event)" placeholder="Filter..."
+                        #input />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div *ngIf="isLoading">
+              <mat-progress-bar color="primary" mode="indeterminate">
+              </mat-progress-bar>
+            </div>
+            <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+              <ng-container matColumnDef="accountNo">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-25">AccountNo
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-25">
+                  {{ branchCodes.accountNo }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="accountName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-50">AccountName
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-50">
+                  {{ branchCodes.accountName }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="accountCurrency">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-15">Currency
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-15">
+                  {{ branchCodes.accountCurrency }}
+                </mat-cell>
+              </ng-container>
+
+              
+              <ng-container matColumnDef="partionedFlag">
+                <mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="column-nowrap psl-3 tbl-col-width-per-12">PartFlag
+                </mat-header-cell>
+                <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                  class="column-nowrap psl-3 tbl-col-width-per-12">
+                  {{ branchCodes.partionedFlag }}
+                </mat-cell>
+              </ng-container>
+              <!-- <ng-container matColumnDef="branchid">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Branch Id</mat-header-cell>
+                  <mat-cell *matCellDef="let branchCodes" (contextmenu)="onContextMenu($event, branchCodes)"
+                    class="column-nowrap psl-3 tbl-col-width-per-25">
+                    {{ branchCodes.branchId }}</mat-cell>
+                </ng-container> -->
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onSelectRow(row)"
+                [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+              <mat-cell *matNoDataRow colspan="4">
+              </mat-cell>
+            </mat-table>
+            <div *ngIf="onFirstLoad">
+              <div class="row justify-content-center">
+                <div class="col-10" style="margin-top: 120px;margin-bottom: 180px;"> <strong>Please enter branch code and scheme code or account name above!</strong>
+                  
+                </div>
+              </div>
+            </div>
+            <div *ngIf="noData && !isLoading">
+              <div class="row justify-content-center">
+                <div class="col-8" style="margin-top: 120px;margin-bottom: 180px;"> <strong> No accounts found. Please Retry!</strong>
+                 
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isLoading" class="tbl-spinner">
+              <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+
+            <mat-paginator #paginator [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="body">
+
+</div>

@@ -1,0 +1,765 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Supplier information'" [items]="['Home']" [active_item]="'Supplier information'">
+      </app-breadcrumb>
+    </div>
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="card">
+            <div class="body" style="position: relative; height: 320px;"> 
+              <div class="table-responsive">
+                <h3 class="project-name">Supplier Details</h3><br>
+                <table class="table mb-0">
+                  <tbody>
+                    <tr>
+                      <td> <span class="w-50">Status</span> </td>
+                      <td>:</td>
+                      <td><span _ngcontent-isv-c222="" class="project-bedge2 project-type-Testing">
+                        <div _ngcontent-isv-c222="" class="pro-left">
+                          Active
+                        </div>
+                      </span> </td>
+                    </tr>
+                    <tr>
+                      <td> <span class="w-50">Name</span> </td>
+                      <td>:</td>
+                      <td>{{this.transData.supplierName}} </td>
+                    </tr>
+                    <tr>
+                      <td> <span class="w-50">Account</span> </td>
+                      <td>:</td>
+                      <td><span class="badge col-purple">{{this.transData.supplierAc}}</span> </td>
+                    </tr>
+                    <tr>
+                      <td> <span class="w-50">Target amount</span> </td>
+                      <td>:</td>
+                      <td><span class="badge col-blue">{{this.transData.acrualAmount| currency: 'UGX: '}}</span> </td>
+                    </tr>                    
+                  </tbody>
+                </table>
+                <br>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+          <div class="header">
+            <h2>Accruals without balance</h2>
+          </div>
+            <div class="tableBody">
+              <div class="table-responsive">
+                <div class="table-responsi m-t-1">
+                  <div class="table-header py-2 mx-3"
+                      style="background-color: rgba(219, 218, 218, 0.836);">
+                      <div class="row">
+                        <div class="col-7 px-4 my-1">
+                              <div class="mx-auto">
+                                  <input class="pull-left search form-control" (keyup)="applyFilterPaid($event)"
+                                      placeholder="Filter..." #input />
+                              </div>
+                          </div>
+                          <div class="col-5 px-4">                              
+                          </div>
+                      </div>
+                  </div>
+                  <div style="position: relative; height: 160px;" [perfectScrollbar]>
+                  <mat-table #table matTableExporter [dataSource]="dataSourcePaid" matSort class="mat-cell"
+                      #exporter="matTableExporter">
+
+                      <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-6">#
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row; let i = index" class="psl-3 tbl-col-width-per-6">{{ i + 1 }}</mat-cell>
+                      </ng-container>
+
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="transid">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-15">Trans Id </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-15">{{
+                              row.transid }}</mat-cell>
+                      </ng-container>
+                     
+                      <ng-container matColumnDef="month">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-20"> Month
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              {{ row.month }}
+                          </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="accrualbal">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-20"> Accrualbal
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              {{ row.accrualbal }}
+                          </mat-cell>
+                      </ng-container>
+                      
+                      <ng-container matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-50"> Description
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-50">
+                            {{ row.description }}
+                        </mat-cell>
+                    </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumnsPaid"></mat-header-row>
+                      <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                      <mat-row *matRowDef="let row; columns: displayedColumnsPaid" [style.cursor]="'pointer'"
+                          matRipple>
+                      </mat-row>
+                      <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value
+                          }}"
+                      </mat-cell>
+                  </mat-table>
+                  <!-- Loading spinner -->
+                  <div *ngIf="isPaidAcrualDataLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                  </div>
+                </div>
+                  <mat-paginator [pageSize]="3" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                      aria-label="Select page of users"></mat-paginator>
+
+              </div>        
+              </div>
+            </div>
+          <!-- </div> -->
+
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="card">
+          <div class="header">
+            <h2>Accruals with balance</h2>
+          </div>
+            <div class="tableBody">
+              <div class="table-responsive">
+                <div class="table-responsi m-t-1">
+
+                  <div class="table-header py-2 mx-3"
+                      style="background-color: rgba(219, 218, 218, 0.836);">
+                      <div class="row">
+                          <div class="col-6 px-4 my-1">
+                              <div class="mx-auto">
+                                  <input class="pull-left search form-control" (keyup)="applyFilterUnpaid($event)"
+                                      placeholder="Filter..." #input />
+                              </div>
+                          </div>
+                          <div class="col-6 px-1">
+                            <!-- <div class="m-l-10" matTooltip="ADD"><button mat-mini-fab color="primary"><mat-icon class="col-white">add</mat-icon></button></div> -->
+
+                            <div><button [disabled]=!selection.hasValue() matTooltip="REVERSE THIS ACCRUAL" mat-mini-fab color="warn" (click)="navigateToReverseWholeAccrual()"><mat-icon class="col-white">cached</mat-icon></button></div>
+                          </div>
+
+                      </div>
+                  </div>
+                  <div style="position: relative; height: 160px;" [perfectScrollbar]>
+                  <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                      #exporter="matTableExporter">
+
+                      <!-- Checkbox Column -->
+                      <ng-container matColumnDef="select">
+                          <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-8'">
+                              <mat-checkbox (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [ngClass]="'tbl-checkbox'" (change)="expSelected()">
+                              </mat-checkbox>
+
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-8'">
+                              <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'"
+                                  [aria-label]="checkboxLabel(row)" (change)="expSelected()">
+                              </mat-checkbox>
+
+                          </mat-cell>
+                      </ng-container>
+
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="transid">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-10">Trans Id </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-10">{{
+                              row.transid }}</mat-cell>
+                      </ng-container>
+                     
+                      <ng-container matColumnDef="month">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-20"> Month
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              {{ row.month }}
+                          </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="accrualbal">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                              class="column-nowrap psl-3 tbl-col-width-per-20"> Accrualbal
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              {{ row.accrualbal }}
+                          </mat-cell>
+                      </ng-container>
+                      
+                      <ng-container matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-50"> Description
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-50">
+                            {{ row.description }}
+                        </mat-cell>
+                    </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                      <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'"
+                          matRipple>
+                      </mat-row>
+                      <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value
+                          }}"
+                      </mat-cell>
+                  </mat-table>
+                  <!-- Loading spinner -->
+                  <div *ngIf="isUnpaidAcrualDataLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                  </div>
+                </div>
+                  <mat-paginator [pageSize]="3" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                      aria-label="Select page of users"></mat-paginator>
+
+              </div>        
+              </div>
+            </div>
+          <!-- </div> -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="project-activity" style="margin: 20px;">
+            <mat-tab-group>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon msr-2">
+                    monetization_on
+                  </mat-icon>
+                  Pay supplier
+                </ng-template>
+                <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+                                    
+                                </div> -->
+                <div class="header">
+                  <h2>
+                    <strong>Perform transaction</strong>
+                  </h2>
+                </div>
+                <form class="m-4" [formGroup]="prepForm">
+                  <!-- It works fine like this [attr.disabled]="isDisabledState === true"
+
+                  And in the component class you can have isDisabledState: boolean = true -->
+                  <div class="row">
+                    <div class="col-xl-2 col-lg-2  col-md-12 col-sm-12 mb-2">
+                      <!-- <h6>Have a PO?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Exp Type:&nbsp;</label>
+                        <mat-radio-group formControlName="expenseType">
+                          <mat-radio-button class="example-margin" value="Goods">Gds</mat-radio-button>
+                          <mat-radio-button class="example-margin" value="Services">Svs
+                          </mat-radio-button>
+                          <!-- <mat-error *ngIf="prepForm.get('control').touched">Required</mat-error> -->
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Accrual Account Name</mat-label>
+                        <input matInput formControlName="accrualAccountName" required readonly>
+
+                        <mat-icon matSuffix (click)="branchCodeLookup()">search</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('accrualAccountName').hasError('accrualAccountName') && prepForm.get('accrualAccountName').touched">
+                          Please enter accrual account name </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Accrual Account</mat-label>
+                        <input matInput formControlName="accrualAccount" required readonly>
+
+                        <mat-icon matSuffix (click)="branchCodeLookup()">search</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('accrualAccount').hasError('accrualAccount') && prepForm.get('accrualAccount').touched">
+                          Please enter accrual account </mat-error>
+                      </mat-form-field>
+                    </div>
+
+
+
+
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Supplier Name</mat-label>
+                        <input formControlName="supplierName" matInput readonly />
+                        <mat-icon matSuffix>person</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('supplierName').hasError('supplierName') && prepForm.get('supplierName').touched">
+                          Please enter supplier name </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Supplier Account</mat-label>
+                        <input matInput formControlName="supplierAccount" required readonly>
+
+                        <mat-icon matSuffix (click)="branchCodeLookup()">search</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('supplierAccount').hasError('supplierAccount') && prepForm.get('supplierAccount').touched">
+                          Please enter supplier name </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Total amount accrued</mat-label>
+
+                        <input matInput type="number" formControlName="totalAccruedAmt" required />
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('totalAccruedAmt').hasError('totalAccruedAmt') && prepForm.get('totalAccruedAmt').touched">
+                          Please enter total amount accrued </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" >
+                      <!-- <h6>Incur taxes?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Prod type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <mat-radio-group formControlName="producttype"
+                          (change)="getPayType($event)">
+                          <mat-radio-button matTooltip="Local goods or services" class="example-margin" value="Local">Loc</mat-radio-button>
+                          <mat-radio-button matTooltip="Imported goods or services" class="example-margin" value="Import">Imp </mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <!-- <h6>Incur taxes?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Incur taxes?&nbsp;&nbsp;&nbsp;</label>
+                        <mat-radio-group formControlName="incurTax" (change)="getIncurTax($event)">
+                          <mat-radio-button class="example-margin" value="Yes">Yes</mat-radio-button>
+                          <mat-radio-button class="example-margin" value="No">No </mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Gross amount</mat-label>
+
+                        <input matInput type="number" formControlName="grossAmount" (keyup)="getGrossAmt($event)"
+                          required />
+
+
+
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('grossAmount').hasError('grossAmount') && prepForm.get('grossAmount').touched">
+                          Please enter gross amount </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurTax">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Vat rate</mat-label>
+                        <input matInput formControlName="vatRate" (keyup)="calculateNet($event)"
+                          (keyup)="getRates($event)" required>
+
+                        <mat-icon matSuffix>rate_review</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('vatRate').hasError('vatRate') && prepForm.get('vatRate').touched">
+                          Please enter vat rate </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurTax">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Net amount</mat-label>
+
+                        <input matInput type="number" formControlName="amountExcTax" (keyup)="getNetAmt($event)"
+                          required readonly />
+
+
+
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('amountExcTax').hasError('amountExcTax') && prepForm.get('amountExcTax').touched">
+                          Please enter net amount </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Currency</mat-label>
+                        <input matInput formControlName="currency"  required />
+                        <button (click)="currencyCodeLookup()" mat-icon-button matSuffix
+                          [attr.aria-label]="'Hide password'">
+                          <mat-icon>search</mat-icon>
+                        </button>
+                        <mat-error *ngIf="prepForm.get('currency').hasError('required')">
+                          Currency is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+    
+                    <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Conv rate</mat-label>
+                        <input matInput formControlName="conversionRate" required>
+    
+                        <mat-icon matSuffix>rate_review</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('conversionRate').hasError('conversionRate') && prepForm.get('conversionRate').touched">
+                          Please enter conversion rate </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                  <div class="row" *ngIf="incurTax">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <!-- <h6>Incur taxes?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Incur Vat WH?</label>
+                        <mat-radio-group formControlName="incurVatWH" (change)="getIncurVatWH($event)">
+                          <mat-radio-button class="example-margin" value="Yes">Yes</mat-radio-button>
+                          <mat-radio-button class="example-margin" value="No">No </mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurVatWH">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Vat WH Account</mat-label>
+                        <input matInput formControlName="vatAccount" required readonly>
+                        <mat-icon matSuffix>account_balance</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('vatAccount').hasError('vatAccount') && prepForm.get('vatAccount').touched">
+                          Please enter vat account </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurVatWH">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Vat WH rate</mat-label>
+                        <input matInput formControlName="vatWHRate" (keyup)="getRates($event)" required>
+
+                        <mat-icon matSuffix>rate_review</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('vatWHRate').hasError('vatWHRate') && prepForm.get('vatWHRate').touched">
+                          Please enter vat WH rate </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <!-- <h6>Incur taxes?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Incur I.W.H?&nbsp;&nbsp;&nbsp;</label>
+                        <mat-radio-group formControlName="incurIncomeWH" (change)="getIncurIncomeWH($event)">
+                          <mat-radio-button class="example-margin" value="Yes">Yes</mat-radio-button>
+                          <mat-radio-button class="example-margin" value="No">No </mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+                    </div>
+
+
+
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurIncomeWH">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Income WH Account</mat-label>
+                        <input matInput formControlName="iwtAccount" required readonly>
+
+                        <mat-icon matSuffix>account_balance</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('iwtAccount').hasError('iwtAccount') && prepForm.get('iwtAccount').touched">
+                          Please enter Income WH account </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2" *ngIf="incurIncomeWH">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Income WH rate</mat-label>
+                        <input matInput formControlName="incomeWHRate" (keyup)="getRates($event)" required>
+
+                        <mat-icon matSuffix>rate_review</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('incomeWHRate').hasError('incomeWHRate') && prepForm.get('incomeWHRate').touched">
+                          Please enter income WH rate </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                      <!-- <h6>Have a PO?</h6> -->
+                      <section class="example-section">
+                        <label class="example-margin">Have invoice?</label>
+                        <mat-radio-group formControlName="haveInvoice" (change)="getHaveInvoice($event)">
+                          <mat-radio-button class="example-margin" value="Yes">Yes</mat-radio-button>
+                          <mat-radio-button class="example-margin" value="No">No </mat-radio-button>
+                          <!-- <mat-error *ngIf="prepForm.get('control').touched">Required</mat-error> -->
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" *ngIf="invoiceAvailable">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Invoice amount</mat-label>
+                        <input matInput type="number" formControlName="invoiceAmount" readonly required />
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('invoiceAmount').hasError('invoiceAmount') && prepForm.get('invoiceAmount').touched">
+                          Please enter invoice amount </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" *ngIf="invoiceAvailable">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Invoice number</mat-label>
+                        <input matInput type="number" formControlName="invoiceNo" />
+
+                        <mat-icon matSuffix>find_in_page</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('invoiceNo').hasError('invoiceNo') && prepForm.get('invoiceNo').touched">
+                          Please enter invoice number </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" *ngIf="invoiceAvailable">
+
+                      <!-- <h6>Basic datepicker</h6> -->
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="invoiceDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                          *ngIf="prepForm.get('invoiceDate').hasError('invoiceDate') && prepForm.get('invoiceDate').touched">
+                          Please enter invoice date </mat-error>
+                      </mat-form-field>
+
+
+                    </div>
+
+
+                  </div>
+                  <div class="row" *ngIf="invoiceAvailable">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2"></div>
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mb-2">
+                      <div class="file-drop-area">
+                        <button mat-raised-button color="primary">Choose file</button>
+                        <span class="ms-2" *ngIf="selectedFiles.length == 0">{{'or drag and drop file here' }}</span>
+                        <span class="file-msg" *ngFor="let file of selectedFiles">
+                          <div class="me-2">{{ file.name }}</div>
+                        </span>
+                        <input #file class="file-input" type="file" accept="application/pdf" multiple (change)="onSelectFile(file.files)">
+                      </div>
+                    </div>
+                    
+                  </div>
+                 
+                  <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2"></div>
+                    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Transaction desription</mat-label>
+                        <input matInput formControlName="description" maxlength="100"/>
+                        <mat-icon matSuffix>list</mat-icon>
+                        <mat-error
+                          *ngIf="prepForm.get('description').hasError('required') && prepForm.get('description').touched">
+                          Please enter description </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+                <div class="text-center p-t-1 p-b-10" *ngIf="!transProceed">
+                  <button mat-flat-button color="primary" (click)="prepareTransaction()">Prepare transaction?</button>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="transProceed">
+                  <div class="body m-4">
+                    <div class="m-10" *ngIf="isTransactionLoading">
+                      <mat-progress-bar color="primary" mode="indeterminate">
+                      </mat-progress-bar>
+                    </div>
+                    <div class="table-responsive">
+                      <div class="materialTableHeader">
+                        <div class="row">
+                          <div class="col-8">
+                            <ul class="header-buttons-left ms-0">
+                              <li class="dropdown">
+                                <h2>Payment breakdown</h2>
+                              </li>
+                              <li class="dropdown m-l-20">
+                                <label for="search-input">
+                                  <i class="material-icons search-icon">search</i>
+                                </label>
+                                <input placeholder="Filter..." type="text" (keyup)="applyFilter2($event)" #filter
+                                  class="browser-default search-field" aria-label="Search box">
+                              </li>
+                              <!-- <li><div class="m-l-10" matTooltip="ADD"><button mat-mini-fab color="primary"><mat-icon class="col-white">add</mat-icon></button></div></li> -->
+                              <li>
+                                <div class="m-l-10" matTooltip="REFRESH">
+                                  <button mat-mini-fab color="primary">
+                                    <mat-icon class="col-white">refresh </mat-icon>
+                                  </button>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="col-4">
+                            <ul class="header-buttons">
+                              <li>
+                                <div class="export-button m-l-10" matTooltip="XLSX">
+                                  <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                                                                  exporter.exportTable('xlsx', {
+                                                                                                    fileName: 'assets-list',
+                                                                                                    sheet: 'sheet1'
+                                                                                                  })
+                                                                                                " />
+                                </div>
+                              </li>
+                              <li>
+                                <div class="export-button m-l-10" matTooltip="CSV">
+                                  <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                                </div>
+                              </li>
+                              <li>
+                                <div class="export-button m-l-10" matTooltip="JSON">
+                                  <img src="assets/images/icons/json.png" alt=""
+                                    (click)="exporter.exportTable('json')" />
+                                </div>
+                              </li>
+                              <li>
+                                <div class="export-button m-l-10" matTooltip="TXT">
+                                  <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <mat-table #table matTableExporter [dataSource]="dataSource2" matSort class="mat-cell"
+                        #exporter="matTableExporter">
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="accountNo">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-20">A/C No </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                            {{row.accountNo}}
+                          </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="accountName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-20"> A/C Name </mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                            {{row.accountName}}
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-18"> Amount</mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                            {{row.amount }} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="parttranstype">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-15"> DR/CR</mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-15">
+                            {{row.parttranstype}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="narration">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="column-nowrap psl-3 tbl-col-width-per-40">Description</mat-header-cell>
+                          <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-40">
+                            {{row.narration}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                          <mat-header-cell *matHeaderCellDef class="column-nowrap psl-3 tbl-col-width-per-15">Actions
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row; let i = index" class="column-nowrap psl-3 tbl-col-width-per-15">
+                            <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                              (click)="onEditPaymentBreakdown(row,i)" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                            </button>
+    
+                          </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumnss"></mat-header-row>
+                        <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                        <mat-row *matRowDef="let row; columns: displayedColumnss" [style.cursor]="'pointer'" matRipple>
+                        </mat-row>
+                        <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value }}" </mat-cell>
+                      </mat-table>
+                      <!-- Loading spinner -->
+                      <div class="tbl-spinner" *ngIf="isLoading">
+                        <!-- *ngIf="isLoading" -->
+                        <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                        </mat-progress-spinner>
+                      </div>
+                      <mat-paginator #paginatorLegal="matPaginator" [pageSize]="5"
+                        [pageSizeOptions]="[5, 10, 20, 30, 40, 50, 100]" aria-label="Select page">
+                      </mat-paginator>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mb-3" *ngIf="transProceed">
+                  <div class="container">
+                    <div class="row align-items-end">
+                      <div class="col align-self-end">
+                        <div class="example-button-row" align="end">
+                          <button class="align-self-end" mat-raised-button color="primary" (click)="validateForm()" [disabled]="isTransactionLoading"> Process
+                          </button>
+                          <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1"> Cancel </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row align-items-end"></div>
+                </div>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon msr-2">
+                    history
+                  </mat-icon>
+                  Payment history
+                </ng-template>
+                <div class="header">
+                  <h2>
+                    <strong>Transactions done</strong>
+                  </h2>
+                </div>
+                
+                  <app-transaction-history *ngIf="messagelist" [messagelist]="messagelist"></app-transaction-history>
+                
+                  <div *ngIf="!messagelist" class="tbl-spinner m-b-60">
+                    <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+                
+              
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

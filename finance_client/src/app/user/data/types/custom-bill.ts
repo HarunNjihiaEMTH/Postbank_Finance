@@ -1,0 +1,33 @@
+export interface CustomBill {
+  deletedBy?: string;
+  deletedFlag?: string;
+  expenseAccount?: string;
+  expenseName?: string;
+  expense_type?: string;
+  id?: number;
+  income_wth_paid?: number;
+  invoiceNo?: string;
+  iwtAccount?: string;
+  iwtAmount?: number;
+  modifiedBy?: string;
+  modifiedFlag?: string;
+  modifiedTime?: Date;
+  poId?: string;
+  postedBy?: string;
+  postedTime?: Date;
+  purchaseOrdername?: string;
+  reason?: string;
+  status?: string;
+  supplierAccount?: string;
+  supplierAmount?:number;
+  supplierId?: string;
+  supplierName?: string;
+  totalBeforetax?: number;
+  transactionCode?: string;
+  vatAccount?: string;
+  vatAmount?: number;
+  vat_paid?: number;
+  verifiedBy?: string;
+  verifiedFlag?: string;
+  verifiedTime?: Date;
+}

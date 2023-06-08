@@ -1,0 +1,52 @@
+<div class="addContainer">
+  <div *ngIf="supplier" class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Supplier Details</div>
+      <button
+        mat-icon-button
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-5 m-b-10">Supplier Name:</div>
+          <div class="col-7 pro-left m-b-10">{{ supplier.supplierName }}</div>
+          <div class="col-5 m-b-10">Supplier Email:</div>
+          <div class="col-7 pro-left m-b-10">{{ supplier.supplierEmail }}</div>
+          <div class="col-5 m-b-10">Supplier Contact:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ supplier.supplierContact }}
+          </div>
+          <div class="col-5 m-b-10">Supplier Number:</div>
+          <div class="col-7 pro-left m-b-10">{{ supplier.supplierNumber }}</div>
+          <div class="col-5 m-b-10">Supplier Services:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ supplier.supplierServices }}
+          </div>
+          <div class="col-5 m-b-10">Supplier Bank:</div>
+          <div class="col-7 pro-left m-b-10">{{ supplier.supplierBank }}</div>
+          <div class="col-5 m-b-10">Supplier Account:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ supplier.supplierAccount }}
+          </div>
+          <div class="col-5 m-b-10">Supplier Address:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ supplier.supplierAddress }}
+          </div>
+          <div class="col-5 m-b-10">Created By:</div>
+          <div class="col-7 pro-left m-b-10">{{ supplier.postedBy }}</div>
+          <div class="col-5 m-b-10">Date Created:</div>
+          <div class="col-7 pro-left m-b-10">
+            <span class="material-icons-outlined project-icon2">
+              date_range </span
+            >{{ supplier.postedTime | date }}
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+  </div>
+</div>

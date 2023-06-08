@@ -1,0 +1,171 @@
+
+                                  <div class="table-responsive m-t-5">
+                                    <div class="body">
+                                      <div class="table-responsive">
+                                        <div class="materialTableHeader">
+                                          <div class="row">
+                                            <div class="col-8">
+                                              <ul class="header-buttons-left ms-0">
+                                                <li class="dropdown">
+                                                  <h2>Original PO status</h2>
+                                                </li>
+                                                <li class="dropdown m-l-20">
+                                                  <label for="search-input">
+                                                    <i class="material-icons search-icon">search</i>
+                                                  </label>
+                                                  <input placeholder="Filter..." type="text" (keyup)="applyFilter($event)" #filter class="browser-default search-field" aria-label="Search box">
+                                                </li>
+                                                <!-- <li><div class="m-l-10" matTooltip="ADD"><button mat-mini-fab color="primary"><mat-icon class="col-white">add</mat-icon></button></div></li> -->
+                                                <li>
+                                                  <div class="m-l-10" matTooltip="REFRESH">
+                                                    <button mat-mini-fab color="primary">
+                                                      <mat-icon class="col-white">refresh </mat-icon>
+                                                    </button>
+                                                  </div>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                            <div class="col-4">
+                                              <ul class="header-buttons">
+                                                <li>
+                                                  <div class="export-button m-l-10" matTooltip="XLSX">
+                                                    <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                              exporter.exportTable('xlsx', {
+                                                                fileName: 'assets-list',
+                                                                sheet: 'sheet1'
+                                                              })
+                                                            " />
+                                                  </div>
+                                                </li>
+                                                <li>
+                                                  <div class="export-button m-l-10" matTooltip="CSV">
+                                                    <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                                                  </div>
+                                                </li>
+                                                <li>
+                                                  <div class="export-button m-l-10" matTooltip="JSON">
+                                                    <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                                                  </div>
+                                                </li>
+                                                <li>
+                                                  <div class="export-button m-l-10" matTooltip="TXT">
+                                                    <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                                                  </div>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell" #exporter="matTableExporter">
+                                          <!-- ID Column -->
+                                          
+                                          <!-- ID Column -->                                        
+                                          <ng-container matColumnDef="id">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-4">Id </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-4">{{ row.id }}</mat-cell>
+                                          </ng-container>
+                                          
+                                          <ng-container matColumnDef="itemName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> ItemName </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.itemName }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="itemQuantity">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> Quantity</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.itemQuantity }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="itemUnitPrice">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> UnitPrice</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.itemUnitPrice }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="itemTotalValue">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> TotalValue</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.itemTotalValue }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="vatAmount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-5"> Vat</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-5">
+                                              {{ row.vatAmount }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="incomeWithholdingamount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> Income.W</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.incomeWithholdingamount }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="vatWitholding">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-6"> Vat.W</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-6">
+                                              {{ row.vatWitholding }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="deliveryStatus">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> Status</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              <div *ngIf="row.deliveryStatus=='Pending'">
+                                                <span class="badge badge-pill badge-primary col-purple">
+                                                  {{"Pending"}}</span>
+                                              </div>
+                                              <div *ngIf="row.deliveryStatus=='Approved'">
+                                                <span class="badge badge-pill badge-primary col-green">
+                                                  {{"Approved"}}</span>
+                                              </div>
+                                              <div *ngIf="row.deliveryStatus=='Rejected'">
+                                                <span class="badge badge-pill badge-primary col-red">
+                                                  {{"Rejected"}}</span>
+                                              </div>
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="amountTobepaid">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-8"> Amount due</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.amountTobepaid }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="amountBalance">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-7"> Balance</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-7">
+                                              {{ row.amountBalance }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="serviceName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-12"> ServiceName</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                              {{ row.serviceName }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="servicePrice">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-10"> ServicePrice</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-10">
+                                              {{ row.servicePrice }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="remarks">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-10"> Remarks</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-10">
+                                              {{ row.remarks }}
+                                            </mat-cell>
+                                          </ng-container>
+                                          
+                                          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                          <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewPoDetails(row)" [style.cursor]="'pointer'" matRipple></mat-row>
+                                          <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value }}" </mat-cell>
+                                        </mat-table>
+                                        <!-- Loading spinner -->
+                                        <div *ngIf="loading" class="tbl-spinner">
+                                          <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate"></mat-progress-spinner>
+                                        </div>
+                                        <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]" aria-label="Select page of users"></mat-paginator>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                

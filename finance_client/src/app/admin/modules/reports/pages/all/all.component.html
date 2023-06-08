@@ -1,0 +1,44 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Reports'"
+        [items]="['Home']"
+        [active_item]="'All reports'"
+      ></app-breadcrumb>
+    </div>
+    <!-- widgets start -->
+    <app-gen-widgets></app-gen-widgets>
+    <!-- widgets end -->
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-12">
+          <app-payments></app-payments>
+        </div>
+        <div class="col-12">
+          <app-invoices></app-invoices>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-12">
+          <app-vat-withholding-reports></app-vat-withholding-reports>
+        </div>
+        <div class="col-12">
+          <app-income-withholding-reports></app-income-withholding-reports>
+        </div>
+       
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-12">
+            <app-direct-transactions></app-direct-transactions>
+          </div>
+      </div>
+
+      <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <app-transaction-report></app-transaction-report>
+            </div> -->
+    </div>
+  </div>
+</section>

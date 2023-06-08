@@ -1,0 +1,6 @@
+<changeSet author="your_name" id="remove-tin-column">
+    <preConditions onFail="MARK_RAN">
+        <columnExists tableName="urabasicinformation" columnName="tin"/>
+    </preConditions>
+    <dropColumn tableName="urabasicinformation" columnName="tin"/>
+</changeSet>

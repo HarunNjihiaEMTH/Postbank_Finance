@@ -1,0 +1,490 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Purchase Order Management'"
+        [items]="['User']"
+        [active_item]="'Add Purchase Order'"
+      >
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Create Purchase Order</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="updatePurchaseOrderForm" class="m-4">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Title</mat-label>
+                    <input formControlName="poName" matInput required />
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('poName')
+                          .hasError('required')
+                      "
+                    >
+                      Title is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Supplier name</mat-label>
+                    <input
+                      formControlName="supplierName"
+                      matInput
+                      placeholder=""
+                      required
+                    />
+                    <button
+                    (click)="suppliersLookup()"
+                    mat-icon-button
+                    matSuffix
+                    [attr.aria-label]="'Hide password'"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('supplierName')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Supplier Id</mat-label>
+                    <input formControlName="supplierId" matInput required readonly />
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('supplierId')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier id is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Supplier adress</mat-label>
+                    <input
+                      formControlName="supplierAddress"
+                      matInput
+                      required
+                    />
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('supplierAddress')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier address is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Supplier mobile</mat-label>
+                    <input formControlName="supplierMobile" matInput required />
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('supplierMobile')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier mobile is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Supplier contact</mat-label>
+                    <input
+                      formControlName="supplierContact"
+                      matInput
+                      required
+                    />
+                    <mat-error
+                      *ngIf="
+                        updatePurchaseOrderForm
+                          .get('supplierContact')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier contact is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <hr />
+
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ms-0">
+                      <li class="dropdown">
+                        <h2>Order Items</h2>
+                      </li>
+
+                      <!-- <li>
+                        <div class="m-l-10" matTooltip="ADD">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            (click)="addOrderItemCall()"
+                          >
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </li> -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-table
+                #table
+                matTableExporter
+                [dataSource]="orderItemDataSource"
+                matSort
+                class="mat-cell"
+                #exporter="matTableExporter"
+              >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="psl-3 tbl-col-width-per-6"
+                    >Id</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="psl-3 tbl-col-width-per-6"
+                    >{{ i + 1 }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="itemName">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="psl-3 tbl-col-width-per-25"
+                    >Item name</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row"
+                    (click)="onSelect(row)"
+                    class="column-nowrap psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.itemName"> {{ row.itemName }}</span>
+                    <!-- <span *ngIf="row.serviceName">{{ row.serviceName }}</span> -->
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemQuantity">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="psl-3 tbl-col-width-per-8"
+                    >quantity</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row"
+                    (click)="onSelect(row)"
+                    class="column-nowrap psl-3 tbl-col-width-per-8"
+                  >
+                    <span *ngIf="row.itemQuantity">
+                      {{ row.itemQuantity }}</span
+                    >
+                    <span *ngIf="!row.itemQuantity"> N/A </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemUnitPrice">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="psl-3 tbl-col-width-per-25"
+                    >Item unit price</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    (click)="onSelect(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.itemUnitPrice">
+                      {{ row.itemUnitPrice | currency: "UGX" }}</span
+                    >
+                    <!-- <span *ngIf="row.servicePrice">
+                      {{ row.servicePrice | currency: "UGX" }}</span
+                    > -->
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemTotalValue">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-25"
+                    >Total value</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.itemTotalValue">{{
+                      row.itemTotalValue | currency: "UGX"
+                    }}</span>
+                    <!-- <span *ngIf="row.servicePrice">{{
+                      row.servicePrice | currency: "UGX"
+                    }}</span> -->
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="tax">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-8"
+                    >VAT rate(%)</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-8"
+                  >
+                    <span *ngIf="row.vatRate">{{ row.vatRate }}</span>
+                    <!-- <span *ngIf="row.tax"> {{ row.tax }} </span> -->
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="vatAmount">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-25"
+                    >VAT</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.vatAmount">{{
+                      row.vatAmount | currency: "KES"
+                    }}</span>
+                    <span *ngIf="!row.vatAmount"> N/A </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="whtRate">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-8"
+                    >WHT rate(%)</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-8"
+                  >
+                    <span *ngIf="row.witholdingRate">{{
+                      row.witholdingRate
+                    }}</span>
+                    <span *ngIf="!row.tax"> N/A </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="incomeTax">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-25"
+                    >Income tax</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.incomeTax">{{
+                      row.incomeTax | currency: "KES"
+                    }}</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="whtAmount">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-25"
+                    >WHT Amount</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.vatWitholding">{{
+                      row.vatWitholding | currency: "UGX"
+                    }}</span>
+                    <span *ngIf="row.incomeWithholdingamount">{{
+                      row.incomeWithholdingamount | currency: "UGX"
+                    }}</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="amountTobepaid">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    class="pr-0"
+                    class="psl-3 tbl-col-width-per-25"
+                    >Total amount</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                    (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25"
+                  >
+                    <span *ngIf="row.amountTobepaid">{{
+                      row.amountTobepaid | currency: "UGX"
+                    }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef
+                    >Actions</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let row; let i = index"
+                    class="pr-0"
+                  >
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      (click)="$event.stopPropagation()"
+                      (click)="updateOrderItemCall(i, row)"
+                      class="tbl-action-btn"
+                    >
+                      <app-feather-icons
+                        [icon]="'edit'"
+                        [class]="'tbl-fav-edit'"
+                      ></app-feather-icons>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      (click)="$event.stopPropagation()"
+                      (click)="onRemoveOrderItem(i)"
+                      class="tbl-action-btn"
+                    >
+                      <app-feather-icons
+                        [icon]="'trash-2'"
+                        [class]="'tbl-fav-delete'"
+                      ></app-feather-icons>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                <mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  (click)="onSelect(row)"
+                  [style.cursor]="'pointer'"
+                  matRipple
+                >
+                </mat-row>
+                <mat-cell *matNoDataRow colspan="4">
+                  No data matching the filter "{{ input.value }}"</mat-cell
+                >
+              </mat-table>
+              <!-- Loading spinner -->
+              <div *ngIf="isLoading" class="tbl-spinner">
+                <mat-progress-spinner
+                  color="primary"
+                  [diameter]="40"
+                  mode="indeterminate"
+                >
+                </mat-progress-spinner>
+              </div>
+              <mat-paginator
+                [pageSize]="10"
+                [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                aria-label="Select page of users"
+              ></mat-paginator>
+
+              <div class="row mt-5">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button
+                    class="btn-space"
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="!updatePurchaseOrderForm.valid"
+                    (click)="updatePurchaseOrder()"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    (click)="previewPurchaseOrder()"
+                    class="btn-space"
+                    type="button"
+                    mat-raised-button
+                    color="accent"
+                    [disabled]="!updatePurchaseOrderForm.valid"
+                  >
+                    Preview
+                  </button>
+                  <button
+                    type="button"
+                    color="warn"
+                    mat-raised-button
+                    (click)="onCancel()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

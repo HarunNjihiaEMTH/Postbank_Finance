@@ -1,0 +1,596 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Invoice'" [items]="['Home', 'Extra']" [active_item]="'Invoice'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="px-5">
+              <div class="row" >
+                <div class="col-md-12">
+
+                  
+                    <div class="row">
+                      <div class="row">
+                        <div class="col-4">
+                          <div class="float-start">
+                            <img src="assets/images/ura_logo.png" width="300px" height="150px" class="px-2 py-2"  alt="" />
+                          </div>
+                        </div>
+  
+                        <div class="col-4 mt-1">
+                          <div class="float-center text-center">
+                            <ul>
+                              <li>
+                                <h3>e-INVOICE/TAX</h3>
+                              </li>
+                              <li>
+                                <h3>INVOICE/e- RECEIPT</h3>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="float-end">
+                            <div class="float-start">
+                              <img src="assets/images/PBlogo.png" width="400px" height="150px" class="px-2 mx-2" alt="" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                     
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                      <ng-template #loading>
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </ng-template>
+                    </div>
+                    
+                    <!-- <ng-template class="row" #loading>
+                      <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </ng-template> -->
+  
+
+<div *ngIf="flag; else loading">
+  <div class="row" *ngIf="isLocal">
+    <hr />
+    <h5 class="text-center">Section A: Seller Details</h5>
+    <hr />
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">                   
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-10 mx-auto">
+            <ul class="list-group mb-3">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Seller Tin Number</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="sellerDetails">{{
+                      sellerDetails.tin
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Trade Name</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="sellerDetails">{{
+                      sellerDetails.businessName
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Email Address</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="sellerDetails">{{
+                      sellerDetails.emailAddress
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Served By</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="sellerDetails">{{
+                      basicInformation.operator
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!isLocal">
+   
+    <hr />
+    <h5 class="text-center">Section A: Import Seller Details</h5>
+    <hr />
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">                   
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-10 mx-auto">
+            <ul class="list-group mb-3">
+             
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Trade Name</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="importSellerDetails">{{
+                      importSellerDetails.importBusinessName
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5"> Address</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="importSellerDetails">{{
+                      importSellerDetails.importAddress
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Served By</div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="sellerDetails">{{
+                      basicInformation.operator
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <hr />
+    <h5 class="text-center">Section B: URA Information</h5>
+    <hr />
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-10 mx-auto">
+              <ul class="list-group mb-3">
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-5">Issued Date </div>
+                     <div class="col-2 text-center">:</div>
+                    <div class="col-5">
+                      <span *ngIf="basicInformation">{{
+                        basicInformation.issuedDate
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-5">Issued Time </div>
+                     <div class="col-2 text-center">:</div>
+                    <div class="col-5">
+                      <span *ngIf="basicInformation">{{
+                        basicInformation.issuedDate
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-5">
+                      Fiscal Document Number 
+                    </div>
+                     <div class="col-2 text-center">:</div>
+                    <div class="col-5">
+                      <span *ngIf="basicInformation">{{
+                        basicInformation.invoiceNo
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-5">Device Number </div>
+                     <div class="col-2 text-center">:</div>
+                    <div class="col-5">
+                      <span *ngIf="basicInformation">{{
+                        basicInformation.deviceNo
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-5">Verification code </div>
+                     <div class="col-2 text-center">:</div>
+                    <div class="col-5">
+                      <span *ngIf="basicInformation">{{
+                        basicInformation.antifakeCode
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <hr />
+    <h5 class="text-center">Section C: Buyer Details</h5>
+    <hr />
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-10 mx-auto">
+            <ul class="list-group mb-3">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Business Name </div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="buyerDetails">{{
+                      buyerDetails.buyerBusinessName
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Buyer Tin </div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="buyerDetails">{{
+                      buyerDetails.buyerTin
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Buyer Legal Name </div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="buyerDetails">{{
+                      buyerDetails.buyerLegalName
+                      }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-5">Buyer Type </div>
+                   <div class="col-2 text-center">:</div>
+                  <div class="col-5">
+                    <span *ngIf="buyerDetails.buyerType == '0'">
+                      Business
+                    </span>
+                    <span *ngIf="buyerDetails.buyerType == '1'">
+                      Consumer
+                    </span>
+                    <span *ngIf="buyerDetails.buyerType == '2'">
+                      Foreigner
+                    </span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="row mx-1">
+        <hr />
+        <h5 class="text-center">
+          Section D: Goods & Services Details
+        </h5>
+        <hr />
+        <div class="col-md-12">
+          <div class="table-responsive m-t-40">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Item code</th>
+                    <th>Item name</th>
+                    <th>Unit price</th>
+                    <th>Quantity</th>
+                    <th>Total price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let goodDetail of goodsDetails">
+                    <td>{{ goodDetail.itemCode }}</td>
+                    <td>{{ goodDetail.item }}</td>
+                    <td>{{ goodDetail.unitPrice }}</td>
+                    <td>
+                      {{ goodDetail.qty }}
+                    </td>
+                    <td>
+                      {{ goodDetail.total }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row mx-1">
+        <hr />
+        <h5 class="text-center">Section E: Tax Details</h5>
+        <hr />
+        <div class="col-md-12">
+          <div class="table-responsive m-t-40">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Tax Code</th>
+                    <th>Tax Rate</th>
+                    <th>Tax Name</th>
+                    <th>Tax Amount</th>
+                    <th>Net Amount</th>
+                    <th>Gross Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let taxDetail of taxDetails">
+                    <td>
+                      <span *ngIf="
+                          taxDetail.taxCategoryCode == '01'
+                        ">A: Standard (18%)</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '02'
+                        ">B: Zero (0%)</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '03'
+                        ">C: Exempt (-)</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '04'
+                        ">D: Deemed (18%)</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '05'
+                        ">E: Excise Duty</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '06'
+                        ">Over the Top Service (OTT)</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '07'
+                        ">Stamp Duty</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '08'
+                        ">Local Hotel Service Tax</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '09'
+                        ">UCC Levy</span><span *ngIf="
+                          taxDetail.taxCategoryCode == '10'
+                        ">Others</span>
+                    </td>
+                    <td>{{ taxDetail.taxRate }}</td>
+                    <td>{{ taxDetail.taxRateName }}</td>
+                    <td>{{ taxDetail.taxAmount }}</td>
+                    <td>{{ taxDetail.netAmount }}</td>
+                    <td>{{ taxDetail.grossAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <hr />
+    <h5 class="text-center">Section F: Summary</h5>
+    <hr />
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">
+       
+          <div class="col-6 mx-auto px-4">
+            <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Net Amount</div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="summaryDetails">{{
+                    summaryDetails.netAmount
+                    }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Tax Amount </div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="summaryDetails">{{
+                    summaryDetails.taxAmount
+                    }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Gross Amount </div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="summaryDetails">{{
+                    summaryDetails.grossAmount
+                    }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Number of Items</div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="summaryDetails">{{
+                    summaryDetails.itemCount
+                    }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          </div>
+    
+        <div class="col-6 mx-auto px-4">
+          <ul class="list-group mb-3">
+            
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Currency</div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="basicInformation">{{
+                    basicInformation.currency
+                    }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">
+                  No. of e-receipts/invoice issued
+                </div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="basicInformation">{{
+                    basicInformation.invoiceId
+                    }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Mode</div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">
+                  <span *ngIf="summaryDetails">{{
+                    summaryDetails.modeCode
+                    }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="col-6">
+          <div class="row mx-1">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Mode</th>
+                        <th>Amount Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span *ngIf="summaryDetails">{{
+                            summaryDetails.modeCode
+                            }}</span>
+                        </td>
+                        <td>
+                          <span *ngIf="summaryDetails">{{
+                            summaryDetails.netAmount
+                            }}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+   
+    
+
+   
+  </div>
+  <div class="row" *ngIf="summaryDetails">
+    <div class="d-flex justify-content-center">
+      <qrcode [qrdata]="summaryDetails.qrCode" [width]="256" [errorCorrectionLevel]="'M'">
+      </qrcode>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center">
+       
+
+        <div class="col-12">
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-5">Remarks</div>
+                 <div class="col-2 text-center">:</div>
+                <div class="col-5">Invoice Upload -
+                  <span *ngIf="basicInformation">{{
+                    basicInformation.operator
+                    }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="text-end">
+  <button mat-raised-button (click)="backToUploadedInvoices()" class="msr-2"
+    color="accent">Back</button>
+  <button mat-raised-button (click)="printInvoice()" color="primary"><i
+      class="fas fa-print msr-2"></i>Print</button>
+</div>
+
+</div>
+                    
+                 
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

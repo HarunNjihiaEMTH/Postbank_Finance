@@ -1,0 +1,174 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <img src="../../../../../assets/images/emtec.png" alt="avatar" />
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+            Add Order Item
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-icon-button
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="invoiceItemForm">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Order code</mat-label>
+            <input matInput formControlName="orderNumber" required />
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>select Item</mat-label>
+            <mat-select
+              (selectionChange)="onProductSelection($event)"
+              formControlName="selectedCommodity"
+            >
+              <mat-option *ngFor="let item of items" [value]="item.id">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Category name</mat-label>
+              <input matInput formControlName="categoryName" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item code</mat-label>
+              <input matInput formControlName="itemCode" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item name</mat-label>
+              <input matInput formControlName="item" required />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Quantity</mat-label>
+              <input matInput formControlName="qty" required />
+            </mat-form-field>
+           
+          </div>
+          <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-2">
+            <div class="col-1 align-items-center justify-content-center">
+              <mat-icon color="primary" (click)="onAddCommodityQuantity()">add_circle</mat-icon>
+              <mat-icon color="warn" (click)="onReduceCommodityQuantity()">remove_circle</mat-icon>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Unit of measure</mat-label>
+              <input matInput formControlName="unitOfMeasure" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Unit price</mat-label>
+              <input matInput formControlName="unitPrice" required />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Service ?</mat-label>
+              <input matInput formControlName="isService" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Tax rate</mat-label>
+              <input matInput formControlName="taxRate" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Effective start date</mat-label>
+              <input
+                formControlName="vatEffectiveStartDate"
+                matInput
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item code</mat-label>
+              <input matInput formControlName="itemCode" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item code</mat-label>
+              <input matInput formControlName="itemCode" required />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Item code</mat-label>
+              <input matInput formControlName="itemCode" required />
+            </mat-form-field>
+          </div>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row" align="end">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addInvoiceItem()"
+            >
+              Save
+            </button>
+            <!-- <button
+              *ngIf="!newOrderItem"
+              mat-raised-button
+              color="primary"
+              [disabled]="!orderItemForm.valid"
+              (click)="updateOderItem()"
+            >
+              Update
+            </button> -->
+            <button
+              (click)="onCancel()"
+              mat-raised-button
+              color="warn"
+              tabindex="-1"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

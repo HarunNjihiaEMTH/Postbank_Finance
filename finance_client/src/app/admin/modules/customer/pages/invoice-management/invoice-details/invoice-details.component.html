@@ -1,0 +1,131 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Invoice Management'"
+        [items]="['User', 'Invoice']"
+        [active_item]="'Invoice Details'"
+      >
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="white-box px-5">
+                  <h4>
+                    <span>Invoice</span>
+                    <span class="float-end">Invoice no: {{ invoice.invoiceNo }}</span>
+                  </h4>
+                  <hr />
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="float-start">
+                        <address>
+                          <p class="font-bold">Vendor :</p>
+                          <p *ngIf="organisationDetails">
+                            Supplier name : {{ organisationDetails.organisationName }},
+                            <br />
+                            Supplier address : {{ organisationDetails.address }}, <br />
+                            Supplier mobile : {{ organisationDetails.phone }}, <br />
+                            Supplier contact : {{ organisationDetails.email }}
+                          </p>
+                        </address>
+                      </div>
+                      <div class="float-end text-end">
+                        <address *ngIf="customer">
+                          <p class="addr-font-h3 font-bold">Ship To:</p>
+                          <p class="font-bold addr-font-h4">Name : {{ customer.buyerLegalName }},</p>
+                          <p class="m-l-30">
+                            Address : {{ customer.buyerAddress}},
+                            <br />
+                            Mobile : {{ customer.buyerMobilePhone }}, <br />
+                            Email : {{ customer.buyerEmail }}, <br />
+                          </p>
+                          <p class="m-t-30">
+                            <b>Purhase Order Date :</b>
+                            <i class="fa fa-calendar"></i> {{ invoice.issuedDate| date: 'medium' }}
+                          </p>
+                          <p>
+                            <b>Status : </b>
+                            <span class="label label-primary">pending</span>
+                          </p>
+                        </address>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="table-responsive m-t-40">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th class="">Serial number</th>
+                              <th class="text-centr">Item name</th>
+                              <th class="text-centr">Item quantity</th>
+                              <th class="text-centr">Item unit price</th>
+                              <th class="text-centr">Total Price</th>
+                              <th class="text-centr">VAT rate</th>
+                              <th class="text-centr">VAT</th>
+                              <th class="text-centr">Amount to be paid</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let invoiceItem of invoiceItems; let i = index;">
+                              <td class="">{{ i + 1}}</td>
+                              <td class="text-centr">
+                                <span>{{ invoiceItem.item }}</span>
+                                <!-- <span *ngIf="invoiceItem.discountFlag == 'Y'"> {{ invoiceItem.item }} + "(Discounted)" </span> -->
+                              </td>
+                              <td class="text-centr">
+                                <span *ngIf="invoiceItem.qty"> {{ invoiceItem.qty }}</span>
+                                <span *ngIf="!invoiceItem.qty"> - </span>
+                              </td>
+                              <td class="text-centr"><span *ngIf="invoiceItem.discountFlag == 'N'">{{ invoiceItem.unitPrice | currency: 'UGX': 'symbol': '1.2-2' }}</span>
+                              <span *ngIf="invoiceItem.discountFlag == 'Y'"> - </span></td>
+                              <td class="text-centr"> <span *ngIf="invoiceItem.discountFlag == 'N'">{{  invoiceItem.total - invoiceItem.tax | currency : "UGX" }}</span> <span *ngIf="invoiceItem.discountFlag == 'Y'"> - </span></td>
+                              <td class="text-centr"><span *ngIf="invoiceItem.discountFlag == 'N'">{{ invoiceItem.taxRate }}</span>
+                                <span *ngIf="invoiceItem.discountFlag == 'Y'"> - </span></td>
+                              <td class="text-centr"><span *ngIf="invoiceItem.discountFlag == 'N'">{{ invoiceItem.tax | currency: 'UGX': 'symbol': '1.2-2' }}</span>
+                                <span *ngIf="invoiceItem.discountFlag == 'Y'"> - </span></td>
+                              <td class="text-centr">{{ invoiceItem.total | currency : "UGX" }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="float-end m-t-30 text-end">
+                        <p>Total amount:  {{  invoice.total_after_tax - invoice.tax_amount | currency: 'UGX': 'symbol': '1.2-2' }}</p>
+                        <p>Discount :{{  invoice.discountTotal | currency: 'UGX': 'symbol': '1.2-2' }}</p>
+                        <p>Tax : KES. {{ invoice.tax_amount | currency : "UGX" }}</p>
+                        <hr />
+                        <h3><b>Total :</b> {{  invoice.total_after_tax - invoice.discountTotal  | currency : "UGX" }}</h3>
+                      </div>
+                      <div class="clearfix"></div>
+                      <hr />
+                      <div class="text-end">
+                        <button *ngIf="!invoice.id" class="btn-space" mat-raised-button color="accent" (click)=" navigateBackToGenerateInvoiceForm()">
+                          Back
+                        </button>
+                        <button *ngIf="invoice.id" class="btn-space" mat-raised-button color="accent" (click)=" navigateBackToAllInvoices()">
+                          Back
+                        </button>
+                        
+                        <button (click)="downloadInvoice(invoice.invoiceNo)" mat-raised-button color="primary">
+                          <i class="fas fa-print msr-2"></i>
+                         Print
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

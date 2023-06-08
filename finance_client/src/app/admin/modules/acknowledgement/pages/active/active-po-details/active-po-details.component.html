@@ -1,0 +1,567 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Active Purchase Order'" [items]="['Home', 'Purchase Order']"
+        [active_item]="'Purchase Order'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card" *ngIf="loading" style="min-height: 400px">
+          <div class="d-flex justify-content-center">
+            <img src="assets/images/gif.gif" style="width: 50px; height: 50px" />
+          </div>
+        </div>
+        <!-- {
+          "id": 1,
+          "poNumber": "K2m6CTgnhuE1pxC",
+          "expenseId": null,
+          "poName": "Test PO",
+
+          "originalTotalBeforeTax": 8000,
+          "originalVatAmount": 480,
+          "originalIncomeWithholdingamount": 0,
+          "originalVatWitholding": 480,
+          "originalTotalAfterTax": 8480,
+
+          "poStatus": "Approved",
+          "supplierContact": "0",
+          "supplierId": 1,
+          "supplierAddress": "NA",
+          "supplierMobile": "TY3VJW",
+          "supplierName": "EXPERIAN UGANDA CRB LIMITED",
+          "supplierAccount": null,
+          "correspondedInvoiceNumber": null,
+          "paymentStatus": null,
+          "reason": "-",
+          "isSent": true,
+          "inProgress": false,
+          "postedBy": "soaadmin",
+          "postedFlag": "Y",
+          "postedTime": "2023-03-03T03:20:40.000+00:00",
+
+          "verifiedBy": "soaadmin",
+          "verifiedFlag": "N",
+          "verifiedTime": "2023-03-06T21:00:00.000+00:00",
+
+          
+      } -->
+
+        <div class="card" *ngIf="!loading">
+          <div class="body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="white-box px-5">
+                  <h3>
+                    <b>Active purchase order details</b>
+                  </h3>
+                  <hr />
+                  <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <div class="float-start" style="margin-top: 15px">
+                        <address>
+                          <p class="font-bold">Vendor :</p>
+                          <p class="text-muted">
+                            Name: {{ purchaseOrder.supplierName }}, <br />
+                            Address: {{ purchaseOrder.supplierAddress }}, <br />
+                            Phone: {{ purchaseOrder.supplierMobile }},
+                          </p>
+                        </address>
+                        <!-- <h3>
+                                    <b>{{ purchaseOrder.poName }}</b>
+                                  </h3> -->
+                        <hr />
+                        <address>
+                          <p class="addr-font-h3 font-bold">General Info :</p>
+                          <!-- <p class="font-bold addr-font-h4"> Name: {{ purchaseOrder.supplierName }}, </p> -->
+                          <p class="text-muted">
+                            PostedBy: {{ purchaseOrder.postedBy }},<br />
+                            PostedTime:
+                            {{ purchaseOrder.postedTime | date : "medium" }},
+                            <br />
+                            VerifiedBy: {{ purchaseOrder.verifiedBy }}, <br />
+                            VerifiedTime:
+                            {{ purchaseOrder.verifiedTime | date : "medium" }},
+                            <br />
+                          </p>
+                          <p class="m-t-30">
+                            <b>PO Name :</b>
+                            <i class="fa fa-calendar"></i>
+                            {{ purchaseOrder.poName }}
+                          </p>
+                          <p class="m-t-10">
+                            <b>PO Number :</b>
+                            <i class="fa fa-rocket"></i>
+                            {{ purchaseOrder.poNumber }}
+                          </p>
+                          <p>
+                            <b>Status : </b>
+                            <span class="label label-primary">{{
+                              purchaseOrder.poStatus
+                              }}</span>
+                          </p>
+                        </address>
+                      </div>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                      <div class="body">
+                        <mat-tab-group>
+                          <mat-tab label="Upload invoice">
+                            <br />
+
+                            <form class="m-4" [formGroup]="Form">
+                              <div class="row">
+                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Invoice number</mat-label>
+                                    <input matInput class="example-right-align" formControlName="invoiceNumber" />
+                                    <mat-error *ngIf="
+                                        Form.get('invoiceNumber').hasError(
+                                          'required'
+                                        )
+                                      ">
+                                      Please enter invoiceNumber!
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Invoice amount</mat-label>
+                                    <input matInput class="example-right-align" formControlName="invoiceAmount" />
+                                    <mat-error *ngIf="
+                                        Form.get('invoiceAmount').hasError(
+                                          'required'
+                                        )
+                                      ">
+                                      Please enter invoice amount!
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Choose invoice date</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="invoiceDate" />
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error *ngIf="
+                                        Form.get('invoiceDate').hasError(
+                                          'invoiceDate'
+                                        ) && Form.get('invoiceDate').touched
+                                      ">
+                                      Please enter invoice date
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-12">
+                                  <app-file-upload (change)="selectFile($event)"></app-file-upload>
+                                </div>
+                              </div>
+                              <div *ngIf="currentFile" class="progress my-3">
+                                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                                  attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+                                  [ngStyle]="{ width: progress + '%' }">
+                                  {{ progress }}%
+                                </div>
+                              </div>
+                              <div style="margin-top: 15px" *ngIf="message" class="alert alert-danger" role="alert">
+                                {{ message }}
+                              </div>
+
+                              <div class="col-lg-12">
+                                <div class="m-l-25 m-b-20" [align]="'end'">
+                                  <button mat-flat-button color="warn" class="msr-2 mt-4" (click)="back()">
+                                    Discard
+                                  </button>
+                                  <button mat-flat-button color="primary" class="msr-4 mt-4" (click)="onSubmitInvoice()"
+                                    [class.auth-spinner]="invoiceloading" [disabled]="invoiceloading"
+                                    [disabled]="!selectedFiles" [disabled]="Form.invalid">
+                                    Submit
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </mat-tab>
+                          <mat-tab label="Confirm items">
+                            <br />
+                            <div class="table-responsive m-t-5">
+                              <div class="body">
+                                <div class="table-responsive">
+                                  <div class="materialTableHeader">
+                                    <div class="row">
+                                      <div class="col-8">
+                                        <ul class="header-buttons-left ms-0">
+                                          <li class="dropdown">
+                                            <h2>Current PO status</h2>
+                                          </li>
+                                          <li class="dropdown m-l-20">
+                                            <label for="search-input">
+                                              <i class="material-icons search-icon">search</i>
+                                            </label>
+                                            <input placeholder="Filter..." type="text" (keyup)="applyFilter($event)"
+                                              #filter class="browser-default search-field" aria-label="Search box" />
+                                          </li>
+                                          <!-- <li><div class="m-l-10" matTooltip="ADD"><button mat-mini-fab color="primary"><mat-icon class="col-white">add</mat-icon></button></div></li> -->
+                                          <li>
+                                            <div class="m-l-10" matTooltip="REFRESH">
+                                              <button mat-mini-fab color="primary">
+                                                <mat-icon class="col-white">refresh
+                                                </mat-icon>
+                                              </button>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="m-l-10" matTooltip="Confirm All Itmes are Delivered"
+                                              [hidden]="!allItemsSelected">
+                                              <button mat-mini-fab color="accent" (click)="checkboxActive()"
+                                                [class.auth-spinner]="
+                                                  multimodifyloading
+                                                " [disabled]="multimodifyloading">
+                                                <mat-icon class="col-white">done
+                                                </mat-icon>
+                                              </button>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div class="col-4">
+                                        <ul class="header-buttons">
+                                          <li>
+                                            <div class="export-button m-l-10" matTooltip="XLSX">
+                                              <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                  exporter.exportTable('xlsx', {
+                                                    fileName: 'assets-list',
+                                                    sheet: 'sheet1'
+                                                  })
+                                                " />
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="export-button m-l-10" matTooltip="CSV">
+                                              <img src="assets/images/icons/csv.png" alt="" (click)="
+                                                  exporter.exportTable('csv')
+                                                " />
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="export-button m-l-10" matTooltip="JSON">
+                                              <img src="assets/images/icons/json.png" alt="" (click)="
+                                                  exporter.exportTable('json')
+                                                " />
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="export-button m-l-10" matTooltip="TXT">
+                                              <img src="assets/images/icons/txt.png" alt="" (click)="
+                                                  exporter.exportTable('txt')
+                                                " />
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                                    #exporter="matTableExporter">
+                                    <!-- Checkbox Column -->
+                                    <ng-container matColumnDef="select">
+                                      <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-4'">
+                                        <mat-checkbox (change)="
+                                            $event ? masterToggle() : null
+                                          " [checked]="
+                                            selection.hasValue() &&
+                                            isAllSelected()
+                                          " [indeterminate]="
+                                            selection.hasValue() &&
+                                            !isAllSelected()
+                                          " [ngClass]="'tbl-checkbox'" (change)="checkSelection()"
+                                          (change)="multiCalculate()">
+                                        </mat-checkbox>
+                                      </mat-header-cell>
+                                      <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-4'">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="
+                                            $event
+                                              ? selection.toggle(row)
+                                              : null
+                                          " [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'"
+                                          [aria-label]="checkboxLabel(row)" (change)="checkSelection()"
+                                          (change)="multiCalculate()">
+                                        </mat-checkbox>
+                                      </mat-cell>
+                                    </ng-container>
+
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="id">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-4">Id
+                                      </mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-4">{{
+                                        row.id }}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="itemName">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-8">
+                                        ItemName
+                                      </mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                        <div *ngIf="row.orderItemType == 'Goods'">
+                                          {{ row.itemName }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Goods'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="itemQuantity">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-8">
+                                        Quantity</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                        <div *ngIf="row.orderItemType == 'Goods'">
+                                          {{ row.itemQuantity }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Goods'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="itemUnitPrice">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        UnitPrice</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        <div *ngIf="row.orderItemType == 'Goods'">
+                                          {{
+                                          row.itemUnitPrice
+                                          | currency : "UGX "
+                                          }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Goods'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="itemTotalValue">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        TotalValue</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        {{
+                                        row.itemTotalValue | currency : "UGX "
+                                        }}
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="vatAmount">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        Vat</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        {{ row.vatAmount | currency : "UGX " }}
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="incomeWithholdingamount">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        Income.W</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        <div *ngIf="row.orderItemType == 'Service'">
+                                          {{
+                                          row.incomeWithholdingamount
+                                          | currency : "UGX "
+                                          }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Service'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="vatWitholding">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        Vat.W</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        {{
+                                        row.vatWitholding | currency : "UGX "
+                                        }}
+                                      </mat-cell>
+                                    </ng-container>
+                                    <!-- <ng-container matColumnDef="deliveryStatus">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-7"> Status</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-7">
+                                        <div *ngIf="row.deliveryStatus=='pending'">
+                                          <span class="badge badge-pill badge-primary col-blue">
+                                            {{"Pending"}}</span>
+                                        </div>
+                                        <div *ngIf="row.deliveryStatus=='Partial'">
+                                          <span class="badge badge-pill badge-primary col-purple">
+                                            {{"Partial"}}</span>
+                                        </div>
+                                        <div *ngIf="row.deliveryStatus=='Completed'">
+                                          <span class="badge badge-pill badge-primary col-green">
+                                            {{"Completed"}}</span>
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container> -->
+                                    <ng-container matColumnDef="amountTobepaid">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        Amount due</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        {{ row.amountTobepaid }}
+                                      </mat-cell>
+                                    </ng-container>
+                                    <!-- <ng-container matColumnDef="amountBalance">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-7"> Balance</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-7">
+                                        {{ row.amountBalance | currency : 'UGX '}}
+                                      </mat-cell>
+                                    </ng-container> -->
+                                    <ng-container matColumnDef="serviceName">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-14">
+                                        ServiceName</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-14">
+                                        <div *ngIf="row.orderItemType == 'Service'">
+                                          {{ row.serviceName }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Service'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="servicePrice">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        ServicePrice</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                                        <div *ngIf="row.orderItemType == 'Service'">
+                                          {{
+                                          row.servicePrice | currency : "UGX "
+                                          }}
+                                        </div>
+                                        <div *ngIf="row.orderItemType != 'Service'">
+                                          {{ "NA" }}
+                                        </div>
+                                      </mat-cell>
+                                    </ng-container>
+                                    <!-- <ng-container matColumnDef="action">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap psl-3 tbl-col-width-per-8"> Action</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">
+                                       
+                                        <button *ngIf="row.orderItemType == 'Service'" disabled
+                                          class="badge badge-solid-purple btn btn btn-sm m-1">Modify</button>
+                                        <button *ngIf="row.orderItemType == 'Goods'"
+                                          class="badge badge-solid-purple btn btn btn-sm m-1"
+                                          (click)="modifyPo(row)">Modify</button>
+                                      </mat-cell>
+                                    </ng-container> -->
+
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                                    <mat-row *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                      " [style.cursor]="'pointer'" matRipple></mat-row>
+                                    <mat-cell *matNoDataRow colspan="4">
+                                      No data matching the filter "{{
+                                      input.value
+                                      }}"
+                                    </mat-cell>
+                                  </mat-table>
+                                  <!-- Loading spinner -->
+                                  <div *ngIf="isLoading" class="tbl-spinner">
+                                    <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                                    </mat-progress-spinner>
+                                  </div>
+                                  <mat-paginator [pageSize]="10" [pageSizeOptions]="[
+                                      2, 5, 10, 20, 30, 40, 50, 100
+                                    ]" aria-label="Select page of users"></mat-paginator>
+                                </div>
+                              </div>
+                            </div>
+                          </mat-tab>
+                          <!-- <mat-tab label="Original status">
+                            <br>
+                            <app-active-po-details-non></app-active-po-details-non>
+
+                          </mat-tab> -->
+                        </mat-tab-group>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="float-start m-t-15">
+                            <h4><strong>Original bill</strong></h4>
+
+                            <p>
+                              Total amount:
+                              {{
+                              purchaseOrder.originalTotalBeforeTax
+                              | currency : "UGX "
+                              }}
+                            </p>
+                            <p>Discount : KES. 0</p>
+                            <p>
+                              Total tax amt:{{
+                              purchaseOrder.originalVatAmount
+                              | currency : "UGX "
+                              }}
+                            </p>
+                            <hr />
+                            <h3>
+                              <b>Total :</b>
+                              {{
+                              purchaseOrder.originalTotalBeforeTax +
+                              purchaseOrder.originalVatAmount
+                              | currency : "UGX "
+                              }}
+                            </h3>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="float-end m-t-15 text-end">
+                            <h4><strong>Current bill</strong></h4>
+                            <p>
+                              Total amount:
+                              {{ totalGoodsServices | currency : "UGX " }}
+                            </p>
+                            <p>Discount : KES. 0</p>
+                            <p>
+                              Total tax amt: {{ totalTax | currency : "UGX " }}
+                            </p>
+                            <hr />
+                            <h3>
+                              <b>Total :</b>
+                              {{
+                              totalGoodsServices + totalTax
+                              | currency : "UGX "
+                              }}
+                            </h3>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clearfix"></div>
+                      <hr />
+                      <!-- <div class="text-end">
+                        <button class="btn-space" mat-raised-button color="primary"> Go Back </button>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

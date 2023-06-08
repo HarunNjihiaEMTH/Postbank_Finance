@@ -1,0 +1,399 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Invoice Management'" [items]="['User']" [active_item]="'Update Invoice'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <ng-template #loading>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </ng-template>
+      </div>
+
+      <div  *ngIf="flag; else loading" class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Invoice Details Configuration</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="generateInvoiceForm" class="mx-4">
+              <div class="row">
+               
+                  <div class="row">
+                    <!-- (change)="buyerOrSellerIsAResident($event)" -->
+                    <!-- <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                     
+                        <section class="example-section">
+                          <label class="example-margin">Is the buyer/seller a non-resident?:</label>
+                          <div formGroupName="invoiceTypeInfo">
+                          <mat-radio-group 
+                            formControlName="buyerSellerResidentType">
+                            <mat-radio-button class="example-margin" value="Yes" checked>Yes</mat-radio-button>
+                            <mat-radio-button class="example-margin" value="No">No
+                            </mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                        </section>
+                   
+                    </div> -->
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <section class="example-section">
+                        <label class="example-margin">Is the buyer/seller a non-resident?:</label>
+                        <div formGroupName="invoiceTypeInfo">
+                          <mat-radio-group formControlName="buyerSellerResidentType" (change)="transactionTypeSelected()">
+                            <mat-radio-button class="example-margin" value="Yes" checked>Yes</mat-radio-button>
+                            <mat-radio-button class="example-margin" value="No">No</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </section>
+                    </div>
+                    <!-- transactionTypeSelected() -->
+                    <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <div formGroupName="invoiceTypeInfo">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>Transaction is an export or imported
+                            service?</mat-label>
+                          <mat-select (selectionChange)="transactionTypeSelected()"
+                            formControlName="exportOrImportedService">
+                            <mat-option *ngFor="let transaction of transactions" [value]="transaction">{{ transaction
+                              }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      
+                    </div>
+                  </div>
+          
+
+                <div class="row">
+                  <div *ngIf="!isBuyerOrSellerANonResident" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="buyerDetails">
+                      <mat-form-field class="example-full-width mb-2" appearance="outline">
+                        <mat-label>Buyer legal name</mat-label>
+                        <input formControlName="buyerLegalName" readonly matInput />
+                        <button (click)="customerLookup()" mat-icon-button matSuffix
+                          [attr.aria-label]="'Hide password'">
+                          <mat-icon>search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Import business name</mat-label>
+                        <input formControlName="importBusinessName" matInput />
+                      </mat-form-field>
+                    </div>
+                    
+                  </div>
+                  <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Import Address/Country</mat-label>
+                        <input formControlName="importAddress" matInput />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Import email address</mat-label>
+                        <input formControlName="importEmailAddress" matInput />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+             
+                        <mat-label>Import contact number</mat-label>
+                        <input formControlName="importContactNumber" matInput />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="isBuyerOrSellerANonResident" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Import invoice date</mat-label>
+                        <input formControlName="importInvoiceDate" matInput [matDatepicker]="picker2" readonly/>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div> -->
+                  <div *ngIf="isBuyerOrSellerANonResident"  class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="importServicesSeller">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Import invoice date</mat-label>
+                        <input disabled formControlName="importInvoiceDate" matInput [matDatepicker]="picker2" />
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="basicInformation">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Currency </mat-label>
+                        <input formControlName="currency" readonly matInput />
+                        <button (click)="currencyCodeLookup()" mat-icon-button matSuffix
+                          [attr.aria-label]="'Hide password'">
+                          <mat-icon>search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Mode of payment</mat-label>
+                        <input formControlName="paymentMode" readonly matInput />
+                        <button (click)="payWayLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                          <mat-icon>search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                  </div> -->
+                  
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <div formGroupName="basicInformation">
+                      <mat-form-field class="example-full-width mb-1" appearance="outline">
+                        <mat-label>Date of issue</mat-label>
+                        <input disabled formControlName="dateOfIssue" matInput [matDatepicker]="picker" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    
+                  </div>
+                </div>
+
+                <div *ngIf="isBuyerOrSellerANonResident" class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                            <mat-label>Upload Attachment</mat-label>
+                            <app-file-upload (change)="uploadAttachment($event)">
+                            </app-file-upload>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="header">
+            <h2>Products Details Configuration</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="goodsDetailsForm" class="mx-4">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-1">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Item name</mat-label>
+                    <input formControlName="item" readonly matInput />
+                    <button (click)="itemsLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Invoice tax category</mat-label>
+                    <mat-select (selectionChange)="selectInvoiceTax($event)" formControlName="taxId">
+                      <mat-option *ngFor="let invoiceTax of invoiceTaxes" [value]="invoiceTax.id">{{ invoiceTax.name
+                        }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-1">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Item code</mat-label>
+                    <input formControlName="itemCode" type="number" matInput readonly />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-1">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Unit of measure</mat-label>
+                    <input formControlName="unitOfMeasure" readonly matInput />
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-1">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Item Unit price</mat-label>
+                    <input formControlName="unitPrice" matInput />
+                  </mat-form-field>
+                </div>
+                <div *ngIf="!serviceSelected" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-1">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Quantity</mat-label>
+                    <input type="number" formControlName="qty" matInput />
+                  </mat-form-field>
+                </div>
+                <div *ngIf="!serviceSelected" class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-1">
+                  <div class="col-1 align-items-center justify-content-center">
+                    <mat-icon color="primary" (click)="onAddItemQuantity()">add_circle</mat-icon>
+                    <mat-icon color="warn" (click)="onReduceCommodityQuantity()">remove_circle</mat-icon>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-5">
+                <button *ngIf="!updateCommodity" mat-raised-button color="accent" class="msr-2"
+                  (click)="addInvoiceItem()" [disabled]="!goodsDetailsForm.valid">
+                  Save Commodity
+                </button>
+                <button *ngIf="updateCommodity" mat-raised-button color="primary" (click)="updateInvoiceItem()">
+                  Update Commodity
+                </button>
+              </div>
+
+              <div class="materialTableHeader mt-3">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ms-0">
+                      <li class="dropdown">
+                        <h2>Order Items</h2>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-table #table matTableExporter [dataSource]="invoiceItemDataSource" matSort class="mat-cell"
+                #exporter="matTableExporter">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="psl-3 tbl-col-width-per-6">Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="psl-3 tbl-col-width-per-6">{{ i + 1
+                    }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">Item
+                    name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" (click)="onSelect(row)"
+                    class="column-nowrap psl-3 tbl-col-width-per-25">
+                    <span *ngIf="row.item"> {{ row.item }}</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemQuantity">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="psl-3 tbl-col-width-per-8">quantity</mat-header-cell>
+                  <mat-cell *matCellDef="let row" (click)="onSelect(row)"
+                    class="column-nowrap psl-3 tbl-col-width-per-8">
+                    <span *ngIf="row.qty"> {{ row.qty }}</span>
+                    <span *ngIf="!row.qty"> - </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemUnitPrice">
+                  <mat-header-cell *matHeaderCellDef class="psl-3 tbl-col-width-per-25">Item unit
+                    price</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" (click)="onSelect(row)"
+                    class="psl-3 tbl-col-width-per-25">
+                    <span *ngIf="row.unitPrice">
+                      {{
+                      row.unitPrice | currency : "UGX" : "symbol" : "1.2-2"
+                      }}</span>
+                    <span *ngIf="row.discountFlag == 'Y'"> - </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="itemTotalValue">
+                  <mat-header-cell *matHeaderCellDef class="pr-0" class="psl-3 tbl-col-width-per-25">Total
+                    value</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0" (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25">
+                    <span *ngIf="row.total">{{
+                      row.total | currency : "UGX" : "symbol" : "1.2-2"
+                      }}</span>
+                    <span *ngIf="row.discountFlag == 'Y'"> - </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="tax">
+                  <mat-header-cell *matHeaderCellDef class="pr-0" class="psl-3 tbl-col-width-per-8">VAT
+                    rate(%)</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0" (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-8">
+                    <span *ngIf="row.taxRate">{{ row.taxRate }}</span>
+                    <span *ngIf="!row.taxRate"> - </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="vatAmount">
+                  <mat-header-cell *matHeaderCellDef class="pr-0"
+                    class="psl-3 tbl-col-width-per-25">VAT</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0" (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25">
+                    <span *ngIf="row.tax">{{
+                      row.tax | currency : "UGX" : "symbol" : "1.2-2"
+                      }}</span>
+                    <span *ngIf="!row.tax"> - </span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="amountTobepaid">
+                  <mat-header-cell *matHeaderCellDef class="pr-0" class="psl-3 tbl-col-width-per-25">Total
+                    amount</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0" (click)="onTrigger(row)"
+                    class="psl-3 tbl-col-width-per-25">
+                    <span *ngIf="row.total">{{
+                      row.total | currency : "UGX" : "symbol" : "1.2-2"
+                      }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0">
+                    <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                      (click)="updateInvoiceItemCall(i, row)" class="tbl-action-btn">
+                      <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                      (click)="onRemoveInvoiceItem(i)" class="tbl-action-btn">
+                      <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+                <mat-cell *matNoDataRow colspan="4">
+                  No data matching the filter "{{ input.value }}"</mat-cell>
+              </mat-table>
+              <div *ngIf="isLoading" class="tbl-spinner">
+                <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                </mat-progress-spinner>
+              </div>
+              <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                aria-label="Select page of users"></mat-paginator>
+
+              <div>
+                <button (click)="onCancel()" mat-raised-button color="warn" class="msr-2">
+                  Cancel
+                </button>
+                <button mat-raised-button color="primary" (click)="generateInvoice()">
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,750 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Process transaction'" [items]="['Home', 'Process transaction']" [active_item]="'All'">
+      </app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Prepare transaction</h2>
+          </div>
+          <div class="body">
+            <div class="alert alert-info" *ngIf="minorDet">
+              <strong>NB:: THIS IS {{minorDet}} TRANSACTION!&nbsp;</strong> PLEASE USE
+              <a href="#" onClick="return false;" class="alert-link">&nbsp;"{{minorDet}} TRANSACTION TYPE"</a>.
+            </div>
+
+            <div class="alert alert-info" *ngIf="reverseWhole">
+              <strong>NB:: THIS IS A REVERSAL TRANSACTION!&nbsp;</strong> PLEASE USE
+              <a href="#" onClick="return false;" class="alert-link">&nbsp;"REVERSE TRANSACTION TYPE"</a>.
+            </div>
+
+            <form class="m-4" [formGroup]="prepForm">
+
+              <div class="row">
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <!-- <h6>Have a PO?</h6> -->
+                  <section class="example-section">
+                    <label class="example-margin">Trans type:&nbsp;</label>
+                    <mat-radio-group formControlName="tranType" (change)="getType($event)">
+                      <mat-radio-button matTooltip="Advance transaction (Debit cost centers credit an account)"
+                        class="example-margin" value="Advance">Adv</mat-radio-button>
+                      <mat-radio-button matTooltip="Reverse transaction (Debit an account credit cost centers)"
+                        class="example-margin" value="Reverse">Rvs </mat-radio-button>
+                      <!-- <mat-error *ngIf="prepForm.get('control').touched">Required</mat-error> -->
+                    </mat-radio-group>
+                  </section>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Supplier Name</mat-label>
+                    <input formControlName="supplier" matInput readonly />
+                    <button (click)="suppliersLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                    <mat-error
+                      *ngIf="prepForm.get('supplier').hasError('required') && prepForm.get('supplier').touched">
+                      Please enter supplier name </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Accrual amount</mat-label>
+
+                    <input matInput type="number" formControlName="totalDebitAmt" (keyup)="getDebitTotalAmt($event)"
+                      required />
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                    <mat-error
+                      *ngIf="prepForm.get('totalDebitAmt').hasError('required') && prepForm.get('totalDebitAmt').touched">
+                      Please enter total accrual </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Accrual Account Number</mat-label>
+                    <input matInput formControlName="accrualAccount" required readonly>
+
+                    <mat-icon matSuffix (click)="branchCodeLookup()">search</mat-icon>
+                    <mat-error
+                      *ngIf="prepForm.get('accrualAccount').hasError('required') && prepForm.get('accrualAccount').touched">
+                      Please enter accrual account </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Accrual Account Name</mat-label>
+                    <input matInput formControlName="accrualAccountName" required readonly>
+                    <mat-error
+                      *ngIf="prepForm.get('accrualAccountName').hasError('required') && prepForm.get('accrualAccountName').touched">
+                      Please enter accrual account name </mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="!isDateReadOnly" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Select collection date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="collectionDate"
+                      [readonly]="isDateReadOnly" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="
+                    prepForm.get('collectionDate').hasError('required') &&
+                    prepForm.get('collectionDate').touched
+                      ">
+                      Please collection date
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="isDateReadOnly" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Reversal collection date</mat-label>
+                    <input matInput formControlName="collectionDate" readonly />
+                    <mat-error *ngIf="
+                    prepForm.get('collectionDate').hasError('required') &&
+                    prepForm.get('collectionDate').touched
+                      ">
+                      Please collection date
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <!-- <h6>Have a PO?</h6> -->
+                  <section class="example-section">
+                    <label class="example-margin">Exp type:&nbsp;</label>
+                    <mat-radio-group formControlName="expenseType" (change)="getExpenseType($event)">
+                      <mat-radio-button class="example-margin" value="Goods">Gds</mat-radio-button>
+                      <mat-radio-button class="example-margin" value="Services">Svs </mat-radio-button>
+                      <!-- <mat-error *ngIf="prepForm.get('control').touched">Required</mat-error> -->
+                    </mat-radio-group>
+                  </section>
+                </div>
+                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Expense</mat-label>
+                    <input formControlName="expense" matInput readonly />
+                    <button (click)="expensesLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="prepForm.get('expense').hasError('required') && prepForm.get('expense').touched">
+                      Please enter expense! </mat-error>
+                  </mat-form-field>
+                </div> -->
+
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Transaction desription</mat-label>
+                    <input matInput formControlName="description" maxlength="50" />
+                    <mat-icon matSuffix>list</mat-icon>
+                    <mat-error
+                      *ngIf="prepForm.get('description').hasError('required') && prepForm.get('description').touched">
+                      Please enter description </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+
+          <div class="header">
+            <h2>Choose mode of transaction</h2>
+          </div>
+          <!-- <div class="d-flex justify-content-center  m-r-10">
+            <div class="m-b-10">
+              <strong>Total Amount:</strong>&nbsp;&nbsp; <strong> {{ toDebitAmount | currency : 'UGX '}}</strong>
+            </div>
+          </div> -->
+
+          <div class="row">
+            <div class="col-12">
+              <div class="body mx-15" *ngIf="isTransactionLoading">
+                <mat-progress-bar color="primary" mode="indeterminate">
+                </mat-progress-bar>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="body">
+                <mat-tab-group>
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                      <!-- <img src="assets/images/user/user1.jpg" alt="user"> --> Partrans Details
+                    </ng-template>
+                    <div class="m-t-20">
+                      <form class="mx-4" [formGroup]="transactionForm">
+                        <div class="row">
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Select account type</mat-label>
+                              <mat-select formControlName="typeOfAccount"
+                                (selectionChange)="getSelectedAccType($event)">
+                                <mat-option *ngFor="let item of accountTypes" [value]="item.name">{{
+                                  item.name }}
+                                </mat-option>
+                              </mat-select>
+
+                              <mat-icon matSuffix>done_all</mat-icon>
+                              <mat-error
+                                *ngIf="transactionForm.get('typeOfAccount').hasError('required') && transactionForm.get('typeOfAccount').touched">
+                                Please enter account type </mat-error>
+                            </mat-form-field>
+                          </div>
+                          
+                          <div *ngIf="supAccSelected" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Supplier Name</mat-label>
+                              <input formControlName="supplier" matInput readonly />
+                              <button (click)="suppliersLookup()" mat-icon-button matSuffix
+                                [attr.aria-label]="'Hide password'">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                              <mat-error
+                                *ngIf="transactionForm.get('supplier').hasError('required') && transactionForm.get('supplier').touched">
+                                Please enter supplier name </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div *ngIf="taxAccSelected" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Tax Name</mat-label>
+                              <input formControlName="taxName" matInput readonly />
+                              <button (click)="taxAccountsLookup()" mat-icon-button matSuffix
+                                [attr.aria-label]="'Hide password'">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                              <mat-error
+                                *ngIf="transactionForm.get('taxName').hasError('required') && transactionForm.get('taxName').touched">
+                                Please enter tax name </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div *ngIf="expAccSelected" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Cost Center & Expense Name</mat-label>
+                              <input matInput formControlName="costCenter">
+
+                              <mat-icon matSuffix (click)="expenseAccountLookup()">search</mat-icon>
+                              <mat-error
+                                *ngIf="transactionForm.get('costCenter').hasError('required') && transactionForm.get('costCenter').touched">
+                                Please enter costcenter & expense</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>AccountNo</mat-label>
+                              <input matInput formControlName="accountNo" required readonly>
+
+                              <mat-icon matSuffix (click)="branchCodeLookup()">search</mat-icon>
+                              <mat-error
+                                *ngIf="transactionForm.get('accountNo').hasError('required') && transactionForm.get('accountNo').touched">
+                                Please enter account No</mat-error>
+                            </mat-form-field>
+                          </div>
+
+
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Part Transaction Type </mat-label>
+                              <mat-select formControlName="parttranstype"
+                                (selectionChange)="getSelectedTranType($event)">
+                                <mat-option *ngFor="let item of partTransactionTypeArray" [value]="item">{{ item}}
+                                </mat-option>
+                              </mat-select>
+
+                              <mat-error *ngIf="
+                                transactionForm.get('parttranstype').hasError('required') &&
+                                transactionForm.get('parttranstype').touched
+                                            ">
+                                Please enter Part Transaction Type!
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Transaction Amount</mat-label>
+
+                              <input matInput type="number" formControlName="amount" required />
+                              <mat-icon matSuffix>attach_money</mat-icon>
+                              <mat-error *ngIf="
+                                transactionForm.get('amount').hasError('required') &&
+                                transactionForm.get('amount').touched
+                                    ">
+                                Please enter transaction amount!
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Currency</mat-label>
+                              <input formControlName="accountCurrencyCode" matInput />
+                              <button (click)="currencyLookup()" mat-icon-button matSuffix
+                                [attr.aria-label]="'Hide password'">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                              <mat-error *ngIf="
+                                transactionForm.get('accountCurrencyCode').hasError('required') &&
+                                transactionForm.get('accountCurrencyCode').touched
+                                  ">
+                                Please enter currency!
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Exchange Rate </mat-label>
+                              <input formControlName="exchangeRate" matInput />
+
+                              <mat-error *ngIf="
+                                transactionForm.get('exchangeRate').hasError('required') &&
+                                transactionForm.get('exchangeRate').touched
+                          ">
+                                Please enter exchange rate!
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+
+
+                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Transaction Description </mat-label>
+                              <input formControlName="narration" maxlength="50" matInput />
+
+                              <mat-error *ngIf="
+                                transactionForm.get('narration').hasError('required') &&
+                                transactionForm.get('narration').touched
+                          ">
+                                Please enter Transaction Description!
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+
+                        </div>
+                        <div class="row">
+
+                          <div class="row m-t-10">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 float-left">
+                              <div class="float-right">
+                                <button *ngIf="addButton" [disabled]="transactionForm.invalid" (click)="addToArray()"
+                                  class="btn-space" mat-raised-button color="primary">
+                                  + Add transaction details
+                                </button>
+                                <!-- [disabled]="transactionForm.invalid" -->
+                                <button *ngIf="editButton" [disabled]="transactionForm.invalid" class="btn-space"
+                                  (click)="updateTransactionDetails()" mat-raised-button color="primary">
+                                  + Update transaction details
+                                </button>
+                                <button type="button" (click)="clearForm()" mat-raised-button
+                                  color="warn">Clear</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </form>
+                    </div>
+
+                  </mat-tab>
+
+                </mat-tab-group>
+              </div>
+
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+              <div class="body">
+                <mat-tab-group>
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                      <!-- <img src="assets/images/user/user1.jpg" alt="user"> --> Transaction details
+                    </ng-template>
+                    <div class="table-responsive m-t-5">
+                      <div class="m-4">
+                        <div class="row">
+                        
+                          <div class="container">
+                            <div class="row">
+
+                              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                                <div class="badge badge-solid-green">Total Amount:: <strong> {{ toDebitAmount | currency : ''}}</strong></div>
+                              </div>
+                              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                                <div *ngIf="Valid" class="badge badge-solid-blue">Total Balance: {{this.total_value}}</div>
+                                <div *ngIf="!Valid" class="badge badge-solid-red">Total Balance: {{this.total_value}}</div>
+                              </div>      
+                              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                                <div class="badge badge-solid-purple">Total Credits: {{this.credit_value}}</div>
+                              </div>
+                              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                                <div class="badge badge-solid-purple">Total Debits: {{this.debit_value}}</div>
+                              </div>                             
+                              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                                <span *ngIf="Valid" class="badge col-blue">Transaction is Balanced</span>
+                                <span *ngIf="!Valid" class="badge col-red">Transaction is Imbalanced</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="mx-4">
+      
+                        <div class="materialTableHeader">
+                          <div class="row">
+                            <div class="col-8">
+                              <ul class="header-buttons-left ms-0">
+                                <li class="dropdown">
+                                  <h2>Transaction Records</h2>
+                                </li>
+                                <li class="dropdown m-l-20">
+                                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                                  <input placeholder="Filter..." type="text" (keyup)="applyFilter($event)" #filter
+                                    class="browser-default search-field" aria-label="Search box" />
+                                </li>
+      
+                                <li>
+                                  <div class="m-l-10" matTooltip="REFRESH">
+                                    <button mat-mini-fab color="primary">
+                                      <mat-icon class="col-white">refresh</mat-icon>
+                                    </button>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="col-4">
+                              <ul class="header-buttons">
+                                <li>
+                                  <div class="export-button m-l-10" matTooltip="XLSX">
+                                    <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                    exporter.exportTable('xlsx', {
+                      fileName: 'assets-list',
+                      sheet: 'sheet1'
+                    })
+                  " />
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="export-button m-l-10" matTooltip="CSV">
+                                    <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="export-button m-l-10" matTooltip="JSON">
+                                    <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="export-button m-l-10" matTooltip="TXT">
+                                    <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                          #exporter="matTableExporter">
+                          <ng-container matColumnDef="index">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-4">#
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = index" class="psl-3 tbl-col-width-per-4">{{ i + 1 }}
+                            </mat-cell>
+                          </ng-container>
+      
+      
+                          <ng-container matColumnDef="typeOfAccount">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-12">
+                              TypeOfAccount
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                              <span *ngIf="row.typeOfAccount"> {{ row.typeOfAccount }}</span>
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="accountNo">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-12">Account
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                              <span *ngIf="row.accountNo"> {{ row.accountNo }}</span>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="parttranstype">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-20">PartTranType
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              <span *ngIf="row.parttranstype"> {{ row.parttranstype }}</span>
+      
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-20">TransAmount
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-20">
+                              <span *ngIf="row.amount"> {{ row.amount }}</span>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="accountCurrencyCode">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-15">CurrencyCode
+      
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-15">
+                              <span *ngIf="row.accountCurrencyCode"> {{ row.accountCurrencyCode }}</span>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="narration">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-30">Narration
+      
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-30">
+                              <span *ngIf="row.narration"> {{ row.narration }}</span>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="exchangeRate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-12">Exchange
+                              Rate
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                              <span *ngIf="row.exchangeRate"> {{ row.exchangeRate }}</span>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="actions">
+                            <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                            <mat-cell *matCellDef="let row; let i = index" class="pr-0">
+                              <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                                (click)="onEditTransactionDetails(row)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                              </button>
+                              <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                                (click)="onTransactionDetail(i)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                              </button>
+                            </mat-cell>
+                          </ng-container>
+      
+                          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                          <mat-row *matRowDef="let row; let i = index columns: displayedColumns"
+                            (click)="onEditTransactionDetails(row)" [style.cursor]="'pointer'" matRipple>
+                          </mat-row>
+      
+                          <!-- <mat-cell *matNoDataRow colspan="4">
+                            No data matching the filter "{{ input.value }}"</mat-cell> -->
+                        </mat-table>
+                        <div *ngIf="isLoading" class="tbl-spinner">
+                          <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                          </mat-progress-spinner>
+                        </div>
+                        <mat-paginator [pageSize]="6" [pageSizeOptions]="[2, 6, 10, 20, 30, 40, 50, 100]"
+                          aria-label="Select page of users"></mat-paginator>
+      
+                        <div class="row m-t-10">
+                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <div class="example-button-row" align="end">
+                              <button class="btn-space" [disabled]="!prepForm.valid" (click)="onSubmit()" mat-raised-button
+                                color="primary">
+                                Submit Transactions
+                              </button>
+                            </div>
+      
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </mat-tab>
+
+                </mat-tab-group>
+               
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="showPointingInfo">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <div class="table-responsive m-t-5">
+                <div class="body">
+                  <div class="table-responsive">
+                    <div class="materialTableHeader">
+                      <div class="row">
+                        <div class="col-8">
+                          <ul class="header-buttons-left ms-0">
+                            <li class="dropdown">
+                              <h2>Pick details (Pointing account selected)</h2>
+                            </li>
+                            <li class="dropdown m-l-20">
+                              <label for="search-input">
+                                <i class="material-icons search-icon">search</i>
+                              </label>
+                              <input placeholder="Filter..." type="text" (keyup)="applyFilter2($event)" #filter
+                                class="browser-default search-field" aria-label="Search box">
+                            </li>
+                            <!-- <li><div class="m-l-10" matTooltip="ADD"><button mat-mini-fab color="primary"><mat-icon class="col-white">add</mat-icon></button></div></li> -->
+                            <li>
+                              <div class="m-l-10" matTooltip="REFRESH">
+                                <button mat-mini-fab color="primary">
+                                  <mat-icon class="col-white">refresh </mat-icon>
+                                </button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-4">
+                          <ul class="header-buttons">
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="XLSX">
+                                <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                                                exporter.exportTable('xlsx', {
+                                                                                  fileName: 'assets-list',
+                                                                                  sheet: 'sheet1'
+                                                                                })
+                                                                              " />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="CSV">
+                                <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="JSON">
+                                <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="TXT">
+                                <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <mat-table #table matTableExporter [dataSource]="dataSourcePointing" matSort class="mat-cell"
+                      #exporter="matTableExporter">
+                      <!-- Checkbox Column -->
+                      <ng-container matColumnDef="select">
+                        <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-8'">
+                          <mat-checkbox (change)="$event ? masterTogglePicking() : null"
+                            [checked]="selectionPointing.hasValue() && isAllSelectedPicking()"
+                            [indeterminate]="selectionPointing.hasValue() && !isAllSelectedPicking()"
+                            [ngClass]="'tbl-checkbox'" (change)="getSelectedPickingInfo()"></mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-8'">
+                          <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selectionPointing.toggle(row) : null"
+                            [checked]="selectionPointing.isSelected(row)" [ngClass]="'tbl-checkbox'"
+                            [aria-label]="checkboxLabelPicking(row)" (change)="getSelectedPickingInfo()">
+                          </mat-checkbox>
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="tranid">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-8">Tran Id </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-8">{{
+                          row.tranid }}</mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="trandate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-12"> Tran Date </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                          {{ row.trandate }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="tranparticular">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-16"> Tranparticular </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-16">
+                          {{ row.tranparticular }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="currency">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-12"> Currency </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                          {{ row.currency }}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="tranamount">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-12"> Tranamount </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-12">
+                          {{ row.tranamount }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="reversedamount">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-16"> reversedamount </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-16">
+                          {{ row.reversedamount }}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="reversingamount">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-16"> Reversingamount </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-16">
+                          {{ row.reversingamount }}
+                        </mat-cell>
+                      </ng-container>
+
+
+                      <ng-container matColumnDef="action">
+                        <mat-header-cell *matHeaderCellDef class="psl-3 tbl-col-width-per-30">Action</mat-header-cell>
+                        <mat-cell *matCellDef="let row; let i=index;" class="psl-3 tbl-col-width-per-30"
+                          (click)="updatePickingItemCall(i, row)">
+                          <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                            (click)="updatePickingItemCall(i, row)" class="tbl-action-btn">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+
+                        </mat-cell>
+                      </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumnsPointing"></mat-header-row>
+                      <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                      <mat-row *matRowDef="let row; columns: displayedColumnsPointing" [style.cursor]="'pointer'"
+                        matRipple></mat-row>
+                      <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value
+                        }}" </mat-cell>
+                    </mat-table>
+                    <!-- Loading spinner -->
+                    <div *ngIf="isLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <mat-paginator #paginatorPointingDetails="matPaginator" [pageSize]="5"
+                      [pageSizeOptions]="[5, 10, 20, 30, 40, 50, 100]" aria-label="Select page">
+                    </mat-paginator>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

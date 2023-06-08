@@ -1,0 +1,64 @@
+<div class="addContainer">
+  <div *ngIf="creditNote" class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Credit Note Details</div>
+      <button
+        mat-icon-button
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="row mt-1" style="width: 98%">
+          <div class="col-5 m-b-10">Original Invoice Id:</div>
+          <div class="col-7 pro-left m-b-10">{{ creditNote.oriInvoiceId }}</div>
+          <div class="col-5 m-b-10">Original Invoice Number:</div>
+          <div class="col-7 pro-left m-b-10">{{ creditNote.oriInvoiceNo }}</div>
+          <div class="col-5 m-b-10">Reason Code:</div>
+          <div class="col-7 pro-left m-b-10">
+            <span *ngIf="creditNote.reasonCode == '101'">Expiry or damage</span>
+            <span *ngIf="creditNote.reasonCode == '102'"
+              >{{ creditNote.reasonCode }} - {{"Cancellation of purchase"}}</span
+            >
+            <span *ngIf="creditNote.reasonCode == '103'"
+              >{{ creditNote.reasonCode }} {{"Wrong invoice amount"}}</span
+            >
+            <span *ngIf="creditNote.reasonCode == '104'"
+              >{{ creditNote.reasonCode }} - {{"Waive off of products"}}</span
+            >
+            <span *ngIf="creditNote.reasonCode == '105'">{{ creditNote.reasonCode }} - {{ creditNote.reason }}</span>
+          </div>
+          <div class="col-5 m-b-10">Application time:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ creditNote.applicationTime | date: "medium" }}
+          </div>
+          <div class="col-5 m-b-10">Invoice Apply Category Code:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{"101"}} - {{"Credit Note"}}
+          </div>
+          <div class="col-5 m-b-10">Invoice Currency:</div>
+          <div class="col-7 pro-left m-b-10">{{ creditNote.currency }}</div>
+          <div class="col-5 m-b-10">Seller Reference Number:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ creditNote.sellersReferenceNo }}
+          </div>
+          <div class="col-5 m-b-10">Status:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ creditNote.status }}
+          </div>
+          <div class="col-5 m-b-10">Posted Time:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ creditNote.postedTime }}
+          </div>
+          <div class="col-5 m-b-10">Posted By:</div>
+          <div class="col-7 pro-left m-b-10">
+            {{ creditNote.postedBy }}
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+  </div>
+</div>

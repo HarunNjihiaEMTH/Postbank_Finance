@@ -1,0 +1,401 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Invoice Management'" [items]="['User', 'Invoice Management']"
+        [active_item]="'Invoice Information'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>Invoice Details:</strong>
+            </h2>
+          </div>
+          <div class="body">
+            <div>
+              <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  <div class="card">
+                    <div class="header">
+                      <h2>Goods Details</h2>
+                      <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Action</button>
+                        <button mat-menu-item>Another action</button>
+                        <button mat-menu-item>Something else here</button>
+                      </mat-menu>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 300px;
+                        min-height: 300px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Item code</th>
+                              <th>Item name</th>
+                              <th>Unit price</th>
+                              <th>Quantity</th>
+                              <th>Total price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let goodDetail of goodsDetails">
+                              <td>{{ goodDetail.itemCode }}</td>
+                              <td>{{ goodDetail.item }}</td>
+                              <td>{{ goodDetail.unitPrice | currency: 'UGX': 'symbol': '1.2-2' }}</td>
+                              <td>
+                                {{ goodDetail.qty }}
+                              </td>
+                              <td>
+                                {{ goodDetail.total | currency: 'UGX': 'symbol': '1.2-2' }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="card">
+                    <div class="header">
+                      <h2 class="font-bold col-cyan">Seller Details</h2>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 300px;
+                        min-height: 300px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Business Name</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.businessName }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Email Address</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.emailAddress }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Legal Name</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.legalName }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Line Phone</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.linePhone }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Mobile Phone</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.mobilePhone }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Reference Number</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.referenceNo }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Seller Tin</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.tin }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Seller Address</td>
+                              <td *ngIf="sellerDetails">
+                                {{ sellerDetails.address }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="card">
+                    <div class="header">
+                      <h2 class="font-bold col-pink">
+                        Invoice Basic Information
+                      </h2>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 250px;
+                        min-height: 250px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Local Invoice Number</td>
+                              <td *ngIf="basicInformation">
+                                {{ basicInformation.localInvoiceNo }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Currency</td>
+                              <td *ngIf="basicInformation">
+                                <span *ngIf="basicInformation.currency == '101'">UGX</span>
+                                <span *ngIf="basicInformation.currency == '102'">USD</span>
+                                <span *ngIf="basicInformation.currency == '104'">EUR</span>
+                                <span *ngIf="basicInformation.currency == '103'">GBP</span>
+                                <span *ngIf="basicInformation.currency == '108'">KES</span>
+                                <span *ngIf="basicInformation.currency == '110'">TZS</span>
+                                <span *ngIf="basicInformation.currency == '107'">ZAR</span>
+                                <span *ngIf="basicInformation.currency == '106'">CNY</span>
+                                <span *ngIf="basicInformation.currency == '105'">JPY</span>
+                                <span *ngIf="basicInformation.currency == '109'">RWF</span>
+                                <span *ngIf="basicInformation.currency == '112'">DKK</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Data Source</td>
+                              <td *ngIf="basicInformation">
+                                <span *ngIf="basicInformation.dataSource == '101'">EFD</span>
+                                <span *ngIf="basicInformation.dataSource == '102'">Windows Client APP</span>
+                                <span *ngIf="basicInformation.dataSource == '103'">WebService API</span>
+                                <span *ngIf="basicInformation.dataSource == '104'">Mis</span>
+                                <span *ngIf="basicInformation.dataSource == '105'">Webportal</span>
+                                <span *ngIf="basicInformation.dataSource == '102'">Offline Mode Enabler</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Invoice Industry Code</td>
+                              <td *ngIf="basicInformation">
+                                {{ basicInformation.invoiceIndustryCode }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Device No</td>
+                              <td *ngIf="basicInformation">
+                                {{ basicInformation.deviceNo }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Invoice Kind</td>
+                              <td *ngIf="basicInformation">
+                                <span *ngIf="basicInformation.invoiceKind == '1'">Invoice</span>
+                                <span *ngIf="basicInformation.invoiceKind == '2'">Receipt</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Invoice Type</td>
+                              <td *ngIf="basicInformation">
+                                {{
+                                basicInformation.issuedDate | date: "medium"
+                                }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Operator</td>
+                              <td *ngIf="basicInformation">
+                                {{ basicInformation.operator }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>ORI Invoice Id</td>
+                              <td *ngIf="basicInformation">
+                                {{ basicInformation.oriInvoiceId }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  <div class="card">
+                    <div class="header">
+                      <h2 class="font-bold col-orange">Pay Way Details</h2>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 250px;
+                        min-height: 250px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>localInvoiceNo</th>
+                              <th>orderNumber</th>
+                              <th>paymentAmount</th>
+                              <th>paymentMode</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let pay of payWayInfo">
+                              <td>{{ pay.id }}</td>
+                              <td>{{ pay.localInvoiceNo }}</td>
+                              <td>{{ pay.orderNumber }}</td>
+                              <td>{{ pay.paymentAmount | currency: 'UGX': 'symbol': '1.2-2' }}</td>
+                              <td>
+                                <span *ngIf="pay.paymentMode == '101'">Credit</span><span
+                                  *ngIf="pay.paymentMode == '102'">Cash</span><span
+                                  *ngIf="pay.paymentMode == '103'">Cheque</span><span
+                                  *ngIf="pay.paymentMode == '104'">Demand draft</span><span
+                                  *ngIf="pay.paymentMode == '105'">Mobile money</span><span
+                                  *ngIf="pay.paymentMode == '106'">Visa/Master card</span><span
+                                  *ngIf="pay.paymentMode == '110'">Swift transfer</span><span
+                                  *ngIf="pay.paymentMode == '107'">EFT</span><span
+                                  *ngIf="pay.paymentMode == '108'">POS</span><span
+                                  *ngIf="pay.paymentMode == '109'">RTGS</span><span
+                                  *ngIf="pay.paymentMode == '111'">Shopping/Gift Voucher</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  <div class="card">
+                    <div class="header">
+                      <h2 class="font-bold col-orange">Tax Details</h2>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 250px;
+                        min-height: 250px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Tax Name</th>
+                              <th>Tax Rate</th>
+                              <th>Tax Name</th>
+                              <th>Tax Amount</th>
+                              <th>Net Amount</th>
+                              <th>Gross Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let taxDetail of taxDetails">
+                              <td>
+                                <span *ngIf="taxDetail.taxCategoryCode == '01'">A: Standard (18%)</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '02'">B: Zero (0%)</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '03'">C: Exempt (-)</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '04'">D: Deemed (18%)</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '05'">E: Excise Duty</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '06'">Over the Top Service (OTT)</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '07'">Stamp Duty</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '08'">Local Hotel Service Tax</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '09'">UCC Levy</span><span
+                                  *ngIf="taxDetail.taxCategoryCode == '10'">Others</span>
+                              </td>
+                              <td>{{ taxDetail.taxRate }}</td>
+                              <td>{{ taxDetail.taxRateName }}</td>
+                              <td>{{ taxDetail.taxAmount | currency: 'UGX': 'symbol': '1.2-2' }}</td>
+                              <td>{{ taxDetail.netAmount | currency: 'UGX': 'symbol': '1.2-2' }}</td>
+                              <td>{{ taxDetail.grossAmount | currency: 'UGX': 'symbol': '1.2-2' }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="card">
+                    <div class="header">
+                      <h2 class="font-bold col-green">Extended Details</h2>
+                    </div>
+                    <div class="tableBody" style="
+                        position: relative;
+                        max-height: 250px;
+                        min-height: 250px;
+                      " [perfectScrollbar]>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Id</td>
+                              <td *ngIf="extendedDetails">
+                                {{ extendedDetails.id }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Local Invoice Number</td>
+                              <td *ngIf="extendedDetails">
+                                {{ extendedDetails.localInvoiceNo }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Reason</td>
+                              <td *ngIf="extendedDetails">
+                                {{ extendedDetails.reason }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Reason Code</td>
+                              <td *ngIf="extendedDetails">
+                                {{ extendedDetails.reasonCode }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <button mat-raised-button (click)="navigateBackToInvoices()" class="msr-2" color="accent">
+                  Back
+                </button>
+                <!-- <button mat-raised-button color="primary">
+                  <i class="fas fa-print msr-2"></i>Print
+                </button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
