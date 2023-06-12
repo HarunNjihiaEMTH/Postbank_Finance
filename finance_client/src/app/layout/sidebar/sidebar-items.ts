@@ -54,7 +54,7 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     role: ["All"],
-    privilege: ["View General Parameters", "View Tax Parameters", "View Invoices Tax Parameters", "View Invoices Profile Parameters"],
+    privilege: ["View General Parameters", "View Tax Parameters", "View Invoices Tax Parameters", "View Invoices Profile Parameters","View Expense Categories", "View Expense SubCategories", "View Suppliers", "View Expenses", "View Cost Centers", "Add Cost Centers",],
     submenu: [
       {
         path: "/admin/parameters/general",
@@ -129,20 +129,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  {
-    path: "",
-    title: "PURCHASE ORDER MANAGEMENT",
-    moduleName: "",
-    iconType: "",
-    icon: "",
-    class: "",
-    groupTitle: true,
-    badge: "",
-    badgeClass: "",
-    role: ["All"],
-    privilege: ["View Expense Categories", "View Expense SubCategories", "View Suppliers", "View Expenses", "View Cost Centers", "Add Cost Centers", "View PurchaseOrders"],
-    submenu: [],
-  },
+
   {
     path: "/admin/supplier/categories-management",
     title: "Expense Categories",
@@ -301,6 +288,21 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
     ],
+  },
+
+  {
+    path: "",
+    title: "PURCHASE ORDER MANAGEMENT",
+    moduleName: "",
+    iconType: "",
+    icon: "",
+    class: "",
+    groupTitle: true,
+    badge: "",
+    badgeClass: "",
+    role: ["All"],
+    privilege: [ "View PurchaseOrders"],
+    submenu: [],
   },
   {
     path: "",
