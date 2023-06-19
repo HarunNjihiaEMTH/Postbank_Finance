@@ -136,7 +136,7 @@ public class AuthController {
                         }else {
                             email = email;
                         }
-                       //sm.sendOTP(email, otp);
+                       sm.sendOTP(email, otp);
                         response1 = getAccessToken(loginRequest.getUsername());
                         return  new ResponseEntity<>(response1, HttpStatus.OK);
 //                        return ResponseEntity.ok().body(new MessageResponse("Success.Kindly provide an otp that has been sent to your email for your to complete the authentication process"));
