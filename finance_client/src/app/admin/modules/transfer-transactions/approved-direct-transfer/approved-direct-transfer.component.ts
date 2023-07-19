@@ -179,8 +179,6 @@ export class ApprovedDirectTransferComponent implements OnInit {
         (res) => {
           this.resData = res;
           let message = "FINACLE RESPONSE";
-          if (this.resData.status !== "Success") {
-
           //   {
           //     "tran_id": "S590837",
           //     "tran_date": "17-03-2023",
@@ -189,25 +187,53 @@ export class ApprovedDirectTransferComponent implements OnInit {
           //     "description": "-",
           //     "errorCode": null
           // }
-            this._snackBar.open(
-              "TRANSACTION RESPONSE" + "\n STATUS: " + this.resData,
-              "X",
-              {
-                horizontalPosition: this.horizontalPosition,
-                verticalPosition: this.verticalPosition,
-                duration: 2000000,
-                panelClass: ["snackbar-danger", "snackbar-danger"],
-              }
-            );
-          } else if (this.resData.status === "Success") {
+          // if (this.resData.status !== "Success") {
+
+          
+          //   this._snackBar.open(
+          //     "TRANSACTION RESPONSE" + "\n STATUS: " + this.resData,
+          //     "X",
+          //     {
+          //       horizontalPosition: this.horizontalPosition,
+          //       verticalPosition: this.verticalPosition,
+          //       duration: 2000000,
+          //       panelClass: ["snackbar-danger", "snackbar-danger"],
+          //     }
+          //   );
+          // } else if (this.resData.status === "Success") {
+          //   this._snackBar.open(
+          //     message +
+          //       "\n STATUS: " +
+          //       this.resData.status +
+          //       "\n TRANSACTION ID| " +
+          //       this.resData.tran_id +
+          //       "\n TRANSACTION DATE| " +
+          //       this.resData.tran_date,
+          //     "X",
+          //     {
+          //       horizontalPosition: this.horizontalPosition,
+          //       verticalPosition: this.verticalPosition,
+          //       duration: 2000000,
+          //       panelClass: ["snackbar-success", "snackbar-success"],
+          //     }
+          //   );
+          //   // if (transData.retriesCount > 3) {
+          //   //   this.snackbar.showNotification("snackbar-danger", res.message);
+          //   // }
+          // }
+
+          if (this.resData.status == "Success") {
             this._snackBar.open(
               message +
-                "\n STATUS: " +
-                this.resData.status +
-                "\n TRANSACTION ID| " +
-                this.resData.tran_id +
-                "\n TRANSACTION DATE| " +
-                this.resData.tran_date,
+              "\n" +
+              "STATUS: " +
+              this.resData.status +
+              "\n" +
+              "TRANSACTION ID: " +
+              this.resData.tran_id +
+              "\n" +
+              "TRANSACTION DATE: " +
+              this.resData.tran_date,
               "X",
               {
                 horizontalPosition: this.horizontalPosition,
@@ -216,11 +242,31 @@ export class ApprovedDirectTransferComponent implements OnInit {
                 panelClass: ["snackbar-success", "snackbar-success"],
               }
             );
-            // if (transData.retriesCount > 3) {
-            //   this.snackbar.showNotification("snackbar-danger", res.message);
-            // }
+          } 
+          
+          else if (this.resData.status != "Success") {
+            this._snackBar.open(
+              message +
+              "\n" +
+              "status: " +
+              this.resData.status +
+              "\n" +
+              "ERROR DESCRIPTION: " +
+              this.resData.description +
+              "\n" +
+              "ERROR CODE: " +
+              this.resData.errorCode,
+              "X",
+              {
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                duration: 2000000,
+                panelClass: ["snackbar-danger", "snackbar-success"],
+              }
+            );
           }
 
+          
           console.log("Response = ", res);
           //this.loading = false;
           transData.isDisabled = false;

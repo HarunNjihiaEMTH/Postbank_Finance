@@ -99,7 +99,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-sk
+
                   <div *ngIf="paymentTransaction">
                     <hr />
                    
@@ -214,6 +214,7 @@ sk
                             </mat-radio-button>
                           </mat-radio-group>
                         </section>
+                        
                       </div>
                       <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width" appearance="fill">
@@ -559,6 +560,7 @@ sk
                       <mat-form-field class="example-full-width" appearance="fill" style="flex: 1;">
                         <mat-label *ngIf="normalAccSelected">AccountName</mat-label>
                         <mat-label *ngIf="supAccSelected">Supplier/AccountName</mat-label>
+                        
                         <mat-label *ngIf="expAccSelected">ExpenseName</mat-label>
                         <mat-label *ngIf="taxAccSelected">TaxAccountName</mat-label>
                         <input matInput formControlName="accountName" required readonly style="width: calc(100% - 48px);">
@@ -728,7 +730,8 @@ sk
                     <div class="row m-t-10">
                       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 float-left">
                         <div class="float-right">
-                          <button *ngIf="addButton" [disabled]="transactionForm.invalid || !accountIsValid" (click)="addToArray()"
+                          <!--  -->
+                          <button *ngIf="addButton" [disabled]="transactionForm.invalid || !accountIsValid" (click)="addToArray()" 
                             class="btn-space" mat-raised-button color="primary">
                             + Add transaction details
                           </button>

@@ -54,7 +54,9 @@ export class AddRoleComponent implements OnInit {
   apiFormData: FormGroup;
 
   filtered: { name: string; selected: boolean; code: number }[];
+
   basicActions: FormArray;
+  
   displayArray: { id: string; name: string; selected: boolean; code: number }[];
   obj: any;
   constructor(
