@@ -364,7 +364,7 @@
         <div *ngIf="!hideValidation" class="row" style="margin-top: 10px">
           <div class="col-6">
             <div class="row m-l-5 m-r-5">
-              <button (click)="reject()" type="button" class="badge badge-solid-red btn btn btn-lg btn-block m-1" [disabled]="!canVerify">
+              <button (click)="reject()" type="button" class="badge badge-solid-red btn btn btn-lg btn-block m-1" [disabled]="!canVerify || isTransactionLoading">
                 Reject
               </button>
             </div>
@@ -373,7 +373,7 @@
           </div>
           <div class="col-6">
             <div class="row m-l-5 m-r-5">
-              <button (click)="approve()" type="button" class="badge badge-solid-green btn btn btn-lg btn-block m-1" [disabled]="!canVerify">
+              <button (click)="approve()" type="button" class="badge badge-solid-green btn btn btn-lg btn-block m-1" [disabled]="!canVerify || isTransactionLoading">
                 Approve
               </button>
             </div>

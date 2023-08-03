@@ -34,8 +34,8 @@
                 </div>
             </div>
 
-           
-            
+
+
 
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -53,7 +53,7 @@
                     </mat-form-field>
                 </div>
             </div>
-        
+
             <div class="row" *ngIf="activateStatus">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
@@ -81,7 +81,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                
+
             </div>
             <div class="row" *ngIf="activateFinacleStatus && activateStatus">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -95,7 +95,7 @@
                                 Successful
                             </mat-option>
                             <mat-option value="Failure">
-                               Failed
+                                Failed
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="generalForm.get('finacleStatus').hasError('required')">
@@ -167,7 +167,7 @@
         <form class="register-form m-4" [formGroup]="supplierPaymentForm" *ngIf="supplierPayment">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
+                    <!-- <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select supplier</mat-label>
 
                         <mat-select formControlName="supplier" required>
@@ -177,6 +177,18 @@
                         </mat-select>
                         <mat-error *ngIf="supplierPaymentForm.get('supplier').hasError('required')">
                             Supplier is required
+                        </mat-error>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+
+                        <mat-label>Select supplier</mat-label>
+                        <input matInput formControlName="supplierName" required readonly
+                            style="width: calc(100% - 48px);">
+                        <mat-icon matSuffix (click)="suppliersLookup()" style="cursor: pointer;">search</mat-icon>
+                        <mat-error
+                            *ngIf="supplierPaymentForm.get('supplierName').hasError('required') && supplierPaymentForm.get('supplierName').touched">
+                            Please enter Supplier Name
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -246,7 +258,7 @@
         <form class="register-form m-4" [formGroup]="supplierStatementForm" *ngIf="supplierStatement">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
+                    <!-- <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select supplier</mat-label>
 
                         <mat-select formControlName="supplier" required>
@@ -254,14 +266,22 @@
                                 {{ supplier.supplierName }}
                             </mat-option>
                         </mat-select>
-                        <!-- <mat-error *ngIf="supplierStatementForm.get('supplier').hasError('required')">
-                            Supplier is required
-                        </mat-error> -->
+                       
+                    </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+
+                        <mat-label>Select supplier</mat-label>
+                        <input matInput formControlName="supplierName" required readonly
+                            style="width: calc(100% - 48px);">
+                        <mat-icon matSuffix (click)="suppliersLookup()" style="cursor: pointer;">search</mat-icon>
+                        <mat-error
+                            *ngIf="supplierStatementForm.get('supplierName').hasError('required') && supplierStatementForm.get('supplierName').touched">
+                            Please enter Supplier Name
+                        </mat-error>
                     </mat-form-field>
                 </div>
             </div>
-
-
 
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
@@ -330,7 +350,7 @@
         <form class="register-form m-4" [formGroup]="posPerSupplierForm" *ngIf="posPerSupplier">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
+                    <!-- <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select supplier</mat-label>
 
                         <mat-select formControlName="supplier" required>
@@ -340,6 +360,16 @@
                         </mat-select>
                         <mat-error *ngIf="posPerSupplierForm.get('supplier').hasError('required')">
                             Supplier is required
+                        </mat-error>
+                    </mat-form-field> -->
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Select supplier</mat-label>
+                        <input matInput formControlName="supplierName" required readonly
+                            style="width: calc(100% - 48px);">
+                        <mat-icon matSuffix (click)="suppliersLookup()" style="cursor: pointer;">search</mat-icon>
+                        <mat-error
+                            *ngIf="posPerSupplierForm.get('supplierName').hasError('required') && posPerSupplierForm.get('supplierName').touched">
+                            Please enter Supplier Name
                         </mat-error>
                     </mat-form-field>
                 </div>

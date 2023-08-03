@@ -626,7 +626,7 @@ export class PostDirectTransferComponent implements OnInit {
       this.isLoading = false;
     }
     this.dataSource = new MatTableDataSource(this.transactionArray);
-   // this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   clearForm() {
@@ -641,6 +641,25 @@ export class PostDirectTransferComponent implements OnInit {
   }
 
   addToArray() {
+    if (this.selectionPointing.selected.length === 0) {
+    } else {
+      this.missingPointingDebit = false;
+      this.missingPointingCredit = false;
+    }
+
+    if (this.missingPointingDebit) {
+      this.notificationAPI.alertWarning(
+        "Please fill missing pointing debit details."
+      );
+      return; // stop execution
+    } else if (this.missingPointingCredit) {
+      this.notificationAPI.alertWarning(
+        "Please fill missing pointing credit details."
+      );
+      return; // stop execution
+    }
+
+    // check if the form is valid
     if (this.transactionForm.invalid) {
       this.notificationAPI.alertWarning("Please fill in all required fields.");
       return; // stop execution if the form is invalid
@@ -828,6 +847,25 @@ export class PostDirectTransferComponent implements OnInit {
     this.getSelectedAccType(event);
   }
   updateTransactionDetails() {
+    if (this.selectionPointing.selected.length === 0) {
+    } else {
+      this.missingPointingDebit = false;
+      this.missingPointingCredit = false;
+    }
+
+    if (this.missingPointingDebit) {
+      this.notificationAPI.alertWarning(
+        "Please fill missing pointing debit details."
+      );
+      return; // stop execution
+    } else if (this.missingPointingCredit) {
+      this.notificationAPI.alertWarning(
+        "Please fill missing pointing credit details."
+      );
+      return; // stop execution
+    }
+
+
     if (this.transactionForm.value.isPointing === "Yes") {
       const totalAmt = this.selectionPointing.selected.reduce(
         (total, element) => {
@@ -1035,7 +1073,12 @@ export class PostDirectTransferComponent implements OnInit {
     }
   }
 
-  getSelectedTranType(event: any) {}
+  getSelectedTranType(event: any) {
+    if( this.selectedAcountNoInfo.length > 0){
+      this.setPointingFlags();
+    }
+    
+  }
 
   setFormValidators: boolean = false;
   // getSelectedAccType(event: any) {
@@ -1509,47 +1552,52 @@ export class PostDirectTransferComponent implements OnInit {
   // }
 
   computeTransaction() {
-    let { grossAmount, vatRate, incomeWHRate, vatWHRate } = this.formData.value;
+    if (this.formData.value.producttype == "Local") {
+      let { grossAmount, vatRate, incomeWHRate, vatWHRate } =
+        this.formData.value;
 
-    let net: number = 0,
-      tax: number = 0,
-      gross: number = 0,
-      iwht: number = 0,
-      vwht: number = 0,
-      supplierAmt: number = 0;
+      let net: number = 0,
+        tax: number = 0,
+        gross: number = 0,
+        iwht: number = 0,
+        vwht: number = 0,
+        supplierAmt: number = 0;
 
-    gross = Number(grossAmount);
+      gross = Number(grossAmount);
 
-    if (Number(vatRate) === 0) {
-      //console.log("0 vatRate: ", vatRate);
-      net = +gross.toFixed(2);
-      tax = 0;
-    } else {
-      //console.log("not 0 vatRate: ", vatRate);
-      net = +((100 / (100 + vatRate)) * gross).toFixed(2);
-      tax = +((vatRate / 100) * gross).toFixed(2);
+      if (Number(vatRate) === 0) {
+        //console.log("0 vatRate: ", vatRate);
+        net = +gross.toFixed(2);
+        tax = 0;
+      } else {
+        //console.log("not 0 vatRate: ", vatRate);
+        net = +((100 / (100 + vatRate)) * gross).toFixed(2);
+        tax = +((vatRate / 100) * gross).toFixed(2);
+      }
+
+      iwht = +((incomeWHRate / 100) * net).toFixed(2);
+      vwht = +((vatWHRate / 100) * net).toFixed(2);
+      supplierAmt = +(gross - iwht - vwht).toFixed(2);
+      // const total = +(net + tax + iwht + vwht).toFixed(2);
+
+      this.formData.patchValue({
+        grossAmount,
+        amountExcTax: net,
+        vatAmount: tax,
+        iwtAmount: iwht,
+        vwhtAmount: vwht,
+        invoiceAmount: supplierAmt,
+        supplierAmount: supplierAmt,
+      });
     }
-
-    iwht = +((incomeWHRate / 100) * net).toFixed(2);
-    vwht = +((vatWHRate / 100) * net).toFixed(2);
-    supplierAmt = +(gross - iwht - vwht).toFixed(2);
-    // const total = +(net + tax + iwht + vwht).toFixed(2);
-
-    this.formData.patchValue({
-      grossAmount,
-      amountExcTax: net,
-      vatAmount: tax,
-      iwtAmount: iwht,
-      vwhtAmount: vwht,
-      invoiceAmount: supplierAmt,
-      supplierAmount: supplierAmt,
-    });
   }
 
   getNetAmt(event: Event) {
-    this.formData.patchValue({
-      supplierAmount: this.formData.value.amountExcTax,
-    });
+    if (this.formData.value.producttype == "Local") {
+      this.formData.patchValue({
+        supplierAmount: this.formData.value.amountExcTax,
+      });
+    }
   }
 
   onSelectFile(files) {
@@ -1642,6 +1690,13 @@ export class PostDirectTransferComponent implements OnInit {
     this.addButton = true;
   }
 
+  missingPointingDebit: boolean = false;
+  missingPointingCredit: boolean = false;
+
+  //   if the flag is C then credit details must be entered
+
+  //   if the flag is D then debit details must be entered
+
   getAccountInformation(accountNumber: any) {
     this.isAccountInfoLoading = true;
     this.activateLoader = true;
@@ -1660,35 +1715,7 @@ export class PostDirectTransferComponent implements OnInit {
           this.notificationAPI.alertWarning(
             "The details for the account you entered do not exist. Please use a different account!!"
           );
-        }
-        // else {
-        //   const isAccountFrozenOrClosed = this.selectedAcountNoInfo.ACCT_FREEZE_FLAG === "" || this.selectedAcountNoInfo.ACCT_FREEZE_FLAG === null ||
-        //     this.selectedAcountNoInfo.ACCT_CLOSURE_FLAG !== "N" ||
-        //     this.selectedAcountNoInfo.ACCT_STATUS !== "A";
-
-        //   if (isAccountFrozenOrClosed) {
-        //     this.accountIsValid = false;
-        //     this.notificationAPI.alertWarning(
-        //       "Please use a different account, this account is either Closed, Frozen or Dormant!"
-        //     );
-        //     return;
-        //   }
-
-        //   this.isAccountValid = true;
-        //   this.transactionForm.patchValue({
-        //     accountName: this.selectedAcountNoInfo.ACCT_NAME,
-        //   });
-
-        //   if (this.selectedAcountNoInfo.ACCT_OWNERSHIP_FLAG !== "O") {
-        //     this.partTransactionTypeArray = ["Credit"];
-        //     this.transactionForm.patchValue({
-        //       parttranstype: "Credit",
-        //     });
-        //   }
-
-        //   this.accountIsValid = true;
-        // }
-        else {
+        } else {
           // Account details found, do something else
           this.isAccountValid = true;
           if (this.selectedAcountNoInfo.ACCT_FREEZE_FLAG == "N") {
@@ -1720,6 +1747,8 @@ export class PostDirectTransferComponent implements OnInit {
               "Please use a different account, this account is either Closed, Frocen or Dormant!"
             );
           }
+
+          this.setPointingFlags();
         }
 
         this.isAccountInfoLoading = false;
@@ -1733,6 +1762,34 @@ export class PostDirectTransferComponent implements OnInit {
         this.activateLoader = false;
       }
     );
+  }
+
+  setPointingFlags(){
+    if (
+      this.selectedAcountNoInfo.CONTRA_PART_TRAN_TYPE === "C" &&
+      this.transactionForm.value.parttranstype === "Credit"
+    ) {
+      this.missingPointingDebit = false;
+      this.missingPointingCredit = true;
+
+      console.log("missingPointingDebit: ", this.missingPointingDebit);
+      console.log("missingPointingCredit: ", this.missingPointingCredit);
+    } else if (
+      this.selectedAcountNoInfo.CONTRA_PART_TRAN_TYPE === "D" &&
+      this.transactionForm.value.parttranstype === "Debit"
+    ) {
+      this.missingPointingDebit = true;
+      this.missingPointingCredit = false;
+
+      console.log("missingPointingDebit: ", this.missingPointingDebit);
+      console.log("missingPointingCredit: ", this.missingPointingCredit);
+    } else {
+      this.missingPointingDebit = false;
+      this.missingPointingCredit = false;
+
+      console.log("missingPointingDebit: ", this.missingPointingDebit);
+      console.log("missingPointingCredit: ", this.missingPointingCredit);
+    }
   }
 
   // **********************************************************************************************************************************************************************************************************************
@@ -1902,6 +1959,4 @@ export class PostDirectTransferComponent implements OnInit {
       }
     });
   }
-
-
 }

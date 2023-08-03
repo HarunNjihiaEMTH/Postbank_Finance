@@ -27,13 +27,13 @@ export const environment = {
   // uraUrl: "https://10.128.7.36:9051",
   // authUrl: "https://10.128.7.36:9051",
 
-  //  // UAT Server
-  // apiUrl: "https://uraintegration-auth.postbank.co.ug",
-  // baseUrl: "https://uraintegration-auth.postbank.co.ug",
-  // serverAPI:'https://uraintegration-auth.postbank.co.ug',
-  // AUTH_URL: "https://uraintegration-auth.postbank.co.ug",
-  // uraUrl: "https://uraintegration-auth.postbank.co.ug",
-  // authUrl: "https://uraintegration-auth.postbank.co.ug",
+   // UAT Server
+  apiUrl: "https://uraintegration-auth.postbank.co.ug",
+  baseUrl: "https://uraintegration-auth.postbank.co.ug",
+  serverAPI:'https://uraintegration-auth.postbank.co.ug',
+  AUTH_URL: "https://uraintegration-auth.postbank.co.ug",
+  uraUrl: "https://uraintegration-auth.postbank.co.ug",
+  authUrl: "https://uraintegration-auth.postbank.co.ug",
 
 
   // // //UAT2
@@ -70,13 +70,13 @@ export const environment = {
   // authUrl: "https://52.15.152.26:9051",
 
 
-  // Local server
-  apiUrl: "http://127.0.0.1:9051",
-  baseUrl: "http://127.0.0.1:9051",
-  serverAPI: "http://127.0.0.1:9051",
-  AUTH_URL: "http://127.0.0.1:9051",
-  uraUrl: "http://127.0.0.1:9051",
-  authUrl: "http://127.0.0.1:9051",
+  // // Local server
+  // apiUrl: "http://127.0.0.1:9051",
+  // baseUrl: "http://127.0.0.1:9051",
+  // serverAPI: "http://127.0.0.1:9051",
+  // AUTH_URL: "http://127.0.0.1:9051",
+  // uraUrl: "http://127.0.0.1:9051",
+  // authUrl: "http://127.0.0.1:9051",
 
 
 };

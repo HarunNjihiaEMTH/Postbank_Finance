@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
 import { Subscription, takeUntil } from "rxjs";
 
 import { BaseComponent } from "src/app/shared/components/base/base.component";
@@ -18,6 +18,7 @@ import { saveAs } from "file-saver";
 
 import { SupplierService } from "src/app/user/data/services/supplier.service";
 import { CustomerService } from "src/app/user/data/services/customer/customer.service";
+import { SuppliersLookupComponent } from "src/app/admin/modules/bills/pay-bill/dialog/suppliers-lookup/suppliers-lookup.component";
 
 @Component({
   selector: "app-payment-params",
@@ -83,7 +84,8 @@ export class PaymentParamsComponent implements OnInit {
     private fb: FormBuilder,
     private reportsService: ReportsService,
     private snackbar: SnackbarService,
-    private supplierService: SupplierService
+    private supplierService: SupplierService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -125,6 +127,7 @@ export class PaymentParamsComponent implements OnInit {
   createSupplierPaymentForm(): FormGroup {
     return this.fb.group({
       supplier: ["", Validators.required],
+      supplierName: [""],
       type: ["PDF"],
       fromDate: ["", Validators.required],
       toDate: ["", Validators.required],
@@ -133,6 +136,7 @@ export class PaymentParamsComponent implements OnInit {
   createSupplierStatementForm(): FormGroup {
     return this.fb.group({
       supplier: ["", Validators.required],
+      supplierName: [""],
       type: ["", Validators.required],
       fromDate: ["", Validators.required],
       toDate: ["", Validators.required],
@@ -143,11 +147,65 @@ export class PaymentParamsComponent implements OnInit {
   createPosPerSupplierForm(): FormGroup {
     return this.fb.group({
       supplier: ["", Validators.required],
+      supplierName: [""],
       fromDate: ["", Validators.required],
       toDate: ["", Validators.required],
       type: ["", Validators.required],
     });
   }
+
+  // ************************************************************************************************************
+
+
+  supplierIsSelected = false;
+
+  selectedSup: any[] = [];
+
+  suppliersLookup() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "800px";
+    dialogConfig.data = {
+      action: "view suppliers",
+      data: this.supplierss,
+      selected: this.selectedSup,
+    };
+
+    const dialogRef = this.dialog.open(SuppliersLookupComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.data.length != 0) {
+        console.log("result: ", result.data[0]);
+
+
+
+        if (this.data.test == "supplier payment") {
+
+          this.supplierPaymentForm.patchValue({
+            supplier: result.data[0].id,
+            supplierName: result.data[0].supplierName,
+          });
+        } else if (this.data.test == "supplier statement") {
+
+          this.supplierStatementForm.patchValue({
+            supplier: result.data[0].id,
+            supplierName: result.data[0].supplierName,
+          });
+        } else if (this.data.test == "POs per supplier") {
+
+          this.posPerSupplierForm.patchValue({
+            supplier: result.data[0].id,
+            supplierName: result.data[0].supplierName,
+          });
+        }
+
+      }
+    });
+  }
+
+
+  // ************************************************************************************************************
 
   generateSupplierPaymentsReport() {
     this.loading = true;
@@ -211,42 +269,42 @@ export class PaymentParamsComponent implements OnInit {
           }
         );
     } else if (type == "EXCEL") {
- 
+
       this.subscription = this.reportsService
-      .generateSuccessfulInvoicesExcelReport(params)
-      .subscribe(
-        (response) => {
+        .generateSuccessfulInvoicesExcelReport(params)
+        .subscribe(
+          (response) => {
 
-          const a = document.createElement('a');
-          document.body.appendChild(a);
-          const blob: any = new Blob([response.data], { type: 'octet/stream' });
-          const url = window.URL.createObjectURL(blob);
-          a.href = url;
-          a.download = "SuccessfulInvoicesExcelReport.xlsx"
-          a.click();
-          window.URL.revokeObjectURL(url);
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            const blob: any = new Blob([response.data], { type: 'octet/stream' });
+            const url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = "SuccessfulInvoicesExcelReport.xlsx"
+            a.click();
+            window.URL.revokeObjectURL(url);
 
-          this.loading = false;
+            this.loading = false;
 
-          this.dialogRef.close();
+            this.dialogRef.close();
 
-          this.snackbar.showNotification(
-            "snackbar-success",
-            "Report generated successfully"
-          );
-        },
-        (err) => {
-          this.error = err;
-          this.loading = false;
+            this.snackbar.showNotification(
+              "snackbar-success",
+              "Report generated successfully"
+            );
+          },
+          (err) => {
+            this.error = err;
+            this.loading = false;
 
-          this.dialogRef.close();
+            this.dialogRef.close();
 
-          this.snackbar.showNotification(
-            "snackbar-danger",
-            "File could not be generated successfully"
-          );
-        }
-      );
+            this.snackbar.showNotification(
+              "snackbar-danger",
+              "File could not be generated successfully"
+            );
+          }
+        );
     } else {
       this.snackbar.showNotification("snackbar-danger", "Invalid file type!");
     }
@@ -609,7 +667,7 @@ export class PaymentParamsComponent implements OnInit {
       } else {
         this.snackbar.showNotification("snackbar-danger", "Invalid file type!");
       }
-    } 
+    }
     else if (this.generalForm.value.class == "Purchase orders") {
       if (type == "PDF") {
         //
@@ -655,40 +713,40 @@ export class PaymentParamsComponent implements OnInit {
           );
       } else if (type == "EXCEL") {
         this.subscription = this.reportsService
-        .generateGeneralPOsExcelReport(params)
-        .subscribe(
-          (response) => {
+          .generateGeneralPOsExcelReport(params)
+          .subscribe(
+            (response) => {
 
-            const a = document.createElement('a');
-            document.body.appendChild(a);
-            const blob: any = new Blob([response.data], { type: 'octet/stream' });
-            const url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = "GeneralPOsExcelReport.xlsx"
-            a.click();
-            window.URL.revokeObjectURL(url);
+              const a = document.createElement('a');
+              document.body.appendChild(a);
+              const blob: any = new Blob([response.data], { type: 'octet/stream' });
+              const url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = "GeneralPOsExcelReport.xlsx"
+              a.click();
+              window.URL.revokeObjectURL(url);
 
-            this.loading = false;
+              this.loading = false;
 
-            this.dialogRef.close();
+              this.dialogRef.close();
 
-            this.snackbar.showNotification(
-              "snackbar-success",
-              "Report generated successfully"
-            );
-          },
-          (err) => {
-            this.error = err;
-            this.loading = false;
+              this.snackbar.showNotification(
+                "snackbar-success",
+                "Report generated successfully"
+              );
+            },
+            (err) => {
+              this.error = err;
+              this.loading = false;
 
-            this.dialogRef.close();
+              this.dialogRef.close();
 
-            this.snackbar.showNotification(
-              "snackbar-danger",
-              "File could not be generated successfully"
-            );
-          }
-        );
+              this.snackbar.showNotification(
+                "snackbar-danger",
+                "File could not be generated successfully"
+              );
+            }
+          );
 
       } else {
         this.snackbar.showNotification("snackbar-danger", "Invalid file type!");

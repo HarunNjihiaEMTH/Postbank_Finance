@@ -228,4 +228,6 @@ export class PendingDirectInfoComponent implements OnInit {
       }
     );
   }
+
+
 }

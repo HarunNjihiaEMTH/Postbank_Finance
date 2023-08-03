@@ -69,6 +69,7 @@ public class FinaclePostingServiceWithPointing {
         String pointingDetails = "";
         StringBuilder sb = new StringBuilder();
         int[] lst = {1};
+        int partransCount=0;
         for (int i = 0; i < paymentTrans.size(); i++) {
             Partrans patrans = paymentTrans.get(i);
             String patran_type = patrans.getParttranstype();
@@ -112,8 +113,10 @@ public class FinaclePostingServiceWithPointing {
                     lst[0] = lst[0] + 1;
                     sb.append(partrans);
                     sb.append("\n");
+                    partransCount++;
                 }
-            } else {
+            }
+            else {
                 log.info("Account - " + patrans.getAccountNo() + " is Pointing Account");
                 if (patrans.getPointingDetails() != null && patrans.getPointingDetails().size() > 0) {
                     for (int a = 0; a < patrans.getPointingDetails().size(); a++) {
@@ -179,6 +182,7 @@ public class FinaclePostingServiceWithPointing {
                         lst[0] = lst[0] + 1;
                         sb.append(partrans);
                         sb.append("\n");
+                        partransCount++;
                     }
                 }
             }
@@ -236,7 +240,7 @@ public class FinaclePostingServiceWithPointing {
                     "                <rateCode>" + transheader.getRateCode() + "</rateCode>\n" +
                     "                <TrnType>" + transheader.getTrnType() + "</TrnType>\n" +
                     "                <TrnSubType>" + transheader.getTranSubType() + "</TrnSubType>\n" +
-                    "                <record>" + paymentTrans.size() + "</record>\n" +
+                    "                <record>" + partransCount + "</record>\n" +
                     "\t\t\t\t" + partrans + "\n" +
                     "            </executeFinacleScript_CustomData>\n" +
                     "        </executeFinacleScriptRequest>\n" +
@@ -395,5 +399,8 @@ public class FinaclePostingServiceWithPointing {
         transheaderRepo.save(transheader);
         return new ResponseEntity<>(successReponse, HttpStatus.OK);
     }
+
+
+
 }
 
