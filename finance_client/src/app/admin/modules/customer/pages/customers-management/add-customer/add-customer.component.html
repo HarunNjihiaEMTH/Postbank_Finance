@@ -1,0 +1,271 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Customer Management'"
+        [items]="['User']"
+        [active_item]="'Add Customer'"
+      >
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Customer</h2>
+          </div>
+          <div class="body">
+            <form
+              [formGroup]="addCustomerForm"
+              class="m-4"
+            >
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Buyer legal name</mat-label>
+                    <input formControlName="buyerLegalName" matInput required />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerLegalName')
+                          .hasError('required')
+                      "
+                    >
+                      Buyer legal name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Buyer address</mat-label>
+                    <input formControlName="buyerAddress" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm.get('buyerAddress').hasError('required')
+                      "
+                    >
+                      Buyer is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Business name</mat-label>
+                    <input
+                      formControlName="buyerBusinessName"
+                      matInput
+                      required
+                    />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerBusinessName')
+                          .hasError('required')
+                      "
+                    >
+                      Buyer business name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Citizenship</mat-label>
+                    <input
+                      formControlName="buyerCitizenship"
+                      matInput
+                      required
+                    />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerCitizenship')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier address is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Sector</mat-label>
+                    <input formControlName="buyerSector" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm.get('buyerSector').hasError('required')
+                      "
+                    >
+                      Sector is required
+                    </mat-error>
+                    <button
+                    (click)="buyerSectorlookup()"
+                    mat-icon-button
+                    matSuffix
+                    [attr.aria-label]="'Hide password'"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Passport</mat-label>
+                    <input formControlName="buyerPassportNum" matInput />
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Place of business</mat-label>
+                    <input formControlName="buyerPlaceOfBusi" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerPlaceOfBusi')
+                          .hasError('required')
+                      "
+                    >
+                      Supplier contact is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Buyer tin</mat-label>
+                    <input formControlName="buyerTin" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm.get('buyerTin').hasError('required')
+                      "
+                    >
+                      Buyer tin is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Buyer type</mat-label>
+                    <input formControlName="buyerType" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm.get('buyerType').hasError('required')
+                      "
+                    >
+                      Buyer type is required
+                    </mat-error>
+                    <button
+                    (click)="buyerTypeLookups()"
+                    mat-icon-button
+                    matSuffix
+                    [attr.aria-label]="'Hide password'"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Email</mat-label>
+                    <input formControlName="buyerEmail" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm.get('buyerEmail').hasError('required')
+                      "
+                    >
+                      Email is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Mobile</mat-label>
+                    <input formControlName="buyerMobilePhone" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerMobilePhone')
+                          .hasError('required')
+                      "
+                    >
+                      Mobile is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    appearance="outline"
+                  >
+                    <mat-label>Buyer Nin Brn</mat-label>
+                    <input formControlName="buyerNinBrn" matInput />
+                    <mat-error
+                      *ngIf="
+                        addCustomerForm
+                          .get('buyerNinBrn')
+                          .hasError('required')
+                      "
+                    >
+                      Mobile is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button
+                    class="btn-space"
+                    [disabled]="!addCustomerForm.valid"
+                    mat-raised-button
+                    color="primary"
+                    (click)="addCustomer()"
+                  >
+                    Submit
+                  </button>
+                  <button type="button" mat-button (click)="onCancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

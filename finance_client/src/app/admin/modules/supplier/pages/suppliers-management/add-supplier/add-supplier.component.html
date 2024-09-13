@@ -1,0 +1,373 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add Supplier'" [items]="['User']" [active_item]="'Add Supplier'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Supplier</h2>
+          </div>
+          <div class="body">
+            <mat-tab-group>
+              <mat-tab label="Manual Entry">
+                <br />
+                <div class="body">
+                  <form [formGroup]="addSupplierForm" class="m-4">
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier name</mat-label>
+                          <input formControlName="supplierName" matInput required />
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierName')
+                                .hasError('required')
+                            ">
+                            Supplier name is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier number</mat-label>
+                          <input formControlName="supplierNumber" matInput />
+                          <mat-error *ngIf="addSupplierForm.get('supplierNumber').hasError('required')">
+                            Suppliet number is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div> -->
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier address</mat-label>
+                          <input formControlName="supplierAddress" matInput required />
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierAddress')
+                                .hasError('required')
+                            ">
+                            Supplier address is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier contact</mat-label>
+                          <input formControlName="supplierContact" matInput />
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierContact')
+                                .hasError('required')
+                            ">
+                            Supplier contact is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>supplier email</mat-label>
+                          <input formControlName="supplierEmail" matInput />
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierEmail')
+                                .hasError('required')
+                            ">
+                            Supplier email is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Goods or services</mat-label>
+                          <mat-select formControlName="supplierServices">
+                            <mat-option *ngFor="let supplyType of supplyTypes" [value]="supplyType">{{ supplyType
+                              }}</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierServices')
+                                .hasError('required')
+                            ">
+                            Goods or services name is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier bank</mat-label>
+                          <input formControlName="supplierBank" matInput required />
+                          <button (click)="banksLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                            <mat-icon>search</mat-icon>
+                          </button>
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierBank')
+                                .hasError('required')
+                            ">
+                            Supplier bank is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier account</mat-label>
+                          <input formControlName="supplierAccount" matInput required />
+                          <button (click)="branchCodeLookup()" mat-icon-button matSuffix
+                            [attr.aria-label]="'Hide password'">
+                            <mat-icon>search</mat-icon>
+                          </button>
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierAccount')
+                                .hasError('required')
+                            ">
+                            Supplier account limit is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier tin</mat-label>
+                          <input formControlName="supplierTin" matInput required />
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierTin')
+                                .hasError('required')
+                            ">
+                            Supplier tin limit is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier country</mat-label>
+                          <input formControlName="supplierCountry" matInput required />
+                          <button (click)="countriesLookup()" mat-icon-button matSuffix
+                            [attr.aria-label]="'Hide password'">
+                            <mat-icon>search</mat-icon>
+                          </button>
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierCountry')
+                                .hasError('required')
+                            ">
+                            Supplier country is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Supplier account currency</mat-label>
+                          <input formControlName="supplierCurrency" matInput required />
+                          <button (click)="currencyCodeLookup()" mat-icon-button matSuffix
+                            [attr.aria-label]="'Hide password'">
+                            <mat-icon>search</mat-icon>
+                          </button>
+                          <mat-error *ngIf="
+                              addSupplierForm
+                                .get('supplierCurrency')
+                                .hasError('required')
+                            ">
+                            Supplier currency limit is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                        <button class="btn-space" [disabled]="!addSupplierForm.valid" mat-raised-button color="primary"
+                          (click)="createSupplier()">
+                          Submit
+                        </button>
+                        <button type="button" mat-button (click)="onCancel()">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </mat-tab>
+              <mat-tab label="Bulk Import">
+                <br />
+                <div class="row mx-2">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!-- <div class="card"> -->
+                    <div class="body">
+                      <!-- <div class="container"> -->
+                      <div class="row justify-content-center">
+                        <div class="col-md-12">
+                          <!-- <div class="card"> -->
+                          <div class="card-header">
+                            <h5 class="text-center">
+                              Instructions for Uploading the Excel File
+                            </h5>
+                          </div>
+                          <div class="card-body">
+                            <p>
+                              <strong>Follow these guidelines to complete the upload
+                                process successfully:</strong>
+                            </p>
+                            <ul>
+                              <li>
+                                <i class="fas fa-angle-double-right m-l-10 m-b-10"></i>
+                                Ensure that all required fields are filled out
+                                in the excel document starting from cell number
+                                1.
+                              </li>
+                              <li>
+                                <i class="fas fa-angle-double-right m-l-10 m-b-10"></i>
+                                Save the excel file as either *.xlsx or *.xls
+                                extension.
+                              </li>
+                              <li>
+                                <i class="fas fa-angle-double-right m-l-10 m-b-10"></i>
+                                The first field in the excel file must have the
+                                following order:
+                              </li>
+
+                              <ul class="horizontal-list">
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierName
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierAddress
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierContact
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierEmail
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierServices
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierBank
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierAccount
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i> supplierTin
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierCountry
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i>
+                                  supplierCurrency
+                                </li>
+                                <li class="horizontal-list-item">
+                                  <i class="fas fa-star m-l-20"></i> postedBy
+                                </li>
+                              </ul>
+
+                              <li>
+                                <i class="fas fa-angle-double-right m-l-10 m-b-10 m-t-10"></i>
+                                The maximum number of fields/placeholders
+                                supported is strictly 11.
+                              </li>
+                              <li>
+                                <i class="fas fa-angle-double-right m-l-10 m-b-10"></i>
+                                Use this excel template to structure and fill in
+                                your data for upload:
+                                <a  href="assets/templates/ImportSuppliers.xlsx" download>Download Template</a>.
+                              </li>
+                            </ul>
+                          </div>
+                          <!-- </div> -->
+
+                          <div class="row mx-5">
+                            <div class="file-drop-area">
+                              <button mat-raised-button color="primary">
+                                Choose file
+                              </button>
+                              <span class="ms-2" *ngIf="myFiles.length == 0">{{
+                                "or drag and drop file here"
+                                }}</span>
+                              <span class="file-msg" *ngFor="let file of myFiles">
+                                <div class="me-2">{{ file.name }}</div>
+                              </span>
+                              <input class="file-input" type="file" accept=".xlsx, .xls" single
+                                (change)="onFileChange($event)" />
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                      </div>
+
+                      
+
+                      <div class="row mt-3 my-1 mx-1" *ngIf="this.excelSelected">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
+                          <div class="table-container">
+                            <div class="table-header">
+                              <h6 class="text-primary font-weight-bold">
+                                First Page Preview of Excel File
+                              </h6>
+
+                              <button class="btn-space" mat-raised-button color="primary" [class.auth-spinner]="loading" [disabled]="loading" (click)="uploadSuppliers()">
+                                <span>Upload Excel File</span>
+                                <span class="icon-space"></span>
+                                <i class="far fa-file-excel"></i>
+                              </button>
+                            </div>
+                            <div class="table-content">
+                              <p class="text-muted">
+                                Confirm the Suppliers data below as captured in
+                                the Excel file:
+                              </p>
+                              <div class="dt-responsive table-responsive">
+                                <table class="table table-striped table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th *ngFor="let header of headerRows">
+                                        {{ header }}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let row of otherRows">
+                                      <td *ngFor="let cell of row">
+                                        {{ cell }}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

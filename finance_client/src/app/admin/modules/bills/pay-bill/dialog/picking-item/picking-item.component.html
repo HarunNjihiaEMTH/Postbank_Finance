@@ -1,0 +1,218 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <!-- <img [src]='asset.img' alt="avatar"> -->
+                <img src="assets/images/emtec.png" alt="avatar" />
+                <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+                        {{ dialogTitle }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="Form">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Tran id</mat-label>
+                        <input matInput formControlName="tranid" required readonly>
+
+                        <mat-error *ngIf="Form.get('tranid').hasError('required')">
+                            Tranid is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Trandate</mat-label>
+
+                        <input matInput formControlName="trandate" required readonly>
+
+                        <mat-error *ngIf="Form.get('trandate').hasError('required')">
+                            Tran date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Tranparticular</mat-label>
+                        <input matInput formControlName="tranparticular" required>
+
+                        <mat-error *ngIf="Form.get('tranparticular').hasError('required')">
+                            Tranparticular is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Tranamount</mat-label>
+                        <input matInput formControlName="tranamount" required>
+
+                        <mat-error *ngIf="Form.get('tranamount').hasError('required')">
+                            Tranamount is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Currency</mat-label>
+                        <input matInput formControlName="currency" required>
+
+                        <mat-error *ngIf="Form.get('currency').hasError('required')">
+                            Currency is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Reversedamount</mat-label>
+                        <input matInput formControlName="reversedamount" required>
+
+                        <mat-error *ngIf="Form.get('reversedamount').hasError('required')">
+                            Reversedamount is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Reversingamount</mat-label>
+                        <input matInput formControlName="reversingamount" required>
+
+                        <mat-error *ngIf="Form.get('reversingamount').hasError('required')">
+                            Reversingamount is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row" align="end">
+                        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!Form.valid">
+                            Save
+                        </button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-12">
+            <div class="body" style="margin: 10px;">
+                <div class="table-responsive m-t-20">
+                    <div class="row" style="background-color: rgba(231, 231, 231, 0.979); margin: 5px;">
+                        <div class="col-6 d-flex align-items-center">
+                          <h6 style="margin: 5px;">
+                            <strong>Further information</strong>
+                          </h6>
+                        </div>
+                        <div class="col-6">
+                          <div id="plist" class="people-list">
+                            <div class="form-line m-b-10 m-t-10 m-l-2 m-r-2">
+                              <input placeholder="Filter..." type="text" (keyup)="applyFilter2($event)" #filter
+                                class="form-control" placeholder="Search..." />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                  <mat-table #table matTableExporter [dataSource]="dataSource2" matSort class="mat-cell"
+                    #exporter="matTableExporter">
+                    
+                    <ng-container matColumnDef="contratranid">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="column-nowrap psl-3 tbl-col-width-per-18">Contratranid </mat-header-cell>
+                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                        {{row.contratranid}}
+                      </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="contratrandate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          class="column-nowrap psl-3 tbl-col-width-per-18">Contratrandate </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                          {{row.contratrandate}}
+                        </mat-cell>
+                      </ng-container>
+                    <ng-container matColumnDef="parttransrlnum">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="column-nowrap psl-3 tbl-col-width-per-18"> Parttransrlnum</mat-header-cell>
+                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                        {{row.parttransrlnum}}
+                      </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="amtoffset">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="column-nowrap psl-3 tbl-col-width-per-18"> Amtoffset</mat-header-cell>
+                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                        {{row.amount | currency : 'UGX '}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="crncycode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="column-nowrap psl-3 tbl-col-width-per-18"> Crncycode</mat-header-cell>
+                      <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-18">
+                        {{row.crncycode}} </mat-cell>
+                    </ng-container>
+                    
+    
+                    <!-- <ng-container matColumnDef="actions">
+                      <mat-header-cell *matHeaderCellDef class="column-nowrap psl-3 tbl-col-width-per-15">Actions
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i = index" class="column-nowrap psl-3 tbl-col-width-per-15">
+    
+                        <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                          (click)="onRemoveItem(i)" (click)="calculateAmts()" (click)="validateDebitTotal()"
+                          class="tbl-action-btn" *ngIf="selectedCustom">
+                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container> -->
+    
+    
+                    <mat-header-row *matHeaderRowDef="displayedColumnss"></mat-header-row>
+                    <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                    <mat-row *matRowDef="let row; columns: displayedColumnss" [style.cursor]="'pointer'" matRipple>
+                    </mat-row>
+                    <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value }}" </mat-cell>
+                  </mat-table>
+                  <!-- Loading spinner -->
+                  <div class="tbl-spinner" *ngIf="isLoading">
+                    <!-- *ngIf="isLoading" -->
+                    <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate"></mat-progress-spinner>
+                  </div>
+                  <mat-paginator #paginatorLegal="matPaginator" [pageSize]="3"
+                    [pageSizeOptions]="[3, 5, 10, 20, 30, 40, 50, 100]" aria-label="Select page">
+                  </mat-paginator>
+    
+                </div>
+              </div>
+        </div>
+       
+
+    </div>
+</div>
+
+<!-- <br />
+  Form value = {{ Form.value | json }}
+  <br />
+  Form Status = {{ Form }} -->

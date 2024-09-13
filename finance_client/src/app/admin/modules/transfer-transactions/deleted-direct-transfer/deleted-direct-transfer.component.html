@@ -1,0 +1,381 @@
+<section class="content">
+  <div class="content-block">
+      <div class="block-header">
+          <!-- breadcrumb -->
+          <app-breadcrumb [title]="'Deleted Direct transfers'" [items]="['Home', 'Direct Transfer']" [active_item]="'Deleted'">
+          </app-breadcrumb>
+      </div>
+
+      <!-- Widgets -->
+      <app-gen-widgets></app-gen-widgets>
+      <!-- #END# Widgets -->
+
+      <div class="card">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="boxs mail_listing">
+                  <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div class="body">
+                              <div class="table-responsive">
+                                 
+
+                                  <!-- <div class="materialTableHeader">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <ul class="header-buttons-left ms-0">
+                                                <li class="dropdown">
+                                                    <h2>Pending Direct Transactions</h2>
+                                                </li>
+                                                <li class="dropdown m-l-20">
+                                                    <label for="search-input"><i
+                                                            class="material-icons search-icon">search</i></label>
+                                                    <input placeholder="Filter..." type="text"
+                                                        (keyup)="applyFilter($event)" #filter
+                                                        class="browser-default search-field"
+                                                        aria-label="Search box">
+                                                </li>
+     
+                                                <li>
+                                                    <div class="m-l-10" matTooltip="REFRESH">
+                                                        <button mat-mini-fab color="primary">
+                                                            <mat-icon class="col-white">refresh</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="mb-2">
+                                              <mat-form-field class="example-full-width" appearance="fill">
+                                                <mat-label>Sort by Category</mat-label>
+                                                <mat-select value={{defaultSelect}} (selectionChange)="getSelectedCategory($event)">
+                     
+                                                  <mat-option *ngFor="let category of categories" [value]="category.name">
+                                                    {{ category.name }}
+                                                  </mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                            </div>
+                                          </div>
+                                        <div class="col-4">
+                                            <ul class="header-buttons">
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="XLSX">
+                                                        <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                exporter.exportTable('xlsx', {
+                                  fileName: 'assets-list',
+                                  sheet: 'sheet1'
+                                })
+                              " />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="CSV">
+                                                        <img src="assets/images/icons/csv.png" alt=""
+                                                            (click)="exporter.exportTable('csv')" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="JSON">
+                                                        <img src="assets/images/icons/json.png" alt=""
+                                                            (click)="exporter.exportTable('json')" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="TXT">
+                                                        <img src="assets/images/icons/txt.png" alt=""
+                                                            (click)="exporter.exportTable('txt')" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <div class="materialTableHeader">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <ul class="header-buttons-left ms-0">
+                                                <li class="dropdown">
+                                                    <h2>Deleted Direct Transactions</h2>
+                                                </li>
+                                                <li class="dropdown m-l-20">
+                                                    <label for="search-input"><i
+                                                            class="material-icons search-icon">search</i></label>
+                                                    <input placeholder="Filter..." type="text"
+                                                        (keyup)="applyFilter($event)" #filter
+                                                        class="browser-default search-field"
+                                                        aria-label="Search box" />
+                                                </li>
+                                               
+                                                <li>
+                                                    <div class="m-l-10" matTooltip="REFRESH">
+                                                        <button mat-mini-fab color="primary"
+                                                            (click)="getDeletedTransactions()">
+                                                            <mat-icon class="col-white">refresh</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5">
+                                            <form [formGroup]="Form">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <mat-form-field class="example-full-width"
+                                                            appearance="fill">
+                                                            <mat-label>Sort by Category</mat-label>
+                                                           
+
+                                                            <mat-select formControlName="transactionType"
+                                                                (selectionChange)="
+                                getSelectedCategory($event)
+                              ">
+                                                                <mat-option *ngFor="let category of categories"
+                                                                    [value]="category.value">{{ category.name }}
+                                                                </mat-option>
+                                                            </mat-select>
+
+                                                            <mat-error *ngIf="
+                                Form.get('transactionType').hasError(
+                                  'required'
+                                )
+                              ">
+                                                                Please select transaction type
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <mat-form-field class="example-full-width"
+                                                            appearance="fill">
+                                                            <mat-label>From Date</mat-label>
+                                                            <input matInput [matDatepicker]="picker"
+                                                                formControlName="fromDate" required
+                                                                (dateChange)="onDateChange($event)" />
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [for]="picker"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker></mat-datepicker>
+                                                            <mat-error *ngIf="
+                                Form.get('fromDate').hasError('required')
+                              ">
+                                                                Please select From Date
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <mat-form-field class="example-full-width"
+                                                            appearance="fill">
+                                                            <mat-label>To Date</mat-label>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                formControlName="toDate" required
+                                                                (dateChange)="onDateChange($event)" />
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [for]="picker2"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                            <mat-error *ngIf="
+                                Form.get('toDate').hasError('required')
+                              ">
+                                                                Please select To Date
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-3">
+                                            <ul class="header-buttons">
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="XLSX">
+                                                        <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                              exporter.exportTable('xlsx', {
+                                fileName: 'assets-list',
+                                sheet: 'sheet1'
+                              })
+                            " />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="CSV">
+                                                        <img src="assets/images/icons/csv.png" alt=""
+                                                            (click)="exporter.exportTable('csv')" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="JSON">
+                                                        <img src="assets/images/icons/json.png" alt=""
+                                                            (click)="exporter.exportTable('json')" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="export-button m-l-10" matTooltip="TXT">
+                                                        <img src="assets/images/icons/txt.png" alt=""
+                                                            (click)="exporter.exportTable('txt')" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                  <mat-table #table matTableExporter [dataSource]="dataSource" matSort
+                                      class="mat-cell" #exporter="matTableExporter">
+                                      <!-- ID Column --> 
+                                      <ng-container matColumnDef="id">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-5">Id
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-5">
+                                              {{ row.id }}
+                                          </mat-cell>
+                                      </ng-container> 
+                                      
+                                      <ng-container matColumnDef="transactionCode">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                                            class="column-nowrap psl-3 tbl-col-width-per-12">TransactionCode
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"
+                                            class="column-nowrap psl-3 tbl-col-width-per-12">
+                                            {{ row.transactionCode }}
+                                        </mat-cell>
+                                    </ng-container>        
+                                      <ng-container matColumnDef="tranAmount">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-8">TranAmount
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.tranAmount | currency: row.currency }}
+                                          </mat-cell>
+                                      </ng-container>                    
+                                      <ng-container matColumnDef="postedTime">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-8">PostedTime
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-8">
+                                              {{ row.postedTime | date: 'short' }}
+                                          </mat-cell>
+                                      </ng-container>
+  
+                                      
+                                      <!-- <ng-container matColumnDef="verifiedBy">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">VerifiedBy
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">
+                                              {{ row.verifiedBy }}</mat-cell>
+                                      </ng-container> -->
+                                      <ng-container matColumnDef="postedBy">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">PostedBy
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">
+                                              <div *ngIf="!row.postedBy">
+                                                  {{ "NA" }}
+                                                 </div>
+                                             <div *ngIf="row.postedBy">
+                                              {{ row.postedBy }}
+                                             </div>
+                                          </mat-cell>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="description">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">Description
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">
+                                              {{ row.description}}
+                                          </mat-cell>
+                                      </ng-container>
+                                      <ng-container matColumnDef="finacleStatus">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-10">Finacle Status</mat-header-cell>
+                                        <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-10" (click)="$event.stopPropagation()"
+                                        (click)="updateStatus(row)">
+                                          
+                                        <button class="badge badge-solid-purple btn btn btn-sm m-1"
+                                        (click)="pay(row)"><i class="fas fa-recycle"></i>&nbsp; {{'Pending'}}</button>
+                                          
+                                        </mat-cell>
+                                      </ng-container>
+                                      <!-- <ng-container matColumnDef="finacleStatus">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">finacleStatus
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"
+                                              class="column-nowrap psl-3 tbl-col-width-per-18">
+                                              {{ row.finacleStatus }}
+                                          </mat-cell>
+                                      </ng-container> -->
+                                      
+                                      
+                                      
+                                      <!-- Actions -->
+                                      <!-- <ng-container matColumnDef="verify">
+                                          <mat-header-cell  *matHeaderCellDef class="column-nowrap psl-3 tbl-col-width-per-15">Verify</mat-header-cell>
+                                          <mat-cell *matCellDef="let row; let i = index" class="column-nowrap psl-3 tbl-col-width-per-15">
+                                              <button [disabled]="row.postedBy == currentUser"  class="badge badge-solid-blue btn btn btn-sm m-1"
+                                              ><i class="
+                                              fas fa-check-circle"></i>&nbsp; Verify</button>
+                                            
+                                          </mat-cell>
+                                        </ng-container> -->
+
+                                        <ng-container matColumnDef="action">
+                                            <mat-header-cell class="column-nowrap psl-3 tbl-col-width-per-15 pr-0"
+                                                *matHeaderCellDef>Action</mat-header-cell>
+                                            <mat-cell *matCellDef="let row; let i = index"
+                                                class="column-nowrap psl-3 tbl-col-width-per-15 pr-0">
+                                                <!-- <button mat-icon-button color="accent"
+                                                    (click)="$event.stopPropagation()" (click)="editTransaction(row)"
+                                                    class="tbl-action-btn"  [disabled]="row.finacleStatus === 'Success'">
+                                                    <app-feather-icons [icon]="'edit'"
+                                                        [class]="'tbl-fav-edit'"></app-feather-icons>
+                                                </button> -->
+
+                                                <button mat-icon-button color="primary"
+                                                    (click)="$event.stopPropagation()"
+                                                    (click)="viewPendingTransactionCall(row)" class="tbl-action-btn">
+                                                    <app-feather-icons [icon]="'eye'"
+                                                        [class]="'tbl-fav-eye'"></app-feather-icons>
+                                                </button>
+
+                                                <!-- <button mat-icon-button color="accent"
+                                                    (click)="$event.stopPropagation()" (click)="deleteCall(row)"
+                                                    class="tbl-action-btn"  [disabled]="row.finacleStatus === 'Success'">
+                                                    <app-feather-icons [icon]="'trash-2'"
+                                                        [class]="'tbl-fav-delete'"></app-feather-icons>
+                                                </button> -->
+                                            </mat-cell>
+                                        </ng-container>
+
+                                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                      <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewPendingTransactionCall(row)"
+                                          [style.cursor]="'pointer'" matRipple>
+                                      </mat-row>
+                                      <!-- <mat-cell *matNoDataRow colspan="4">
+                                          No data matching the filter "{{ input.value }}"</mat-cell> -->
+                                  </mat-table>
+                                  <!-- Loading spinner -->
+                                  <div *ngIf="isLoading" class="tbl-spinner">
+                                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                                      </mat-progress-spinner>
+                                  </div>
+
+
+                                  <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                                      aria-label="Select page of users"></mat-paginator>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

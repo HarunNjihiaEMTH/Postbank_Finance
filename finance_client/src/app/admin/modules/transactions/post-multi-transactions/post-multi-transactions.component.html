@@ -1,0 +1,361 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Process multi-accruals'" [items]="['Home', 'Process multi-accruals']"
+        [active_item]="'Multi'">
+      </app-breadcrumb>
+    </div>
+
+
+    
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="header">
+              <h2>Upload Multiple Accruals</h2>
+            </div>
+            <div class="body">
+  
+              <mat-tab-group>
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <!-- <img src="assets/images/user/user1.jpg" alt="user"> -->
+                    Accumulate Transactions
+                  </ng-template>
+                  <div style="margin: 15px;">
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="boxs mail_listing">
+                            <div class="row">
+                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                
+                                    <form class="m-4" [formGroup]="Form">
+                                      <div class="row">
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Supplier name</mat-label>
+                                            <input formControlName="supplierName" matInput readonly />
+                                            <button (click)="suppliersLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                                            <mat-error *ngIf="
+                                                Form.get('supplierName').hasError('supplierName') &&
+                                                Form.get('supplierName').touched
+                                              ">
+                                              Please enter supplier name
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                        
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Accrual Account</mat-label>
+                                            <input formControlName="accrualAccount" matInput readonly />
+                                            <button (click)="branchCodeLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                                            <mat-error *ngIf="
+                                                Form.get('accrualAccount').hasError(
+                                                  'accrualAccount'
+                                                ) && Form.get('accrualAccount').touched
+                                              ">
+                                              Please enter accrual account
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <section class="example-section">
+                                            <label class="example-margin">Exp type:</label>
+                                            <mat-radio-group formControlName="expenseType" (change)="getExpenseType($event)">
+                                              <mat-radio-button class="example-margin" value="Goods">Gds</mat-radio-button>
+                                              <mat-radio-button class="example-margin" value="Services">Svs </mat-radio-button>
+                                            </mat-radio-group>
+                                          </section>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Select Debit Account</mat-label>
+                                            <mat-select formControlName="debitFrom" (selectionChange)="getSelectedDebitAccType($event)">
+                                              <mat-option *ngFor="let item of debitAccounts" [value]="item.name">{{
+                                                item.name }}
+                                              </mat-option>
+                                            </mat-select>
+                        
+                                            <mat-icon matSuffix>done_all</mat-icon>
+                                            <mat-error *ngIf="Form.get('debitFrom').hasError('required') && Form.get('debitFrom').touched">
+                                              Please enter type of debit account </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                        <div *ngIf="expenseAccount" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Expense</mat-label>
+                                            <input formControlName="expenseName" matInput readonly />
+                                            <button (click)="expensesLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                                            <mat-error *ngIf="
+                                                Form.get('expenseName').hasError('expenseName') &&
+                                                Form.get('expenseName').touched
+                                              ">
+                                              Please enter expense
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                        <div *ngIf="expenseAccount" class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>CostCenter</mat-label>
+                                            <input formControlName="costCenterName" matInput readonly />
+                                            <button (click)="costCentersLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                                            <mat-error *ngIf="
+                                                Form.get('costCenterName').hasError('costCenterName') &&
+                                                Form.get('costCenterName').touched
+                                              ">
+                                              Please enter accrual account
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+
+                                        <div *ngIf="customAccount" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Custom Debit Account</mat-label>
+                                            <input formControlName="customDebitAccount" matInput readonly />
+                                            <button (click)="customAccountLookup()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                                            <mat-error *ngIf="
+                                                Form.get('customDebitAccount').hasError(
+                                                  'required'
+                                                ) && Form.get('customDebitAccount').touched
+                                              ">
+                                              Please enter custom debit account
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                        
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Amount</mat-label>
+                        
+                                            <input matInput type="number" formControlName="amount" required />
+                                            <mat-icon matSuffix>attach_money</mat-icon>
+                                            <mat-error *ngIf="
+                                                Form.get('amount').hasError('required') &&
+                                                Form.get('amount').touched
+                                              ">
+                                              Please enter amount
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Select collection date</mat-label>
+                                            <input matInput [matDatepicker]="picker" formControlName="collectionDate" />
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                            <mat-error *ngIf="
+                                                Form.get('collectionDate').hasError('required') &&
+                                                Form.get('collectionDate').touched
+                                              ">
+                                              Please collection date
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Transaction desription</mat-label>
+                                            <input matInput formControlName="description" maxlength="50" />
+                                            <mat-icon matSuffix>list</mat-icon>
+                                            <mat-error *ngIf="
+                                                Form.get('description').hasError('required') &&
+                                                Form.get('description').touched
+                                              ">
+                                              Please enter description
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                       
+                                        <div class="row m-t-10">
+                                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 float-left">
+                                            <div class="float-right">
+                                              <button *ngIf="addButton" class="btn-space" [disabled]="!Form.valid"  (click)="addAccrualItem()" mat-raised-button
+                                                color="primary">
+                                                + Add acrual details
+                                              </button>
+                                              <button *ngIf="editButton" class="btn-space" [disabled]="!Form.valid"  (click)="updateAccrualItem()" mat-raised-button
+                                                color="primary">
+                                                + Update acrual details
+                                              </button>
+                               
+                                              <button type="button" (click)="clearAccrualForm()" mat-raised-button color="warn">Clear</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                        
+                                    </form>
+                        
+                                    <div class="m-4">
+                                      <div class="materialTableHeader">
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <ul class="header-buttons-left ms-0">
+                                              <li class="dropdown">
+                                                <h2>Accrual Items</h2>
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>   
+                                      <div *ngIf="isTransactionLoading">
+                                        <mat-progress-bar color="primary" mode="indeterminate">
+                                        </mat-progress-bar>
+                                      </div> 
+                                      <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                                        #exporter="matTableExporter">
+                                        <ng-container matColumnDef="id">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-6">#
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row; let i = index" class="psl-3 tbl-col-width-per-6">{{ i + 1 }}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="supplierName">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">SupplierName
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.supplierName"> {{ row.supplierName }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="accrualAccount">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-8">AccrualAccount
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"   class="column-nowrap psl-3 tbl-col-width-per-8">
+                                            <span *ngIf="row.accrualAccount"> {{ row.accrualAccount }}</span>
+                                           
+                                          </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="amount">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-15">AccrualAmount
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"   class="column-nowrap psl-3 tbl-col-width-per-15">
+                                            <span *ngIf="row.accrualAccount"> {{ row.amount | currency: 'UGX: '}}</span>
+                                           
+                                          </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="customDebitAccount">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">CustomDebitAccount
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.customDebitAccount"> {{ row.customDebitAccount }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="costCenterName">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">CostCenterName
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.costCenterName"> {{ row.costCenterName }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="expenseName">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">ExpenseName
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.expenseName"> {{ row.expenseName }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+                          
+                                        <ng-container matColumnDef="collectionDate">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">CollectionDate
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.collectionDate"> {{ row.collectionDate | date: 'short' }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="description">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header class="psl-3 tbl-col-width-per-25">Description
+                                          </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"  
+                                            class="column-nowrap psl-3 tbl-col-width-per-25">
+                                            <span *ngIf="row.description"> {{ row.description }}</span>
+                                          </mat-cell>
+                                        </ng-container>
+                          
+                                        <ng-container matColumnDef="actions">
+                                          <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                                          <mat-cell *matCellDef="let row; let i = index" class="pr-0">
+                                            <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                                            (click)="onEditAccrualDetails(row,i)" class="tbl-action-btn">
+                                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                          </button>
+                  
+                                            <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                                              (click)="onRemoveAccrualItem(i)" class="tbl-action-btn">
+                                              <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                                            </button>
+                                          </mat-cell>
+                                        </ng-container>
+                          
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                          
+                                        <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'" matRipple>
+                                        </mat-row>
+                                        <!-- <mat-cell *matNoDataRow colspan="4">
+                                          No data matching the filter "{{ input.value }}"</mat-cell> -->
+                                      </mat-table>
+                                      <div *ngIf="isLoading" class="tbl-spinner">
+                                        <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                                        </mat-progress-spinner>
+                                      </div>
+                                      <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                                        aria-label="Select page of users"></mat-paginator>
+                        
+                                        <div class="row m-t-10">
+                                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                            <div class="example-button-row" align="end">
+                                              <button class="btn-space" [disabled]="!Form.valid || isTransactionLoading"  (click)="onSubmit()" mat-raised-button
+                                              color="primary">
+                                              Submit Accruals
+                                            </button>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                    </div>
+                                    
+                                
+                              </div>
+                        
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </mat-tab>
+  
+                <!-- <mat-tab>
+                  <ng-template mat-tab-label>
+                    
+                    Upload Excel Document
+                  </ng-template>
+                  <app-upload-excel></app-upload-excel>
+                </mat-tab> -->
+  
+               
+              </mat-tab-group>
+            </div>
+          </div>
+        </div>
+  </div>
+
+
+  </div>
+</section>

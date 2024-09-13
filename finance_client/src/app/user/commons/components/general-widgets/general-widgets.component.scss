@@ -1,0 +1,83 @@
+th{
+  background-color: rgb(243, 243, 243);
+  
+  }
+  .search {
+    width: 50%;
+    height: 26px;
+    font-size: 12px;
+    font-weight: 410;
+    border-radius:  100px;
+    float: right;
+  }
+  table{
+    font-weight: 410px;
+    font-size: 12px;
+  }
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    line-height: 25px;
+    cursor: pointer;
+  }
+  .actionButton {
+    min-width: unse;
+    height: 25px;
+    line-height: 25px;
+    padding: auto;
+    margin: 2px;
+  
+    .mat-icon {
+      font-size: 25px;
+      height: 25px;
+      line-height: 25px;
+    }
+  }
+  .searchyear{
+  float: right;
+  }
+  td{
+  font-size: 12px;
+  }
+  .table-action-row{
+  margin-top: 5px;
+  padding-top: 5px;
+  }
+  .table-main-action-btn{
+  margin: 2px;
+  padding: 2px;
+  height: 25px;
+  width:min-content;
+  line-height: 20px;
+  text-align: center;
+  font-size: 10px;
+  margin-top: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  }
+  .ng-container{
+  font-size: 12px;
+  }
+  
+  .table-row{
+  width: 100%;
+  overflow-x: auto;
+  padding: 0px;
+  margin: 0px;
+  }
+  table{
+    width: 100%;
+  }
+  tr:hover {
+    background: whitesmoke;
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    transform: scale(1.0);
+    -webkit-box-shadow: 2px 2px 4px rgb(199, 199, 199);
+    -moz-box-shadow: 2px 2px 4px rgb(199, 199, 199);
+    box-shadow: 2px 2px 4px rgb(199, 199, 199);
+  }
+  input, textarea{
+    text-transform: uppercase;
+  }

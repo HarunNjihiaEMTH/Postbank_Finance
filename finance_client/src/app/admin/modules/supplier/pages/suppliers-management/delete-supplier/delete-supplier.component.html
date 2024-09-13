@@ -1,0 +1,34 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <!--Gift Icon-->
+      <div class="col text-center"> <i class="far fa-times-circle fa-6x col-red"></i> </div>
+      <!--Modal Text-->
+      <div class="col-12">
+        <dl class="dl-horizontal">
+          <dt class="pull-left me-2">Supplier Name:</dt>
+          <dd>{{ supplier.supplierName }}</dd>
+          <dt class="pull-left me-2">Supplier Email:</dt>
+          <dd> {{ supplier.supplierEmail }}</dd>
+          <dt class="pull-left me-2">Supplier Name:</dt>
+          <dd> {{ supplier.supplierName }}</dd>
+          <dt class="pull-left me-2">Supplier Contact:</dt>
+          <dd> {{ supplier.supplierContact }}</dd> 
+          <dt class="pull-left me-2">Supplier Address:</dt>
+          <dd> {{ supplier.supplierAddress }}</dd> 
+          <dt class="pull-left me-2">Supplier Bank:</dt>
+          <dd> {{ supplier.supplierBank }}</dd>
+          <dt class="pull-left me-2">Supplier Account:</dt>
+          <dd> {{ supplier.supplierAccount }}</dd> 
+        </dl>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-actions align="end" class="mb-1">
+    <button mat-flat-button color="warn" (click)="confirmDelete()">
+      Delete
+    </button>
+    <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  </mat-dialog-actions>
+</div>

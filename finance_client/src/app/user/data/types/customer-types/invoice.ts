@@ -1,0 +1,67 @@
+export interface Invoice {
+  antifakeCode?: string;
+  balance?: number;
+  currency?: string;
+  customerId?: string;
+  dataSource?: string;
+  deletedBy?: string;
+  deletedFlag?: string;
+  deletedTime?: Date;
+  discountTotal?: number;
+  deviceNo?: string;
+  id?: number;
+  invoiceIndustryCode?: string;
+  invoiceKind?: string;
+  invoiceNo?: string;
+  invoiceName?: string;
+  orderNumber?: string;
+  invoiceParticulars?: [
+    {
+      categoryId?: string;
+      categoryName?: string;
+      deemedFlag?: string;
+      discountFlag?: string;
+      discountTaxRate?: string;
+      discountTotal?: string;
+      exciseCurrency?: string;
+      exciseFlag?: string;
+      exciseRate?: string;
+      exciseRateName?: string;
+      exciseRule?: string;
+      exciseTax?: string;
+      exciseUnit?: string;
+      goodsCategoryId?: string;
+      goodsCategoryName?: string;
+      id?: number;
+      item?: string;
+      itemCode?: string;
+      orderNumber?: string;
+      pack?: string;
+      qty?: string;
+      stick?: string;
+      tax?: string;
+      taxRate?: string;
+      total?: string;
+      unitOfMeasure?: string;
+      unitPrice?: string;
+    }
+  ];
+  invoiceStatus?: string;
+  invoiceType?: string;
+  isBatch?: string;
+  issuedDate?: string;
+  modifiedBy?: string;
+  modifiedFlag?: string;
+  modifiedTime?: Date;
+  operator?: string;
+  oriInvoiceId?: string;
+  postedBy?: string;
+  postedFlag?: string;
+  postedTime?: Date;
+  reason?: string;
+  tax_amount?: number;
+  total_after_tax?: number;
+  verifiedBy?: string;
+  verifiedFlag?: string;
+  verifiedTime?: Date;
+}

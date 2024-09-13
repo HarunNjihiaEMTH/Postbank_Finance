@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-lg-3 col-sm-6">
+    <div class="info-box7 bg-c-blue order-info-box7" (click)="navigateToSuppliers()">
+      <div class="info-box7-block">
+        <h4 class="m-b-20">Suppliers</h4>
+        <h2 class="text-end">
+          <span class="float-start">{{ suppliersCount }}</span><i class="fas fa-truck" (click)="navigateToAddSuppliers()"></i>
+        </h2>
+        <p class="m-b-0">Click for more details!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-sm-6">
+    <div class="info-box7 bg-c-blue order-info-box7" (click)="navigateToCustomers()">
+      <div class="info-box7-block">
+        <h4 class="m-b-20">Customers</h4>
+        <h2 class="text-end">
+          <span class="float-start">{{ customersCount }}</span
+          ><i class="fas fa-users" (click)="navigateToAddCustomers()"></i>
+        </h2>
+        <p class="m-b-0">Click for more details!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6">
+    <div class="info-box7 bg-c-blue order-info-box7" (click)="navigateToPurchaseOrders()">
+      <div class="info-box7-block">
+        <h4 class="m-b-20">Purchase Orders</h4>
+        <h2 class="text-end">
+          <span class="float-start">{{ purchaseOrdersCount }}</span><i class="fas fa-file-contract" (click)="navigateToAddPurchaseOrder()"></i>
+        </h2>
+        <p class="m-b-0">Click for more details!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6">
+    <div class="info-box7 bg-c-blue order-info-box7" (click)="navigateToInvoices()">
+      <div class="info-box7-block">
+        <h4 class="m-b-20">Invoices</h4>
+        <h2 class="text-end">
+          <span class="float-start">{{ invoicesCount }}</span><i class="fas fa-file-invoice"   (click)="navigateToAddInvoice()"></i>
+        </h2>
+        <p class="m-b-0">Click for more details!</p>
+      </div>
+    </div>
+  </div>
+</div>

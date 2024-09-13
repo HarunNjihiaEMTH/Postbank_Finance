@@ -1,0 +1,67 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add Supplier'" [items]="['User']" [active_item]="'Add Supplier'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Supplier</h2>
+          </div>
+          <div class="body">
+            
+            <form [formGroup]="creditNoteForm" class="m-4">
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Supplier name</mat-label>
+                    <input formControlName="oriInvoiceId" matInput required />
+                    <!-- <mat-error *ngIf="creditNoteForm.get('supplierName').hasError('required')">
+                      Supplier name is required
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+                
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Supplier name</mat-label>
+                    <input formControlName="oriInvoiceNo" matInput required />
+                    <!-- <mat-error *ngIf="creditNoteForm.get('supplierName').hasError('required')">
+                      Supplier name is required
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+                
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Supplier address</mat-label>
+                    <input formControlName="supplierAddress" matInput required />
+                    <!-- <mat-error *ngIf="creditNoteForm.get('supplierAddress').hasError('required')">
+                      Supplier address is required
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+              </div>
+             
+              
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button class="btn-space"  mat-raised-button color="primary">
+                    Submit
+                  </button>
+                  <button type="button" mat-button (click)=" onCancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

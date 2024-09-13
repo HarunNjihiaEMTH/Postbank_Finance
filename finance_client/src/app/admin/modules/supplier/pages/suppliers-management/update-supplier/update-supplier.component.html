@@ -1,0 +1,149 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <img src="../../../../../assets/images/emtec.png" alt="avatar" />
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+            Update Supplier Details</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="updateSupplierForm">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier name</mat-label>
+            <input matInput formControlName="supplierName" required>
+            <mat-error *ngIf="updateSupplierForm.get('supplierName').hasError('required')">
+              Supplier name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier number</mat-label>
+            <input matInput formControlName="supplierNumber" required>
+            <mat-error *ngIf="updateSupplierForm.get('supplierNumber').hasError('required')">
+              Supplier number is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier address</mat-label>
+            <input matInput formControlName="supplierAddress" required>
+            <mat-error *ngIf="updateSupplierForm.get('supplierAddress').hasError('required')">
+              Supplier address is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier contact</mat-label>
+            <input matInput formControlName="supplierContact" required>
+            <mat-error *ngIf="updateSupplierForm.get('supplierContact').hasError('required')">
+              Supplier contact is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier email</mat-label>
+            <input matInput formControlName="supplierEmail">
+            <mat-error *ngIf="updateSupplierForm.get('supplierEmail').hasError('required')">
+              Supplier email is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier services</mat-label>
+            <mat-select formControlName="supplierServices">
+              <mat-option
+                *ngFor="let supplyType of supplyTypes"
+                [value]="supplyType"
+                >{{ supplyType }}</mat-option
+              >
+            </mat-select>
+            <mat-error *ngIf="updateSupplierForm.get('supplierServices').hasError('required') || updateSupplierForm.get('supplierServices').touched">
+              Supplier services is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier Bank</mat-label>
+            <input  formControlName="supplierBank" matInput required />
+            <mat-error *ngIf="updateSupplierForm.get('supplierBank').hasError('required')">
+              Supplier bank is required
+            </mat-error>
+          </mat-form-field>
+        </div>  
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier Account</mat-label>
+            <input formControlName="supplierAccount" matInput required />
+            <mat-error *ngIf="updateSupplierForm.get('supplierAccount').hasError('required')">
+              Supplier account limit is required
+            </mat-error>
+          </mat-form-field>
+        </div>          
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier country</mat-label>
+            <input  formControlName="supplierCountry" matInput required />
+            <mat-error *ngIf="updateSupplierForm.get('supplierCountry').hasError('required')">
+              Supplier country is required
+            </mat-error>
+          </mat-form-field>
+        </div>  
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Supplier account currency</mat-label>
+            <input formControlName="supplierCurrency" matInput required />
+            <mat-error *ngIf="updateSupplierForm.get('supplierCurrency').hasError('required')">
+              Supplier currency limit is required
+            </mat-error>
+          </mat-form-field>
+        </div>          
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Supplier tin</mat-label>
+            <input formControlName="supplierTin" matInput required />
+            <mat-error *ngIf="updateSupplierForm.get('supplierTin').hasError('required')">
+              Supplier tin limit is required
+            </mat-error>
+          </mat-form-field>
+        </div>  
+      </div>
+      
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row" align="end">
+            <button mat-raised-button color="primary" [disabled]="!updateSupplierForm.valid" (click)="updateSupplierDetails()"
+             >Save</button>
+            <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

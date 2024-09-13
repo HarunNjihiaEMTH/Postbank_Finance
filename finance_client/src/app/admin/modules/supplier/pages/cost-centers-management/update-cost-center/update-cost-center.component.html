@@ -1,0 +1,214 @@
+
+
+
+
+<!-- <div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modalHeader clearfix">
+          <img src="../../../../../assets/images/emtec.png" alt="avatar" />
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              New Cost Center
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    
+  </div>
+</div> -->
+
+
+
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Cost Center Management'" [items]="['Admin']" [active_item]="'Update Cost Center'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Update Cost Center</h2>
+          </div>
+          <div class="body" *ngIf="costCenterDet">
+            <form class="register-form m-4" [formGroup]="editCostCenterForm">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Cost center name</mat-label>
+                    <input matInput formControlName="costCenterName" required />
+                    <mat-error *ngIf="editCostCenterForm.get('costCenterName').hasError('required')">
+                      Cost center name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+        
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>CostCenterCode</mat-label>
+                    <input matInput formControlName="costCenterCode" maxlength="4" required />
+                    <mat-error *ngIf="editCostCenterForm.get('costCenterCode').hasError('required')">
+                      CostCenterCode is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>costCenterDescription</mat-label>
+                    <textarea matInput formControlName="costCenterDescription" required></textarea>
+                    <mat-error *ngIf="
+                        editCostCenterForm.get('costCenterDescription').hasError('required')
+                      ">
+                      CostCenterDescription is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Replicate all expenses to cost center? </mat-label>
+                    <mat-select formControlName="expholder" (selectionChange)="replicateAllExpensesToCostCenter($event)">
+                      <mat-option *ngFor="let item of replicateAllExpenses" [value]="item">{{ item }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <div class="row" >
+                <!-- *ngIf="!replicateAllExpensesToCostCenterSelected" -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <button style="margin-bottom: 10px" type="button" (click)="onAddField()" mat-raised-button color="primary">
+                    + Add Expense
+                  </button>
+                  <div *ngFor="let dyForm of t.controls; let i = index" class="list-group list-group-flush">
+                    <div>
+                      <div [formGroup]="dyForm">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-4">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>{{ i + 1 }}.Expense </mat-label>
+                                <mat-select formControlName="expholder" (selectionChange)="getSelectedExpense($event)">
+                                  <mat-option *ngFor="let item of expensesList" [value]="item.id">{{ item.expenseDescription }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                              <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>{{ i + 1 }}.Expense Account </mat-label>
+                                <input matInput formControlName="expenseAccount" required readonly />
+                              </mat-form-field> -->
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>{{ i + 1 }}.Expense Account</mat-label>
+                                <input formControlName="expenseAccount" matInput />
+                                <button (click)="branchCodeLookup()" mat-icon-button matSuffix
+                                  [attr.aria-label]="'Hide password'">
+                                  <mat-icon>search</mat-icon>
+                                </button>
+                                
+                              </mat-form-field>
+                            </div>
+                            <div class="col-3">
+                              <section *ngIf="isAPointingAccount" class="example-section">
+                                <label class="example-margin">{{ i + 1 }}.Is Pointing Account</label>
+                                <mat-radio-group formControlName="isPointing">
+                                  <mat-radio-button class="example-margin" value="true" checked>Yes</mat-radio-button>
+                                  <mat-radio-button class="example-margin" value="false" disabled>No
+                                  </mat-radio-button>
+                                </mat-radio-group>
+                              </section>
+                              <section *ngIf="!isAPointingAccount" class="example-section">
+                                <label class="example-margin">{{ i + 1 }}.Is Pointing Account</label>
+                                <mat-radio-group formControlName="isPointing">
+                                  <mat-radio-button class="example-margin" value="true" disabled>Yes</mat-radio-button>
+                                  <mat-radio-button class="example-margin" value="false" checked>No
+                                  </mat-radio-button>
+                                </mat-radio-group>
+                              </section>
+                              
+                            </div>
+                            <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                              <div class="row">
+                                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+                                  <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Expense account</mat-label>
+                                    <input formControlName="expenseAccount" matInput />
+                                    <button (click)="branchCodeLookup()" mat-icon-button matSuffix
+                                      [attr.aria-label]="'Hide password'">
+                                      <mat-icon>search</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="
+                                        expenseForm
+                                          .get('expenseAccount')
+                                          .hasError('required')
+                                      ">
+                                      Expense account is required
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                                  <section *ngIf="isAPointingAccount" class="example-section">
+                                    <label class="example-margin">Pointing Account:</label>
+                                    <mat-radio-group formControlName="isPointing">
+                                      <mat-radio-button class="example-margin" value="true" checked>Yes</mat-radio-button>
+                                      <mat-radio-button class="example-margin" value="false" disabled>No
+                                      </mat-radio-button>
+                                    </mat-radio-group>
+                                  </section>
+                                  <section *ngIf="!isAPointingAccount" class="example-section">
+                                    <label class="example-margin">Pointing Account:</label>
+                                    <mat-radio-group formControlName="isPointing">
+                                      <mat-radio-button class="example-margin" value="true" disabled>Yes</mat-radio-button>
+                                      <mat-radio-button class="example-margin" value="false" checked>No
+                                      </mat-radio-button>
+                                    </mat-radio-group>
+                                  </section>
+                                </div>
+                              </div>
+                            </div> -->
+                            <div class="col-1 d-flex align-items-center justify-content-center">
+                              <mat-icon color="primary" (click)="onAddField()">add_circle</mat-icon>
+                              <mat-icon color="warn" (click)="onRemoveField(i)">remove_circle</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="example-button-row" align="end">
+                    <button mat-raised-button color="primary" [disabled]="!editCostCenterForm.valid" (click)="updateCostCenter()">
+                      Save
+                    </button>
+                    <button mat-raised-button color="warn" (click)="onCancel()">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

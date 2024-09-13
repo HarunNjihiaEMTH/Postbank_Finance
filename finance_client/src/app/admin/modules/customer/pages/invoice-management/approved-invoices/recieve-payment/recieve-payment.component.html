@@ -1,0 +1,78 @@
+<div class="addContainer">
+  <div *ngIf="Data" class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Recieve payment</div>
+      <button
+        mat-icon-button
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <div style="margin-left: 25px">
+        <mat-card-content>
+          <div class="row mt-1" style="width: 98%">
+            <div class="col-5 m-b-10">Invoice Amount:</div>
+            <div class="col-7 pro-left m-b-10" *ngIf="payableAmount">
+              {{ payableAmount.invoiceamount }}
+            </div>
+            <div class="col-5 m-b-10">Invoice Number:</div>
+            <div class="col-7 pro-left m-b-10" *ngIf="payableAmount">
+              {{ payableAmount.invoiceno }}
+            </div>
+            <div class="col-5 m-b-10">Buyer Tin:</div>
+            <div class="col-7 pro-left m-b-10" *ngIf="payableAmount">
+              {{ payableAmount.buyertin }}
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+
+      <form
+        class="register-form m-4"
+        [formGroup]="recievePaymentform"
+      >
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Amount recieved</mat-label>
+              <input
+                formControlName="receivedamount"
+                matInput
+                required
+                type="number"
+              />
+              <mat-error
+                *ngIf="
+                  recievePaymentform.get('receivedamount').hasError('required')
+                "
+              >
+                Amount is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="example-button-row" align="end">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="recievePayment()"
+                
+              >
+                Submit
+              </button>
+              <button mat-raised-button color="warn" (click)="onCancel()">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

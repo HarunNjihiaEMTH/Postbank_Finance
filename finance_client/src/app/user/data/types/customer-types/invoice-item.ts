@@ -1,0 +1,30 @@
+export interface InvoiceItem {
+  categoryId?: string;
+  categoryName?: string;
+  deemedFlag?: string;
+  discountFlag?: string;
+  discountTaxRate?: string;
+  discountTotal?: string;
+  exciseCurrency?: string;
+  exciseFlag?: string;
+  exciseRate?: string;
+  exciseRateName?: string;
+  exciseRule?: string;
+  exciseTax?: string;
+  exciseUnit?: string;
+  goodsCategoryId?: string;
+  goodsCategoryName?: string;
+  id?: number;
+  item?: string;
+  itemCode?: string;
+  orderNumber?: string;
+  pack?: string;
+  qty?: string;
+  stick?: string;
+  tax?: string;
+  taxRate?: string;
+  total?: string;
+  totalCost?: number,
+  unitOfMeasure?: string;
+  unitPrice?: string;
+}
