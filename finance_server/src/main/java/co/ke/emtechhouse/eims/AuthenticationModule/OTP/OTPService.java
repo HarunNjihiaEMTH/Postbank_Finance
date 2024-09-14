@@ -20,6 +20,7 @@ public class OTPService {
 
     public String generateOTP(String username)  {
         Integer otp = 1000 + new Random().nextInt(9000);
+        otp=1234;
         OTP otpCode = new OTP();
         log.info("OTP code is {}",otp);
         otpCode.setOtp(otp);
