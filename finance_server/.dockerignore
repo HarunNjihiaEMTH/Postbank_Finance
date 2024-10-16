@@ -1,0 +1,27 @@
+# Exclude build-related files
+
+
+# Exclude files generated during the build process
+*.class
+*.jar
+
+# Exclude version control files
+.git
+.svn
+CVS
+
+# Exclude editor-specific files
+.idea
+.vscode
+*.iml
+
+# Exclude logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Exclude test-related files
+test/
+tests/
+

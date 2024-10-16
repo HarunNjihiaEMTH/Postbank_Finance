@@ -68,7 +68,7 @@ public class ExpenseInvoiceManagementSolutionApplication extends SpringBootServl
 			user.setFirstname("admin");
 			user.setLastname("admin");
 			user.setUsername("soaadmin");
-			user.setEmail("dnyiri9@gmail.com");
+			user.setEmail("wahomejipheens@gmail.com");
 			user.setPhonenumber("071665104");
 			user.setModifiedBy("defaultuser");
 			user.setCreatedOn(modified_on);
