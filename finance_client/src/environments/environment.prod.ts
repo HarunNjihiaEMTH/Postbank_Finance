@@ -53,30 +53,30 @@ export const environment = {
   //  authUrl: "https://10.129.2.30:9051",
 
 
-  // // //Emtech server
-  // apiUrl: "http://52.15.152.26:9051",
-  // baseUrl: "http://52.15.152.26:9051",
-  // serverAPI: "http://52.15.152.26:9051",
-  // AUTH_URL: "http://52.15.152.26:9051",
-  // uraUrl: "http://192.168.100.47:9051",
-  // authUrl: "http://52.15.152.26:9051",
+  // // //Emtech  https server
+  // apiUrl: "https://197.155.71.138:9051",
+  // baseUrl: "https://197.155.71.138:9051",
+  // serverAPI: "https://197.155.71.138:9051",
+  // AUTH_URL: "https://197.155.71.138:9051",
+  // uraUrl: "https://192.168.100.47:9051",
+  // authUrl: "https://197.155.71.138:9051",
 
-  //  //Emtech https server
-  // apiUrl: "https://52.15.152.26:9051",
-  // baseUrl: "https://52.15.152.26:9051",
-  // serverAPI: "https://52.15.152.26:9051",
-  // AUTH_URL: "https://52.15.152.26:9051",
-  // uraUrl: "http://192.168.100.47:9051",
-  // authUrl: "https://52.15.152.26:9051",
+  //  //Emtech  server
+  apiUrl: "http://197.155.71.138:9193",
+  baseUrl: "http://197.155.71.138:9193",
+  serverAPI: "http://197.155.71.138:9193",
+  AUTH_URL: "http://197.155.71.138:9193",
+  uraUrl: "http://192.168.100.47:9193",
+  authUrl: "http://197.155.71.138:9193",
 
 
   // // Local server
-  apiUrl: "http://localhost:9050",
-  baseUrl: "http://localhost:9050",
-  serverAPI: "http://localhost:9050",
-  AUTH_URL: "http://localhost:9050",
-  uraUrl: "http://localhost:9050",
-  authUrl: "http://localhost:9050",
+  // apiUrl: "http://localhost:9193",
+  // baseUrl: "http://localhost:9193",
+  // serverAPI: "http://localhost:9193",
+  // AUTH_URL: "http://localhost:9193",
+  // uraUrl: "http://localhost:9193",
+  // authUrl: "http://localhost:9193",
 
 
 };
