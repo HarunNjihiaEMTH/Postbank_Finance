@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  build-and-push:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jipheens/finance_backend_efris:latest
+    platform: linux/amd64
+
