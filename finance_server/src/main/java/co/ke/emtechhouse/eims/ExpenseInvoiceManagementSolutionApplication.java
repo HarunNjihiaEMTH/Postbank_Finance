@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +36,8 @@ public class ExpenseInvoiceManagementSolutionApplication extends SpringBootServl
 		private RoleRepository roleRepository;
 		@Autowired
 		private InitAuth initAuth;
+		@Autowired
+		private PasswordEncoder passwordEncoder;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String modified_on = dtf.format(now);
@@ -68,8 +71,8 @@ public class ExpenseInvoiceManagementSolutionApplication extends SpringBootServl
 			user.setFirstname("admin");
 			user.setLastname("admin");
 			user.setUsername("soaadmin");
-			user.setEmail("wahomejipheens@gmail.com");
-			user.setPhonenumber("071665104");
+			user.setEmail("githaetm.tm@gmail.com");
+			user.setPhonenumber("0727098777");
 			user.setModifiedBy("defaultuser");
 			user.setCreatedOn(modified_on);
 			user.setModifiedOn(modified_on);
@@ -79,7 +82,7 @@ public class ExpenseInvoiceManagementSolutionApplication extends SpringBootServl
 			user.setDepartment("IT");
 			user.setDeleteFlag("N");
 			user.setStatus("Approved");
-			user.setPassword("$2a$10$CQaGCl7cT0DCKwy8i2XaN.8X1jM09kr6aQgh2DfDV/VQT1SYP3nL6");
+			user.setPassword(passwordEncoder.encode("soaadmin"));
 			repository.save(user);
 		}
 		void userAdmzin() {
